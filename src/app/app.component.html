@@ -1,51 +1,92 @@
 <header class="site-header">
+
   <div class="container nav-wrap">
-    <a class="brand" routerLink="/">
+
+    <a
+      class="brand"
+      routerLink="/"
+      (click)="closeMenu()"
+    >
       <span class="brand-mark">ॐ</span>
-      <span><strong>Madurai Meenakshi</strong><small>Santhana Kadai</small></span>
+
+      <span>
+        <strong>Madurai Meenakshi</strong>
+        <small>Santhana Kadai</small>
+      </span>
     </a>
-<nav class="main-nav">
 
-  <a
-    routerLink="/"
-    routerLinkActive="active-link"
-    [routerLinkActiveOptions]="{ exact: true }"
-  >
-    Home
-  </a>
 
-  <a
-    routerLink="/about"
-    routerLinkActive="active-link"
-  >
-    About
-  </a>
+    <!-- MOBILE HAMBURGER BUTTON -->
+    <button
+      type="button"
+      class="nav-hamburger"
+      [class.open]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Toggle navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-  <a
-    routerLink="/products"
-    routerLinkActive="active-link"
-  >
-    Products
-  </a>
 
-  <a
-    routerLink="/specials"
-    routerLinkActive="active-link"
-  >
-    Specials
-  </a>
+    <!-- NAVIGATION -->
+    <nav
+      class="main-nav"
+      [class.open]="menuOpen"
+    >
 
-  <a
-    routerLink="/contact"
-    routerLinkActive="active-link"
-  >
-    Contact
-  </a>
+      <a
+        routerLink="/"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        Home
+      </a>
 
-</nav>
+      <a
+        routerLink="/about"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        About
+      </a>
+
+      <a
+        routerLink="/products"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        Products
+      </a>
+
+      <a
+        routerLink="/specials"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        Specials
+      </a>
+
+      <a
+        routerLink="/contact"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        Contact
+      </a>
+
+    </nav>
+
   </div>
+
 </header>
-<main><router-outlet></router-outlet></main>
+
+
+<main>
+  <router-outlet></router-outlet>
+</main>
 <footer class="premium-footer">
 
   <div class="footer-overlay"></div>
