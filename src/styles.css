@@ -5426,3 +5426,512 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
+/* ======================================
+   ABOUT GLANCE
+====================================== */
+
+.about-glance {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 130px 30px 150px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fbf7ef 0%,
+      #f4ead8 55%,
+      #fffaf1 100%
+    );
+}
+
+
+.about-glance-wrap {
+  position: relative;
+
+  z-index: 2;
+
+  display: grid;
+
+  grid-template-columns:
+    .9fr 1.1fr;
+
+  gap: 100px;
+
+  align-items: center;
+
+  max-width: 1250px;
+
+  margin: auto;
+}
+
+
+/* LEFT */
+
+.about-glance-kicker {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 24px;
+
+  color: #a97d35;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 4px;
+}
+
+
+.about-glance-kicker span {
+  width: 45px;
+  height: 1px;
+
+  background: #c99c51;
+
+  animation:
+    glanceLine 1.4s ease both;
+}
+
+
+.about-glance-left h2 {
+  margin: 0;
+
+  max-width: 550px;
+
+  color: #194a35;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: clamp(58px, 6vw, 90px);
+
+  line-height: .92;
+
+  font-weight: 500;
+
+  letter-spacing: -2px;
+
+  animation:
+    glanceTitleIn
+    1s cubic-bezier(.2,.8,.2,1)
+    both;
+}
+
+
+.about-glance-left h2 span {
+  display: block;
+
+  margin-top: 10px;
+
+  color: #c39142;
+
+  font-style: italic;
+}
+
+
+.about-glance-lead {
+  max-width: 510px;
+
+  margin-top: 28px;
+
+  color: #6c716c;
+
+  font-size: 15px;
+
+  line-height: 1.9;
+
+  animation:
+    glanceFadeUp 1s .2s ease both;
+}
+
+
+/* RIGHT */
+
+.about-glance-right {
+  position: relative;
+
+  padding-left: 55px;
+}
+
+
+.glance-line {
+  position: absolute;
+
+  left: 10px;
+  top: 8px;
+  bottom: 8px;
+
+  width: 1px;
+
+  background:
+    rgba(188, 145, 66, .18);
+
+  overflow: hidden;
+}
+
+
+.glance-line span {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      transparent,
+      #c49448,
+      transparent
+    );
+
+  transform: translateY(-100%);
+
+  animation:
+    glanceVerticalLine
+    4s ease-in-out infinite;
+}
+
+
+/* POINTS */
+
+.glance-point {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    48px 1fr;
+
+  gap: 20px;
+
+  padding: 26px 0;
+
+  border-bottom:
+    1px solid rgba(25,74,53,.10);
+
+  opacity: 0;
+
+  transform: translateY(25px);
+
+  animation:
+    glancePointIn .8s ease forwards;
+}
+
+
+.glance-point:nth-child(2) {
+  animation-delay: .25s;
+}
+
+
+.glance-point:nth-child(3) {
+  animation-delay: .45s;
+}
+
+
+.glance-point:nth-child(4) {
+  animation-delay: .65s;
+}
+
+
+.glance-point small {
+  color: #c49448;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+.glance-point h3 {
+  margin: 0;
+
+  color: #194a35;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 29px;
+
+  font-weight: 500;
+}
+
+
+.glance-point p {
+  max-width: 500px;
+
+  margin: 10px 0 0;
+
+  color: #737a74;
+
+  font-size: 13px;
+
+  line-height: 1.8;
+}
+
+
+/* LARGE BACKGROUND WORD */
+
+.about-glance-word {
+  position: absolute;
+
+  left: 50%;
+  bottom: -34px;
+
+  transform: translateX(-50%);
+
+  color: rgba(24,74,52,.035);
+
+  font-family:
+    "Cormorant Garamond",
+    serif;
+
+  font-size: clamp(110px, 16vw, 240px);
+
+  font-weight: 600;
+
+  letter-spacing: 15px;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  animation:
+    glanceWordFloat
+    8s ease-in-out infinite alternate;
+}
+
+
+/* GLOW ORBS */
+
+.about-glance-orb {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  filter: blur(10px);
+}
+
+
+.orb-one {
+  width: 420px;
+  height: 420px;
+
+  left: -150px;
+  top: -160px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(201,156,81,.14),
+      transparent 70%
+    );
+}
+
+
+.orb-two {
+  width: 360px;
+  height: 360px;
+
+  right: -100px;
+  bottom: -100px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(34,97,65,.09),
+      transparent 70%
+    );
+}
+
+
+/* ======================================
+   ANIMATION
+====================================== */
+
+@keyframes glanceTitleIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(35px);
+
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+    filter: blur(0);
+  }
+
+}
+
+
+@keyframes glanceFadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+@keyframes glancePointIn {
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+@keyframes glanceLine {
+
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 45px;
+  }
+
+}
+
+
+@keyframes glanceVerticalLine {
+
+  0% {
+    transform: translateY(-100%);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+
+}
+
+
+@keyframes glanceWordFloat {
+
+  from {
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  to {
+    transform:
+      translateX(-50%)
+      translateY(-12px);
+  }
+
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+  .about-glance {
+    padding:
+      90px 25px 110px;
+  }
+
+  .about-glance-wrap {
+    grid-template-columns: 1fr;
+
+    gap: 60px;
+  }
+
+  .about-glance-right {
+    padding-left: 45px;
+  }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .about-glance {
+    padding:
+      70px 18px 90px;
+  }
+
+  .about-glance-wrap {
+    gap: 45px;
+  }
+
+  .about-glance-left h2 {
+    font-size: 48px;
+
+    line-height: .98;
+  }
+
+  .about-glance-lead {
+    font-size: 13px;
+
+    line-height: 1.75;
+  }
+
+  .about-glance-right {
+    padding-left: 34px;
+  }
+
+  .glance-point {
+    grid-template-columns:
+      35px 1fr;
+
+    gap: 12px;
+
+    padding: 22px 0;
+  }
+
+  .glance-point h3 {
+    font-size: 24px;
+  }
+
+  .glance-point p {
+    font-size: 12px;
+
+    line-height: 1.7;
+  }
+
+  .about-glance-word {
+    bottom: -12px;
+
+    font-size: 75px;
+
+    letter-spacing: 7px;
+  }
+
+}
