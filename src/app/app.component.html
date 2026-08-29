@@ -1,0 +1,187 @@
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" routerLink="/">
+      <span class="brand-mark">ॐ</span>
+      <span><strong>Madurai Meenakshi</strong><small>Santhana Kadai</small></span>
+    </a>
+<nav class="main-nav">
+
+  <a
+    routerLink="/"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    Home
+  </a>
+
+  <a
+    routerLink="/about"
+    routerLinkActive="active-link"
+  >
+    About
+  </a>
+
+  <a
+    routerLink="/products"
+    routerLinkActive="active-link"
+  >
+    Products
+  </a>
+
+  <a
+    routerLink="/specials"
+    routerLinkActive="active-link"
+  >
+    Specials
+  </a>
+
+  <a
+    routerLink="/contact"
+    routerLinkActive="active-link"
+  >
+    Contact
+  </a>
+
+</nav>
+  </div>
+</header>
+<main><router-outlet></router-outlet></main>
+<footer class="premium-footer">
+
+  <div class="footer-overlay"></div>
+
+  <div class="container footer-container">
+
+    <!-- TAMIL DEVOTIONAL MESSAGE -->
+    <div class="footer-devotional">
+
+      <span class="devotional-symbol">✦</span>
+
+      <p class="devotional-small">
+        மதுரை மீனாட்சி தாயே
+      </p>
+
+    
+
+      <div class="devotional-line">
+        <span></span>
+        <b>ॐ</b>
+        <span></span>
+      </div>
+
+    </div>
+
+
+    <!-- MAIN GLASS PANEL -->
+    <div class="footer-glass">
+
+      <!-- BRAND -->
+      <div class="footer-brand">
+
+        <span class="footer-small-title">
+          MADURAI • TRADITION • DEVOTION
+        </span>
+
+        <h2>
+          Madurai Meenakshi
+          <span>Santhana Kadai</span>
+        </h2>
+
+        <p>
+          Traditional santhanam and pooja essentials,
+          bringing the sacred fragrance and warmth of
+          Madurai into every prayer.
+        </p>
+
+
+        <!-- SOCIAL MEDIA -->
+        <div class="footer-socials">
+
+          <a href="#"
+             aria-label="Instagram"
+             title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="#"
+             aria-label="Facebook"
+             title="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="#"
+             aria-label="YouTube"
+             title="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+
+          <a href="https://wa.me/919042111424"
+             target="_blank"
+             aria-label="WhatsApp"
+             title="WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- QUICK LINKS -->
+      <div class="footer-column">
+
+        <span class="footer-title">EXPLORE</span>
+
+        <a routerLink="/">Home</a>
+        <a routerLink="/about">Our Story</a>
+        <a routerLink="/products">Collection</a>
+        <a routerLink="/specials">Tradition</a>
+        <a routerLink="/contact">Contact</a>
+
+      </div>
+
+
+      <!-- CONTACT -->
+      <div class="footer-column">
+
+        <span class="footer-title">VISIT US</span>
+
+        <p>
+          Madurai,<br>
+          Tamil Nadu
+        </p>
+
+        <p>
+          Daily<br>
+          Morning to Evening
+        </p>
+
+        <a routerLink="/contact" class="footer-direction">
+          Get Directions
+          <span>→</span>
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- BOTTOM -->
+    <div class="footer-bottom">
+
+      <p>
+        © 2026 Madurai Meenakshi Santhana Kadai.
+        All Rights Reserved.
+      </p>
+
+  
+
+      <a routerLink="/">
+        Back to Top ↑
+      </a>
+
+    </div>
+
+  </div>
+
+</footer>

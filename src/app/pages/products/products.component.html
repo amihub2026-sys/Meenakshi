@@ -1,0 +1,351 @@
+
+<section class="product-video-hero">
+
+  <div class="product-video-bg-glow"></div>
+
+  <div class="product-video-layout">
+
+    <!-- LEFT SIDE -->
+    <div class="product-video-menu">
+
+      <div class="product-video-kicker">
+        <span></span>
+        OUR SACRED COLLECTION
+      </div>
+
+      <h1>
+        Products of
+        <span>Tradition</span>
+      </h1>
+
+      <div class="product-video-list">
+
+        <button
+          *ngFor="let product of heroProducts; let i = index"
+          type="button"
+          class="product-video-item"
+          [class.active]="activeProductIndex === i"
+          (click)="selectProduct(i)"
+        >
+
+          <span class="product-list-number">
+            0{{ i + 1 }}
+          </span>
+
+          <div class="product-list-name">
+            <strong>{{ product.name }}</strong>
+            <small>{{ product.tamil }}</small>
+          </div>
+
+          <span class="product-list-arrow">
+            →
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE VIDEO -->
+    <div class="product-video-view">
+
+      <div class="product-video-frame">
+
+        <video
+          #productVideo
+          class="product-feature-video"
+          muted
+          playsinline
+          loop
+          autoplay
+          [src]="heroProducts[activeProductIndex].video"
+        ></video>
+
+
+        <!-- VIDEO GRADIENT -->
+        <div class="product-video-overlay"></div>
+
+
+        <!-- BIG NUMBER -->
+        <span class="product-video-number">
+          0{{ activeProductIndex + 1 }}
+        </span>
+
+
+        <!-- BOTTOM CONTENT -->
+        <div class="product-video-info">
+
+          <span class="product-video-category">
+            {{ heroProducts[activeProductIndex].tag }}
+          </span>
+
+          <h2>
+            {{ heroProducts[activeProductIndex].name }}
+          </h2>
+
+          <div class="product-video-tamil">
+            {{ heroProducts[activeProductIndex].tamil }}
+          </div>
+
+          <p>
+            {{ heroProducts[activeProductIndex].description }}
+          </p>
+
+        </div>
+
+
+        <!-- ACTIVE INDICATOR -->
+        <div class="product-video-progress">
+          <span></span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="products-premium" id="products">
+
+  <div class="container">
+
+    <div class="products-heading products-reveal">
+
+      <div class="products-label">
+        <span></span>
+        OUR COLLECTION
+      </div>
+
+      <div class="products-heading-grid">
+
+        <h2>
+          Sacred essentials,
+          <span>beautifully selected.</span>
+        </h2>
+
+        <p>
+          Traditional santhanam and pooja essentials chosen with care
+          for everyday worship, temple visits and auspicious occasions.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="premium-product-grid">
+
+      <!-- CARD 1 -->
+      <article class="premium-product-card product-reveal">
+
+        <img
+          src="/assets/p1.jpg"
+          alt="Pure Santhana Paste"
+        >
+
+        <div class="product-shade"></div>
+
+        <div class="product-glass">
+
+          <div class="product-top">
+            <span class="product-number">01</span>
+            <small>DAILY POOJA</small>
+          </div>
+
+          <h3>Pure Santhana Paste</h3>
+
+          <p>
+            Cooling and naturally fragrant sandal paste prepared
+            for prayer and sacred rituals.
+          </p>
+
+          <a href="/contact">
+            Enquire
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 2 -->
+      <article class="premium-product-card product-reveal">
+
+        <img
+          src="/assets/p2.jpg"
+          alt="Santhana Powder"
+        >
+
+        <div class="product-shade"></div>
+
+        <div class="product-glass">
+
+          <div class="product-top">
+            <span class="product-number">02</span>
+            <small>TRADITIONAL</small>
+          </div>
+
+          <h3>Santhana Powder</h3>
+
+          <p>
+            Fine sandalwood powder selected for traditional
+            pooja and ceremonial use.
+          </p>
+
+          <a href="/contact">
+            Enquire
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 3 -->
+      <article class="premium-product-card product-reveal">
+
+        <img
+          src="/assets/p3.jpg"
+          alt="Kumkum and Manjal"
+        >
+
+        <div class="product-shade"></div>
+
+        <div class="product-glass">
+
+          <div class="product-top">
+            <span class="product-number">03</span>
+            <small>AUSPICIOUS</small>
+          </div>
+
+          <h3>Kumkum & Manjal</h3>
+
+          <p>
+            Essential traditional offerings for your daily
+            prayer shelf and family occasions.
+          </p>
+
+          <a href="/contact">
+            Enquire
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 4 -->
+      <article class="premium-product-card product-reveal">
+
+        <img
+          src="/assets/p4.jpg"
+          alt="Deepam and Sambrani"
+        >
+
+        <div class="product-shade"></div>
+
+        <div class="product-glass">
+
+          <div class="product-top">
+            <span class="product-number">04</span>
+            <small>PRAYER ESSENTIALS</small>
+          </div>
+
+          <h3>Deepam & Sambrani</h3>
+
+          <p>
+            Traditional prayer essentials that bring warmth,
+            fragrance and peace into your pooja space.
+          </p>
+
+          <a href="/contact">
+            Enquire
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 5 -->
+      <article class="premium-product-card product-reveal">
+
+        <img
+          src="/assets/p5.jpg"
+          alt="Pooja Combo Sets"
+        >
+
+        <div class="product-shade"></div>
+
+        <div class="product-glass">
+
+          <div class="product-top">
+            <span class="product-number">05</span>
+            <small>FESTIVAL</small>
+          </div>
+
+          <h3>Pooja Combo Sets</h3>
+
+          <p>
+            Thoughtfully arranged essentials for temple visits,
+            celebrations and traditional functions.
+          </p>
+
+          <a href="/contact">
+            Enquire
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 6 -->
+      <article class="premium-product-card product-reveal">
+
+        <img
+          src="/assets/p6.jpg"
+          alt="Divine Gift Packs"
+        >
+
+        <div class="product-shade"></div>
+
+        <div class="product-glass">
+
+          <div class="product-top">
+            <span class="product-number">06</span>
+            <small>SPECIAL OCCASIONS</small>
+          </div>
+
+          <h3>Divine Gift Packs</h3>
+
+          <p>
+            Elegant traditional presentation for weddings,
+            functions, blessings and devotional gifting.
+          </p>
+
+          <a href="/contact">
+            Enquire
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
