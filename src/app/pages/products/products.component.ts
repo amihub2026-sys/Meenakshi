@@ -7,6 +7,11 @@ import {
 
 import { CommonModule } from '@angular/common';
 
+import {
+  Language,
+  LanguageService
+} from '../../services/language.service';
+
 
 @Component({
   selector: 'app-products',
@@ -27,104 +32,269 @@ export class ProductsComponent implements AfterViewInit {
 
   activeProductIndex = 0;
 
+  language: Language = 'ta';
+
+
+  constructor(
+    private languageService: LanguageService
+  ) {
+
+    this.languageService.language$.subscribe(
+      (lang: Language) => {
+        this.language = lang;
+      }
+    );
+
+  }
+
+
+  translations = {
+
+    en: {
+      heroKicker: 'OUR SACRED COLLECTION',
+      heroTitle1: 'Products of',
+      heroTitle2: 'Tradition',
+
+      collectionLabel: 'OUR COLLECTION',
+      collectionTitle1: 'Sacred essentials,',
+      collectionTitle2: 'beautifully selected.',
+      collectionDesc:
+        'Traditional santhanam and pooja essentials chosen with care for everyday worship, temple visits and auspicious occasions.'
+    },
+
+    ta: {
+      heroKicker: 'எங்கள் புனிதத் தொகுப்பு',
+      heroTitle1: 'பாரம்பரியத்தின்',
+      heroTitle2: 'புனிதப் பொருட்கள்',
+
+      collectionLabel: 'எங்கள் தொகுப்பு',
+      collectionTitle1: 'புனிதமான பூஜைப் பொருட்கள்,',
+      collectionTitle2: 'அக்கறையுடன் தேர்ந்தெடுக்கப்பட்டவை.',
+      collectionDesc:
+        'தினசரி வழிபாடு, கோவில் தரிசனம் மற்றும் சுபநிகழ்வுகளுக்காக கவனமாக தேர்ந்தெடுக்கப்பட்ட பாரம்பரிய சந்தனம் மற்றும் பூஜைப் பொருட்கள்.'
+    },
+
+    hi: {
+      heroKicker: 'हमारा पवित्र संग्रह',
+      heroTitle1: 'परंपरा से जुड़े',
+      heroTitle2: 'पवित्र उत्पाद',
+
+      collectionLabel: 'हमारा संग्रह',
+      collectionTitle1: 'पवित्र पूजा सामग्री,',
+      collectionTitle2: 'सावधानी से चुनी गई।',
+      collectionDesc:
+        'दैनिक पूजा, मंदिर दर्शन और शुभ अवसरों के लिए सावधानी से चुनी गई पारंपरिक पूजा सामग्री।'
+    }
+
+  };
+
+
+  get text() {
+    return this.translations[this.language];
+  }
+
 
   heroProducts = [
 
-{
-  name: 'Turmeric Powder',
+    {
+      nameEn: 'Turmeric Powder',
+      nameTa: 'மஞ்சள் தூள்',
+      nameHi: 'हल्दी पाउडर',
 
-  tamil: 'மஞ்சள் தூள்',
+      tagEn: 'PURE TURMERIC',
+      tagTa: 'தூய மஞ்சள்',
+      tagHi: 'शुद्ध हल्दी',
 
-  tag: 'PURE TURMERIC',
+      video: '/assets/turmeric.mp4',
 
-  video: '/assets/turmeric.mp4',
+      descriptionEn:
+        'Pure traditional turmeric powder carefully selected for pooja, auspicious rituals and sacred occasions.',
 
-  description:
-    'Pure traditional turmeric powder carefully selected for pooja, auspicious rituals and sacred occasions.'
-},
+      descriptionTa:
+        'பூஜை, மங்களகரமான சடங்குகள் மற்றும் புனித நிகழ்வுகளுக்காக கவனமாக தேர்ந்தெடுக்கப்பட்ட தூய பாரம்பரிய மஞ்சள் தூள்.',
+
+      descriptionHi:
+        'पूजा, शुभ अनुष्ठानों और पवित्र अवसरों के लिए सावधानी से चुना गया शुद्ध पारंपरिक हल्दी पाउडर।'
+    },
 
 
     {
-      name: 'Kumkum',
+      nameEn: 'Kumkum',
+      nameTa: 'குங்குமம்',
+      nameHi: 'कुमकुम',
 
-      tamil: 'குங்குமம்',
-
-      tag: 'SACRED KUMKUM',
+      tagEn: 'SACRED KUMKUM',
+      tagTa: 'புனித குங்குமம்',
+      tagHi: 'पवित्र कुमकुम',
 
       video: '/assets/kumkum.mp4',
 
-      description:
-        'Traditional kumkum prepared for daily worship, temple rituals and auspicious occasions.'
+      descriptionEn:
+        'Traditional kumkum prepared for daily worship, temple rituals and auspicious occasions.',
+
+      descriptionTa:
+        'தினசரி வழிபாடு, கோவில் சடங்குகள் மற்றும் சுபநிகழ்வுகளுக்காக தயாரிக்கப்பட்ட பாரம்பரிய குங்குமம்.',
+
+      descriptionHi:
+        'दैनिक पूजा, मंदिर अनुष्ठानों और शुभ अवसरों के लिए तैयार पारंपरिक कुमकुम।'
     },
-{
-  name: 'Ghee',
 
-  tamil: 'நெய்',
 
-  tag: 'PURE GHEE',
-
-  video: '/assets/gee.mp4',
-
-  description:
-    'Pure traditional ghee used for deepam, pooja, abhishekam and sacred rituals.'
-},
     {
-      name: 'Sambrani',
+      nameEn: 'Ghee',
+      nameTa: 'நெய்',
+      nameHi: 'घी',
 
-      tamil: 'சாம்பிராணி',
+      tagEn: 'PURE GHEE',
+      tagTa: 'தூய நெய்',
+      tagHi: 'शुद्ध घी',
 
-      tag: 'TEMPLE FRAGRANCE',
+      video: '/assets/gee.mp4',
+
+      descriptionEn:
+        'Pure traditional ghee used for deepam, pooja, abhishekam and sacred rituals.',
+
+      descriptionTa:
+        'தீபம், பூஜை, அபிஷேகம் மற்றும் புனித சடங்குகளுக்குப் பயன்படுத்தப்படும் தூய பாரம்பரிய நெய்.',
+
+      descriptionHi:
+        'दीपक, पूजा, अभिषेक और पवित्र अनुष्ठानों के लिए उपयोग किया जाने वाला शुद्ध पारंपरिक घी।'
+    },
+
+
+    {
+      nameEn: 'Sambrani',
+      nameTa: 'சாம்பிராணி',
+      nameHi: 'साम्ब्राणी',
+
+      tagEn: 'TEMPLE FRAGRANCE',
+      tagTa: 'கோவில் மணம்',
+      tagHi: 'मंदिर की सुगंध',
 
       video: '/assets/sambrani.mp4',
 
-      description:
-        'Traditional sambrani that creates a peaceful and divine temple-like atmosphere.'
+      descriptionEn:
+        'Traditional sambrani that creates a peaceful and divine temple-like atmosphere.',
+
+      descriptionTa:
+        'கோவில் போன்ற அமைதியான மற்றும் தெய்வீகமான சூழலை உருவாக்கும் பாரம்பரிய சாம்பிராணி.',
+
+      descriptionHi:
+        'पारंपरिक साम्ब्राणी जो शांत और दिव्य मंदिर जैसा वातावरण बनाती है।'
     },
 
-{
-  name: 'Pathi',
-
-  tamil: 'பத்தி',
-
-  tag: 'DIVINE FRAGRANCE',
-
-  video: '/assets/pathi.mp4',
-
-  description:
-    'Traditional fragrant Pathi used during pooja and daily worship to create a peaceful and divine atmosphere.'
-},
 
     {
-  name: 'Vilakku',
+      nameEn: 'Pathi',
+      nameTa: 'பத்தி',
+      nameHi: 'अगरबत्ती',
 
-  tamil: 'விளக்கு',
+      tagEn: 'DIVINE FRAGRANCE',
+      tagTa: 'தெய்வீக மணம்',
+      tagHi: 'दिव्य सुगंध',
 
-  tag: 'DIVINE LIGHT',
+      video: '/assets/pathi.mp4',
 
-  video: '/assets/vilakku.mp4',
+      descriptionEn:
+        'Traditional fragrant Pathi used during pooja and daily worship to create a peaceful and divine atmosphere.',
 
-  description:
-    'Traditional pooja lamps that bring sacred light, peace and auspiciousness to every prayer and celebration.'
-},
-   {
-  name: 'Honey',
+      descriptionTa:
+        'பூஜை மற்றும் தினசரி வழிபாட்டின்போது அமைதியான தெய்வீக சூழலை உருவாக்க பயன்படுத்தப்படும் பாரம்பரிய பத்தி.',
 
-  tamil: 'தேன்',
+      descriptionHi:
+        'पूजा और दैनिक उपासना के दौरान शांत और दिव्य वातावरण बनाने के लिए उपयोग की जाने वाली पारंपरिक अगरबत्ती।'
+    },
 
-  tag: 'PURE HONEY',
 
-  video: '/assets/honey.mp4',
+    {
+      nameEn: 'Vilakku',
+      nameTa: 'விளக்கு',
+      nameHi: 'पूजा दीपक',
 
-  description:
-    'Pure natural honey traditionally used for abhishekam, pooja and sacred offerings.'
-},
+      tagEn: 'DIVINE LIGHT',
+      tagTa: 'தெய்வீக ஒளி',
+      tagHi: 'दिव्य प्रकाश',
+
+      video: '/assets/vilakku.mp4',
+
+      descriptionEn:
+        'Traditional pooja lamps that bring sacred light, peace and auspiciousness to every prayer and celebration.',
+
+      descriptionTa:
+        'ஒவ்வொரு பூஜை மற்றும் கொண்டாட்டத்திற்கும் புனித ஒளி, அமைதி மற்றும் மங்களத்தை கொண்டு வரும் பாரம்பரிய விளக்குகள்.',
+
+      descriptionHi:
+        'पारंपरिक पूजा दीपक जो हर प्रार्थना और उत्सव में पवित्र प्रकाश, शांति और शुभता लाते हैं।'
+    },
+
+
+    {
+      nameEn: 'Honey',
+      nameTa: 'தேன்',
+      nameHi: 'शहद',
+
+      tagEn: 'PURE HONEY',
+      tagTa: 'தூய தேன்',
+      tagHi: 'शुद्ध शहद',
+
+      video: '/assets/honey.mp4',
+
+      descriptionEn:
+        'Pure natural honey traditionally used for abhishekam, pooja and sacred offerings.',
+
+      descriptionTa:
+        'அபிஷேகம், பூஜை மற்றும் புனித அர்ப்பணிப்புகளுக்குப் பாரம்பரியமாக பயன்படுத்தப்படும் தூய இயற்கை தேன்.',
+
+      descriptionHi:
+        'अभिषेक, पूजा और पवित्र अर्पण के लिए पारंपरिक रूप से उपयोग किया जाने वाला शुद्ध प्राकृतिक शहद।'
+    }
 
   ];
 
 
-  ngAfterViewInit(): void {
+  getProductName(product: any): string {
 
-    /* existing section reveal animation */
+    if (this.language === 'ta') {
+      return product.nameTa;
+    }
+
+    if (this.language === 'hi') {
+      return product.nameHi;
+    }
+
+    return product.nameEn;
+  }
+
+
+  getProductTag(product: any): string {
+
+    if (this.language === 'ta') {
+      return product.tagTa;
+    }
+
+    if (this.language === 'hi') {
+      return product.tagHi;
+    }
+
+    return product.tagEn;
+  }
+
+
+  getProductDescription(product: any): string {
+
+    if (this.language === 'ta') {
+      return product.descriptionTa;
+    }
+
+    if (this.language === 'hi') {
+      return product.descriptionHi;
+    }
+
+    return product.descriptionEn;
+  }
+
+
+  ngAfterViewInit(): void {
 
     setTimeout(() => {
 
@@ -138,8 +308,6 @@ export class ProductsComponent implements AfterViewInit {
 
         });
 
-
-      /* start first product video */
 
       this.playCurrentVideo();
 
@@ -167,8 +335,6 @@ export class ProductsComponent implements AfterViewInit {
 
     }
 
-
-    /* fade old video */
 
     video.classList.add('changing');
 

@@ -28,53 +28,55 @@
     <!-- RIGHT GLASS CONTENT -->
     <div class="specials-content reveal-special-right">
 
-      <div class="specials-label">
-        <span></span>
-        OUR TRADITION
-      </div>
+     <div class="specials-label">
+  <span></span>
+  {{ text.traditionLabel }}
+</div>
 
-      <h2>
-        Inspired by the sacred
-        <span>spirit of Madurai.</span>
-      </h2>
+<h2>
+  {{ text.traditionTitle1 }}
+  <span>{{ text.traditionTitle2 }}</span>
+</h2>
 
-      <p class="specials-lead">
-        Our store reflects the familiar warmth of temple streets,
-        sandal fragrance, brass lamps and traditional pooja essentials.
-      </p>
+<p class="specials-lead">
+  {{ text.traditionLead }}
+</p>
 
-      <p>
-        The green and gold palette is inspired by auspicious traditions,
-        creating a calm and welcoming identity that feels authentic,
-        elegant and timeless.
-      </p>
+<p>
+  {{ text.traditionDesc }}
+</p>
+<div class="specials-details">
+
+  <div>
+    <small>01</small>
+
+    <h3>
+      {{ text.traditionalSelection }}
+    </h3>
+
+    <p>
+      {{ text.traditionalSelectionDesc }}
+    </p>
+  </div>
 
 
-      <div class="specials-details">
+  <div>
+    <small>02</small>
 
-        <div>
-          <small>01</small>
-          <h3>Traditional Selection</h3>
-          <p>
-            Carefully chosen essentials for worship,
-            temple visits and auspicious occasions.
-          </p>
-        </div>
+    <h3>
+      {{ text.bulkOrders }}
+    </h3>
 
-        <div>
-          <small>02</small>
-          <h3>Bulk Pooja Orders</h3>
-          <p>
-            Suitable for temples, family functions,
-            special events and devotional gifting.
-          </p>
-        </div>
+    <p>
+      {{ text.bulkOrdersDesc }}
+    </p>
+  </div>
 
-      </div>
+</div>
 
 
       <a href="/contact" class="specials-link">
-        Enquire for Bulk Orders
+  {{ text.enquireBulk }}
         <span>→</span>
       </a>
 
@@ -87,20 +89,22 @@
 
   <div class="container">
 
-    <div class="santhan-head">
-      <span class="santhan-kicker">FROM NATURE TO DEVOTION</span>
+   <div class="santhan-head">
 
-      <h2>
-        The Journey of
-        <em>Pure Santhanam</em>
-      </h2>
+  <span class="santhan-kicker">
+    {{ text.journeyKicker }}
+  </span>
 
-      <p>
-        Carefully prepared through tradition,
-        purity and generations of trust.
-      </p>
-    </div>
+  <h2>
+    {{ text.journeyTitle1 }}
+    <em>{{ text.journeyTitle2 }}</em>
+  </h2>
 
+  <p>
+    {{ text.journeyDesc }}
+  </p>
+
+</div>
 
     <div class="santhan-process">
 
@@ -167,16 +171,15 @@
   </svg>
 
 </div>
+<span class="step-no">01</span>
 
-        <span class="step-no">01</span>
+<h3>
+  {{ text.sandalwood }}
+</h3>
 
-        <h3>Sandalwood</h3>
-
-        <p>
-          The journey begins with carefully
-          selected pure sandalwood.
-        </p>
-
+<p>
+  {{ text.sandalwoodDesc }}
+</p>
       </div>
 
 
@@ -189,12 +192,13 @@
 
         <span class="step-no">02</span>
 
-        <h3>Sandal Powder</h3>
+<h3>
+  {{ text.sandalPowder }}
+</h3>
 
-        <p>
-          Sandalwood is finely prepared while
-          preserving its natural fragrance.
-        </p>
+<p>
+  {{ text.sandalPowderDesc }}
+</p>
 
       </div>
 
@@ -205,16 +209,15 @@
         <div class="santhan-icon">
           <i class="fa-solid fa-droplet"></i>
         </div>
+<span class="step-no">03</span>
 
-        <span class="step-no">03</span>
+<h3>
+  {{ text.sandalPaste }}
+</h3>
 
-        <h3>Sandal Paste</h3>
-
-        <p>
-          Pure sandal becomes a smooth sacred
-          paste for pooja and worship.
-        </p>
-
+<p>
+  {{ text.sandalPasteDesc }}
+</p>
       </div>
 
 
@@ -227,13 +230,13 @@
 
         <span class="step-no">04</span>
 
-        <h3>Trusted by Generations</h3>
+<h3>
+  {{ text.generations }}
+</h3>
 
-        <p>
-          Families choose our store with
-          confidence for authentic Santhanam.
-        </p>
-
+<p>
+  {{ text.generationsDesc }}
+</p>
       </div>
 
     </div>
@@ -252,18 +255,20 @@
 
       <div class="vm-content">
 
-        <small>OUR VISION</small>
+       <small>
+  {{ text.visionLabel }}
+</small>
 
-        <h2>
-          Preserving tradition
-          <span>for generations.</span>
-        </h2>
+<h2>
+  {{ text.visionTitle1 }}
+  <span>
+    {{ text.visionTitle2 }}
+  </span>
+</h2>
 
-        <p>
-          To preserve the authentic traditions of Madurai by bringing
-          pure Santhanam and trusted pooja essentials into every home,
-          keeping devotion and cultural values alive for generations.
-        </p>
+<p>
+  {{ text.visionDesc }}
+</p>
 
       </div>
 
@@ -286,20 +291,20 @@
       <span class="vm-number">02</span>
 
       <div class="vm-content">
+<small>
+  {{ text.missionLabel }}
+</small>
 
-        <small>OUR MISSION</small>
+<h2>
+  {{ text.missionTitle1 }}
+  <span>
+    {{ text.missionTitle2 }}
+  </span>
+</h2>
 
-        <h2>
-          Purity in every
-          <span>sacred offering.</span>
-        </h2>
-
-        <p>
-          To carefully provide authentic, quality and traditional
-          pooja products with the trust, personal care and values
-          that Madurai Meenakshi Santhana Kadai stands for.
-        </p>
-
+<p>
+  {{ text.missionDesc }}
+</p>
       </div>
 
       <div class="vm-symbol">✦</div>

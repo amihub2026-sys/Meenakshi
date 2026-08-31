@@ -43,28 +43,27 @@
     <div class="hero-copy">
 
       <div class="hero-small-title">
-        <span class="hero-line"></span>
-        <span>THE TRADITION OF MADURAI</span>
-      </div>
- <h3 class="tamil-type-heading">
-  <span id="tamilTyping"></span>
+  <span class="hero-line"></span>
+  <span>{{ text.heroKicker }}</span>
+</div>
 
+<h3 class="tamil-type-heading">
+  {{ text.heroTitle }}
 </h3>
-      <p>
-        Authentic Santhanam & traditional pooja essentials,
-        carefully selected to bring the sacred essence of
-        Madurai into every prayer.
-      </p>
+
+<p>
+  {{ text.heroDescription }}
+</p>
 
       <div class="hero-actions">
 
         <a href="/products" class="hero-btn primary">
-          Explore Our Collection
+        {{ text.exploreCollection }}
           <span>→</span>
         </a>
 
         <a href="/contact" class="hero-btn secondary">
-          Visit Our Store
+           {{ text.visitStore }}
         </a>
 
       </div>
@@ -75,39 +74,38 @@
 
 
   <!-- BOTTOM INFO -->
-  <div class="hero-bottom">
+<div class="hero-bottom">
 
-    <div class="hero-bottom-item">
-      <span>01</span>
-      <div>
-        <small>OUR PROMISE</small>
-        <strong>Pure & Authentic</strong>
-      </div>
+  <div class="hero-bottom-item">
+    <span>01</span>
+    <div>
+      <small>{{ text.ourPromise }}</small>
+      <strong>{{ text.pureAuthentic }}</strong>
     </div>
-
-    <div class="hero-bottom-item">
-      <span>02</span>
-      <div>
-        <small>OUR ROOTS</small>
-        <strong>Madurai Tradition</strong>
-      </div>
-    </div>
-
-    <div class="hero-bottom-item">
-      <span>03</span>
-      <div>
-        <small>OUR SPECIALITY</small>
-        <strong>Santhanam & Pooja</strong>
-      </div>
-    </div>
-
   </div>
 
+  <div class="hero-bottom-item">
+    <span>02</span>
+    <div>
+      <small>{{ text.ourRoots }}</small>
+      <strong>{{ text.maduraiTradition }}</strong>
+    </div>
+  </div>
+
+  <div class="hero-bottom-item">
+    <span>03</span>
+    <div>
+      <small>{{ text.speciality }}</small>
+      <strong>{{ text.santhanamPooja }}</strong>
+    </div>
+  </div>
+
+</div>
 
   <!-- SCROLL INDICATOR -->
   <a href="/products" class="scroll-down">
     <span></span>
-    SCROLL
+  {{ text.scroll }}
   </a>
 
 </section>
@@ -126,20 +124,18 @@
 
       <div class="why-label">
         <span></span>
-        WHY CHOOSE US
+         {{ text.whyLabel }}
         <span></span>
       </div>
 
-      <h2>
-        More than pooja essentials.
-        <span>A feeling of home & devotion.</span>
-      </h2>
+  <h2>
+    {{ text.whyTitle1 }}
+    <span>{{ text.whyTitle2 }}</span>
+  </h2>
 
-      <p>
-        From the fragrance of fresh santhanam to the warmth of a
-        glowing deepam, every product is chosen to bring the familiar
-        feeling of tradition into your prayer.
-      </p>
+  <p>
+    {{ text.whyDescription }}
+  </p>
 
     </div>
 
@@ -159,12 +155,11 @@
           <div>
             <small>01</small>
 
-            <h3>Pure & Traditional</h3>
+           <h3>{{ text.pureTraditional }}</h3>
 
-            <p>
-              Carefully selected pooja essentials rooted
-              in the traditions followed by generations.
-            </p>
+<p>
+  {{ text.pureTraditionalDesc }}
+</p>
           </div>
 
         </article>
@@ -179,12 +174,11 @@
           <div>
             <small>02</small>
 
-            <h3>Homely Trust</h3>
+            <h3>{{ text.homelyTrust }}</h3>
 
-            <p>
-              The warmth and personal care of a familiar
-              neighbourhood pooja shop.
-            </p>
+<p>
+  {{ text.homelyTrustDesc }}
+</p>
           </div>
 
         </article>
@@ -201,24 +195,20 @@
 
             <span class="why-om">ॐ</span>
 
-            <small>மதுரை மரபு</small>
+           <small>{{ text.centerSmall }}</small>
 
-            <h3>
-              நம்பிக்கையுடன்
-              <span>ஒவ்வொரு பூஜைக்கும்</span>
-            </h3>
-
+<h3>
+  {{ text.centerTitle }}
+  <span>{{ text.centerTitle2 }}</span>
+</h3>
             <div class="why-divider">
               <i></i>
               <b>✦</b>
               <i></i>
             </div>
-
-            <p>
-              சந்தன மணம் போல<br>
-              மனதில் அமைதி நிறையட்டும்
-            </p>
-
+<p>
+  {{ text.centerText }}
+</p>
           </div>
 
         </div>
@@ -245,13 +235,11 @@
 
           <div>
             <small>03</small>
+<h3>{{ text.fromMadurai }}</h3>
 
-            <h3>From Madurai</h3>
-
-            <p>
-              Inspired by the sacred temple streets and
-              devotional heritage of Madurai.
-            </p>
+<p>
+  {{ text.fromMaduraiDesc }}
+</p>
           </div>
 
         </article>
@@ -266,12 +254,11 @@
           <div>
             <small>04</small>
 
-            <h3>For Every Prayer</h3>
+           <h3>{{ text.everyPrayer }}</h3>
 
-            <p>
-              Daily worship, temple visits, festivals,
-              family functions and special occasions.
-            </p>
+<p>
+  {{ text.everyPrayerDesc }}
+</p>
           </div>
 
         </article>
@@ -285,11 +272,9 @@
     <div class="why-bottom reveal-why">
 
       <span></span>
-
-      <p>
-        சந்தனம் • பக்தி • பாரம்பரியம் • நம்பிக்கை
-      </p>
-
+  <p>
+    {{ text.whyBottom }}
+  </p>
       <span></span>
 
     </div>
@@ -307,21 +292,19 @@
   <div class="container faq-wrap">
 
     <div class="faq-head">
+<div class="faq-kicker">
+  <span></span>
+  {{ text.faqKicker }}
+</div>
 
-      <div class="faq-kicker">
-        <span></span>
-        QUESTIONS & ANSWERS
-      </div>
+<h2>
+  {{ text.faqTitle1 }}
+  <span>{{ text.faqTitle2 }}</span>
+</h2>
 
-      <h2>
-        Everything you may
-        <span>want to know.</span>
-      </h2>
-
-      <p>
-        Simple answers about our Santhanam,
-        pooja products, bulk orders and store services.
-      </p>
+<p>
+  {{ text.faqDescription }}
+</p>
 
     </div>
 
@@ -335,22 +318,14 @@
         <summary>
 
           <span class="faq-no">01</span>
-
-          <h3>
-            Do you provide pure Santhanam?
-          </h3>
-
+<h3>{{ text.q1 }}</h3>
           <span class="faq-icon">+</span>
 
         </summary>
 
         <div class="faq-answer">
 
-          <p>
-            Yes. We provide traditionally selected Santhanam
-            suitable for pooja, worship, abhishekam and sacred occasions.
-          </p>
-
+       <p>{{ text.a1 }}</p>
         </div>
 
       </details>
@@ -363,21 +338,14 @@
 
           <span class="faq-no">02</span>
 
-          <h3>
-            What pooja products are available?
-          </h3>
-
+   <h3>{{ text.q2 }}</h3>
           <span class="faq-icon">+</span>
 
         </summary>
 
         <div class="faq-answer">
 
-          <p>
-            Our collection includes Santhanam, Kumkum, turmeric,
-            Sambrani, Pathi, Vilakku, Ghee, Honey and other
-            traditional pooja essentials.
-          </p>
+        <p>{{ text.a2 }}</p>
 
         </div>
 
@@ -390,10 +358,7 @@
         <summary>
 
           <span class="faq-no">03</span>
-
-          <h3>
-            Do you accept bulk pooja orders?
-          </h3>
+<h3>{{ text.q3 }}</h3>
 
           <span class="faq-icon">+</span>
 
@@ -401,11 +366,7 @@
 
         <div class="faq-answer">
 
-          <p>
-            Yes. Bulk orders can be arranged for temples,
-            family functions, weddings, festivals,
-            devotional events and special occasions.
-          </p>
+          <p>{{ text.a3 }}</p>
 
         </div>
 
@@ -418,10 +379,7 @@
         <summary>
 
           <span class="faq-no">04</span>
-
-          <h3>
-            Can I enquire about product availability?
-          </h3>
+<h3>{{ text.q4 }}</h3>
 
           <span class="faq-icon">+</span>
 
@@ -429,10 +387,7 @@
 
         <div class="faq-answer">
 
-          <p>
-            Yes. You can contact us by phone or WhatsApp
-            to check availability before visiting the store.
-          </p>
+          <p>{{ text.a4 }}</p>
 
         </div>
 
@@ -445,23 +400,14 @@
         <summary>
 
           <span class="faq-no">05</span>
-
-          <h3>
-            Where is the store located?
-          </h3>
-
+<h3>{{ text.q5 }}</h3>
           <span class="faq-icon">+</span>
 
         </summary>
 
         <div class="faq-answer">
 
-          <p>
-            Madurai Meenakshi Santhana Kadai is located in Madurai,
-            Tamil Nadu. Please visit our Contact page for directions
-            and store information.
-          </p>
-
+          <p>{{ text.a5 }}</p>
         </div>
 
       </details>
@@ -474,8 +420,7 @@
 </section>
 
 <section class="marquee-strip" aria-label="Store highlights">
-      <div>சந்தனம் • பூஜை பொருட்கள் • கோவில் வாசனை • பாரம்பரிய நம்பிக்கை • சந்தனம் • பூஜை பொருட்கள் • கோவில் வாசனை • பாரம்பரிய நம்பிக்கை</div>
-    </section>
+ <div>   {{ text.marquee }}  </div>   </section>
     <section class="about-glance">
 
   <div class="about-glance-orb orb-one"></div>
@@ -486,21 +431,19 @@
     <!-- LEFT -->
     <div class="about-glance-left">
 
-      <div class="about-glance-kicker">
-        <span></span>
-        ABOUT AT A GLANCE
-      </div>
+     <div class="about-glance-kicker">
+  <span></span>
+  {{ text.glanceKicker }}
+</div>
 
-      <h2>
-        A tradition
-        <span>carried with care.</span>
-      </h2>
+<h2>
+  {{ text.glanceTitle1 }}
+  <span>{{ text.glanceTitle2 }}</span>
+</h2>
 
-      <p class="about-glance-lead">
-        Madurai Meenakshi Santhana Kadai brings together
-        purity, devotion and the familiar warmth of
-        traditional pooja culture.
-      </p>
+<p class="about-glance-lead">
+  {{ text.glanceLead }}
+</p>
 
     </div>
 
@@ -517,12 +460,10 @@
         <small>01</small>
 
         <div>
-          <h3>Rooted in Madurai</h3>
-
-          <p>
-            Inspired by the sacred streets, temple traditions
-            and devotional heritage of Madurai.
-          </p>
+          <h3>{{ text.rooted }}</h3>
+<p>
+  {{ text.rootedDesc }}
+</p>
         </div>
 
       </div>
@@ -533,12 +474,11 @@
         <small>02</small>
 
         <div>
-          <h3>Pure by Choice</h3>
+          <h3>{{ text.pureChoice }}</h3>
 
-          <p>
-            Every product is selected with attention to
-            authenticity, quality and traditional use.
-          </p>
+<p>
+  {{ text.pureChoiceDesc }}
+</p>
         </div>
 
       </div>
@@ -549,12 +489,11 @@
         <small>03</small>
 
         <div>
-          <h3>Trusted for Every Prayer</h3>
+          <h3>{{ text.trusted }}</h3>
 
-          <p>
-            From daily worship to festivals and family
-            occasions, tradition remains at the heart.
-          </p>
+<p>
+  {{ text.trustedDesc }}
+</p>
         </div>
 
       </div>
@@ -565,7 +504,7 @@
 
 
   <div class="about-glance-word">
-    TRADITION
+      {{ text.tradition }}
   </div>
 
 </section>

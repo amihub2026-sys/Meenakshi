@@ -17,17 +17,16 @@
 
       <div class="contact-hero-kicker">
         <span></span>
-        CONTACT US
+        {{ text.heroKicker }}
       </div>
 
       <h1>
-        Visit us in the heart of
-        <span>Madurai.</span>
+        {{ text.heroTitle1 }}
+        <span>{{ text.heroTitle2 }}</span>
       </h1>
 
       <p>
-        Tradition, devotion and authentic pooja essentials
-        waiting to welcome you.
+        {{ text.heroDesc }}
       </p>
 
     </div>
@@ -36,82 +35,108 @@
 
 
   <!-- =========================
-       EXISTING CONTACT SECTION
+       CONTACT SECTION
   ========================== -->
-
   <section class="contact-premium" id="contact">
 
     <div class="container contact-premium-grid">
 
-      <!-- LEFT GLASS CONTACT -->
+
+      <!-- =========================
+           LEFT CONTACT
+      ========================== -->
       <div class="contact-glass contact-reveal-left">
 
         <div class="contact-label">
           <span></span>
-          COME VISIT US
+          {{ text.visitLabel }}
         </div>
 
         <h2>
-          Bring home the fragrance of
-          <span>tradition.</span>
+          {{ text.visitTitle1 }}
+          <span>{{ text.visitTitle2 }}</span>
         </h2>
 
         <p class="contact-intro">
-          For product availability, pooja combo orders,
-          temple requirements and bulk orders, connect with
-          Madurai Meenakshi Santhana Kadai.
+          {{ text.intro }}
         </p>
 
 
+        <!-- CONTACT DETAILS -->
         <div class="contact-details">
 
           <div class="contact-detail">
-            <small>STORE</small>
+
+            <small>
+              {{ text.store }}
+            </small>
+
             <strong>
-              Madurai Meenakshi Santhana Kadai
+              {{ text.storeName }}
             </strong>
+
           </div>
 
-          <div class="contact-detail">
-            <small>LOCATION</small>
-            <strong>
-              Madurai, Tamil Nadu
-            </strong>
-          </div>
 
           <div class="contact-detail">
-            <small>TIMINGS</small>
+
+            <small>
+              {{ text.location }}
+            </small>
+
             <strong>
-              Daily • Morning to Evening
+              {{ text.locationText }}
             </strong>
+
           </div>
 
+
           <div class="contact-detail">
-            <small>ENQUIRIES</small>
+
+            <small>
+              {{ text.timings }}
+            </small>
+
             <strong>
-              Santhanam • Pooja • Bulk Orders
+              {{ text.timingsText }}
             </strong>
+
+          </div>
+
+
+          <div class="contact-detail">
+
+            <small>
+              {{ text.enquiries }}
+            </small>
+
+            <strong>
+              {{ text.enquiriesText }}
+            </strong>
+
           </div>
 
         </div>
 
 
+        <!-- CONTACT BUTTONS -->
         <div class="contact-actions">
 
           <a
             href="tel:+919042111424"
             class="contact-btn primary"
           >
-            Call Now
+            {{ text.callNow }}
             <span>→</span>
           </a>
+
 
           <a
             href="https://wa.me/919042111424"
             target="_blank"
             class="contact-btn outline"
           >
-            WhatsApp
+            {{ text.whatsapp }}
           </a>
 
         </div>
@@ -119,7 +144,9 @@
       </div>
 
 
-      <!-- RIGHT MAP -->
+      <!-- =========================
+           RIGHT MAP
+      ========================== -->
       <div class="contact-map contact-reveal-right">
 
         <iframe
@@ -129,19 +156,22 @@
           allowfullscreen>
         </iframe>
 
+
         <div class="map-glass-label">
 
-          <small>MADURAI</small>
+          <small>
+            {{ text.mapCity }}
+          </small>
 
           <strong>
-            Near Meenakshi Amman Temple
+            {{ text.mapLocation }}
           </strong>
 
           <a
             href="https://www.google.com/maps/search/?api=1&query=Meenakshi+Amman+Temple+Madurai"
             target="_blank"
           >
-            Open in Google Maps →
+            {{ text.openMaps }} →
           </a>
 
         </div>
