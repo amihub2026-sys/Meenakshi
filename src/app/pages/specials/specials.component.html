@@ -33,7 +33,7 @@
   {{ text.traditionLabel }}
 </div>
 
-<h2>
+<h2 [class.tamil-tradition-title]="language === 'ta'">
   {{ text.traditionTitle1 }}
   <span>{{ text.traditionTitle2 }}</span>
 </h2>
@@ -295,7 +295,7 @@
   {{ text.missionLabel }}
 </small>
 
-<h2>
+<h2 [class.tamil-mission-title]="language === 'ta'">
   {{ text.missionTitle1 }}
   <span>
     {{ text.missionTitle2 }}
