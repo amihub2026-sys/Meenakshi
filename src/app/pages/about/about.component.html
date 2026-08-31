@@ -32,7 +32,7 @@
   {{ text.heroKicker }}
 </div>
 
-<h1>
+<h1 [class.tamil-about-hero-title]="language === 'ta'">
   {{ text.heroTitle1 }}
   <span>{{ text.heroTitle2 }}</span>
 </h1>
@@ -169,11 +169,10 @@
   {{ text.journeyKicker }}
 </div>
 
-<h2>
+<h2 [class.tamil-journey-title]="language === 'ta'">
   {{ text.journeyTitle1 }}
   <span>{{ text.journeyTitle2 }}</span>
 </h2>
-
 <p>
   {{ text.journeyDesc }}
 </p>

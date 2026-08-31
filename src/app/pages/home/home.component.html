@@ -46,10 +46,14 @@
   <span class="hero-line"></span>
   <span>{{ text.heroKicker }}</span>
 </div>
+<h1
+  class="hero-main-title"
+  [class.tamil-title]="language === 'ta'"
+  [class.hindi-title]="language === 'hi'"
+>
+  <span id="heroTypingText"></span>
 
-<h3 class="tamil-type-heading">
-  {{ text.heroTitle }}
-</h3>
+</h1>
 
 <p>
   {{ text.heroDescription }}
@@ -120,18 +124,24 @@
   <div class="container">
 
     <!-- HEADING -->
-    <div class="why-heading reveal-why">
+  <div class="why-heading reveal-why">
 
-      <div class="why-label">
-        <span></span>
-         {{ text.whyLabel }}
-        <span></span>
-      </div>
+  <div
+    class="why-label"
+    [class.tamil-why-label]="language === 'ta'"
+  >
+    <span></span>
 
-  <h2>
-    {{ text.whyTitle1 }}
-    <span>{{ text.whyTitle2 }}</span>
-  </h2>
+    {{ text.whyLabel }}
+
+    <span></span>
+  
+
+</div>
+<h2 [class.tamil-why-title]="language === 'ta'">
+  {{ text.whyTitle1 }}
+  <span>{{ text.whyTitle2 }}</span>
+</h2>
 
   <p>
     {{ text.whyDescription }}
@@ -296,8 +306,7 @@
   <span></span>
   {{ text.faqKicker }}
 </div>
-
-<h2>
+<h2 [class.tamil-faq-title]="language === 'ta'">
   {{ text.faqTitle1 }}
   <span>{{ text.faqTitle2 }}</span>
 </h2>
@@ -318,7 +327,9 @@
         <summary>
 
           <span class="faq-no">01</span>
-<h3>{{ text.q1 }}</h3>
+<h3 [class.tamil-faq-question]="language === 'ta'">
+  {{ text.q1 }}
+</h3>
           <span class="faq-icon">+</span>
 
         </summary>
@@ -338,7 +349,7 @@
 
           <span class="faq-no">02</span>
 
-   <h3>{{ text.q2 }}</h3>
+  <h3 [class.tamil-faq-question]="language === 'ta'">{{ text.q2 }}</h3>
           <span class="faq-icon">+</span>
 
         </summary>
@@ -358,7 +369,7 @@
         <summary>
 
           <span class="faq-no">03</span>
-<h3>{{ text.q3 }}</h3>
+<h3 [class.tamil-faq-question]="language === 'ta'">{{ text.q3 }}</h3>
 
           <span class="faq-icon">+</span>
 
@@ -379,7 +390,7 @@
         <summary>
 
           <span class="faq-no">04</span>
-<h3>{{ text.q4 }}</h3>
+<h3 [class.tamil-faq-question]="language === 'ta'">{{ text.q4 }}</h3>
 
           <span class="faq-icon">+</span>
 
@@ -400,7 +411,7 @@
         <summary>
 
           <span class="faq-no">05</span>
-<h3>{{ text.q5 }}</h3>
+<h3 [class.tamil-faq-question]="language === 'ta'">{{ text.q5 }}</h3>
           <span class="faq-icon">+</span>
 
         </summary>
@@ -436,7 +447,7 @@
   {{ text.glanceKicker }}
 </div>
 
-<h2>
+<h2 [class.tamil-glance-title]="language === 'ta'">
   {{ text.glanceTitle1 }}
   <span>{{ text.glanceTitle2 }}</span>
 </h2>
