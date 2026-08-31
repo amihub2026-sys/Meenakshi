@@ -15,164 +15,85 @@
 @media(max-width:980px){.main-nav{gap:18px}.hero-bottom{display:none}.about-premium-grid,.specials-layout,.why-grid,.contact-premium-grid{grid-template-columns:1fr}.about-premium-grid{gap:45px}.products-heading-grid{grid-template-columns:1fr;gap:0}.premium-product-grid,.ritual-grid{grid-template-columns:repeat(2,1fr)}.specials-spacer{display:none}.specials-premium{padding:85px 0}.why-title{position:static}.contact-map{min-height:460px}.footer-glass{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}}
 @media(max-width:760px){.container{width:min(100% - 28px,1180px)}.nav-wrap{height:70px}.brand strong{font-size:18px}.brand-mark{width:40px;height:40px}.nav-toggle{display:block}.main-nav{position:absolute;top:70px;left:14px;right:14px;display:none;flex-direction:column;gap:0;padding:15px;background:rgba(255,249,237,.98);box-shadow:var(--shadow)}.main-nav.open{display:flex}.main-nav a{padding:12px}.hero{height:calc(100svh - 70px);min-height:640px}.hero-vignette{background:linear-gradient(0deg,rgba(4,24,13,.92) 0%,rgba(4,24,13,.72) 42%,rgba(4,24,13,.12) 78%)}.hero-content{align-items:flex-end;padding-bottom:115px}.hero h1{font-size:clamp(44px,13vw,62px)}.hero-copy>p{font-size:13px;line-height:1.7;margin:20px 0}.hero-mini-trust{display:none}.hero-actions{flex-direction:column;align-items:stretch}.hero-btn{width:100%}.slider-controls{right:18px;bottom:24px}.scroll-down{left:18px;bottom:22px}.sacred-intro-grid{grid-template-columns:70px 1fr}.sacred-symbol{width:64px;height:64px}.sacred-intro p{grid-column:1/-1;padding-left:0;border-left:0}.about-premium,.products-premium,.rituals,.why-us,.contact-premium{padding:80px 0}.about-premium-grid{grid-template-columns:1fr}.about-image-frame{height:470px}.about-gold-box{right:12px}.about-highlight{grid-template-columns:1fr}.premium-product-grid,.ritual-grid{grid-template-columns:1fr}.premium-product-card{height:430px}.specials-content{padding:34px 25px}.specials-details{grid-template-columns:1fr}.contact-details{grid-template-columns:1fr}.footer-glass{grid-template-columns:1fr;gap:30px;padding:28px}.footer-brand{grid-column:auto}.footer-bottom{flex-direction:column;gap:8px}.products-heading h2,.about-premium-content h2,.ritual-heading h2,.specials-content h2,.why-title h2,.contact-glass h2{font-size:41px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
-/* =====================================================
-   PREMIUM GREEN NAVBAR
-===================================================== */
 
+/* =====================================================
+   PREMIUM GREEN NAVBAR - CONSOLIDATED
+===================================================== */
 .site-header {
   position: fixed;
   top: 0;
   left: 0;
-
   width: 100%;
   z-index: 9999;
-
-  /* Traditional deep green */
   background: rgba(8, 55, 31, 0.97);
-
   border-bottom: 1px solid rgba(229, 196, 72, 0.35);
-
-  box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.18);
-
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
 }
 
+.site-header .nav-wrap {
+  width: min(1200px, calc(100% - 40px));
+  height: 82px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
 
-/* BRAND NAME */
+.site-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
 
 .site-header .brand strong {
   color: #ffffff;
 }
 
-
-/* SANTHANA KADAI */
-
 .site-header .brand small {
   color: #e7c64a;
 }
 
-
-/* OM CIRCLE */
-
 .site-header .brand-mark {
   background: #e5c64c;
-
   border: 1px solid rgba(255,255,255,0.25);
-
   color: #0b4227;
-
-  box-shadow:
-    0 5px 18px rgba(0,0,0,0.20),
-    inset 0 1px 1px rgba(255,255,255,0.45);
+  box-shadow: 0 5px 18px rgba(0,0,0,0.20), inset 0 1px 1px rgba(255,255,255,0.45);
 }
 
-
-/* NAV LINKS */
+.site-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 32px;
+  margin-left: auto;
+}
 
 .site-header nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: rgba(255,255,255,0.88);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 0;
+  white-space: nowrap;
 }
 
-
-/* NAV HOVER */
-
-.site-header nav a:hover {
+.site-header nav a:hover,
+.site-header nav a:first-child {
   color: #f0cf55;
 }
-
-
-/* GOLD UNDERLINE */
 
 .site-header nav a::after {
   background: #e5c64c;
 }
 
 
-/* ACTIVE HOME */
-
-.site-header nav a:first-child {
-  color: #f0cf55;
-}
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
-
-  background: #0b4a2a;
-  border-bottom: 1px solid rgba(229, 198, 76, 0.3);
-}
-
-
-/* MAIN NAV WRAPPER */
-.site-header .nav-wrap {
-  width: min(1200px, calc(100% - 40px));
-  height: 82px;
-
-  margin: 0 auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 40px;
-}
-
-
-/* BRAND */
-.site-header .brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  flex-shrink: 0;
-}
-
-
-/* NAV */
-.site-header nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  gap: 32px;
-
-  margin-left: auto;
-}
-
-
-/* NAV LINKS */
-.site-header nav a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #ffffff;
-
-  font-size: 14px;
-  font-weight: 500;
-
-  text-decoration: none;
-
-  padding: 10px 0;
-
-  white-space: nowrap;
-}
-
-
-/* HOVER */
-.site-header nav a:hover {
-  color: #f0c94f;
-}
-
-
-/* ACTIVE HOME */
-.site-header nav a:first-child {
-  color: #f0c94f;
-}
 .typing-heading {
   margin: 0;
 
@@ -191,7 +112,6 @@
   letter-spacing: -2px;
 }
 
-
 .typing-cursor {
   display: inline-block;
 
@@ -201,7 +121,6 @@
 
   animation: cursorBlink 0.7s infinite;
 }
-
 
 @keyframes cursorBlink {
 
@@ -232,7 +151,6 @@
   color: #fff;
 }
 
-
 .devotional-symbol {
   display: block;
 
@@ -242,7 +160,6 @@
 
   font-size: 22px;
 }
-
 
 .devotional-small {
   margin: 0 0 15px;
@@ -254,7 +171,6 @@
 
   letter-spacing: 2px;
 }
-
 
 .footer-devotional h3 {
   margin: 0;
@@ -273,13 +189,11 @@
   line-height: 1.6;
 }
 
-
 .footer-devotional h3 span {
   display: block;
 
   color: #f0cf55;
 }
-
 
 .devotional-sub {
   max-width: 650px;
@@ -297,7 +211,6 @@
   line-height: 2;
 }
 
-
 /* DECORATIVE LINE */
 
 .devotional-line {
@@ -312,7 +225,6 @@
   gap: 14px;
 }
 
-
 .devotional-line span {
   width: 75px;
   height: 1px;
@@ -325,7 +237,6 @@
     );
 }
 
-
 .devotional-line span:last-child {
   background:
     linear-gradient(
@@ -334,7 +245,6 @@
       #e5c64c
     );
 }
-
 
 .devotional-line b {
   width: 36px;
@@ -352,7 +262,6 @@
   font-size: 17px;
 }
 
-
 /* =====================================================
    SOCIAL MEDIA ICONS
 ===================================================== */
@@ -365,7 +274,6 @@
 
   margin-top: 25px;
 }
-
 
 .footer-socials a {
   width: 43px;
@@ -399,7 +307,6 @@
     border-color 0.3s ease;
 }
 
-
 .footer-socials a:hover {
   transform: translateY(-5px);
 
@@ -412,7 +319,6 @@
   box-shadow:
     0 10px 25px rgba(0,0,0,0.18);
 }
-
 
 /* =====================================================
    BOTTOM TAMIL BLESSING
@@ -430,7 +336,6 @@
   font-weight: 600;
 }
 
-
 /* =====================================================
    MOBILE
 ===================================================== */
@@ -443,13 +348,11 @@
     padding: 0 10px;
   }
 
-
   .footer-devotional h3 {
     font-size: 25px;
 
     line-height: 1.7;
   }
-
 
   .devotional-sub {
     font-size: 13px;
@@ -457,11 +360,9 @@
     line-height: 1.9;
   }
 
-
   .footer-socials {
     justify-content: flex-start;
   }
-
 
   .footer-bottom {
     text-align: center;
@@ -488,7 +389,6 @@
   color: #16482e;
 }
 
-
 /* GOLD SECOND PART */
 
 .about-premium-content h2 span {
@@ -498,13 +398,10 @@
   font-size: 34px !important;
   color: #b48720;
 
-
-
   font-style: normal;
 
   line-height: 1.10;
 }
-
 
 /* TABLET */
 
@@ -516,7 +413,6 @@
   }
 
 }
-
 
 /* MOBILE */
 
@@ -550,7 +446,6 @@
   letter-spacing: 0;
 }
 
-
 /* GOLD TEXT */
 .tamil-type-heading .gold-text {
   color: #e5c64c;
@@ -558,7 +453,6 @@
   /* IMPORTANT - don't force new line */
   display: inline;
 }
-
 
 /* CURSOR */
 .type-cursor {
@@ -570,7 +464,6 @@
 
   animation: tamilCursorBlink 0.7s infinite;
 }
-
 
 @keyframes tamilCursorBlink {
 
@@ -585,7 +478,6 @@
   }
 
 }
-
 
 /* MOBILE */
 @media (max-width: 700px) {
@@ -625,7 +517,6 @@
     );
 }
 
-
 /* subtle temple-style lines */
 
 .why-divine::before,
@@ -655,7 +546,6 @@
   bottom: 20px;
 }
 
-
 /* =====================================================
    HEADING
 ===================================================== */
@@ -670,7 +560,6 @@
 
   text-align: center;
 }
-
 
 .why-label {
   display: flex;
@@ -689,14 +578,12 @@
   letter-spacing: 4px;
 }
 
-
 .why-label span {
   width: 42px;
   height: 1px;
 
   background: #c69b32;
 }
-
 
 .why-heading h2 {
   margin: 0;
@@ -712,7 +599,6 @@
   line-height: 1.06;
 }
 
-
 .why-heading h2 span {
   display: block;
 
@@ -722,7 +608,6 @@
 
   font-style: italic;
 }
-
 
 .why-heading > p {
   max-width: 700px;
@@ -735,7 +620,6 @@
 
   line-height: 1.9;
 }
-
 
 /* =====================================================
    MAIN LAYOUT
@@ -757,7 +641,6 @@
   gap: 55px;
 }
 
-
 /* =====================================================
    SIDE ITEMS
 ===================================================== */
@@ -768,7 +651,6 @@
 
   gap: 55px;
 }
-
 
 .why-item {
   position: relative;
@@ -787,7 +669,6 @@
     box-shadow 0.4s ease;
 }
 
-
 .why-item:hover {
   transform: translateY(-7px);
 
@@ -796,7 +677,6 @@
   box-shadow:
     0 20px 55px rgba(86, 62, 23, 0.09);
 }
-
 
 /* ICON */
 
@@ -819,7 +699,6 @@
     0 8px 25px rgba(86,62,23,0.07);
 }
 
-
 .why-icon span {
   color: #b18421;
 
@@ -827,7 +706,6 @@
 
   transform: rotate(-45deg);
 }
-
 
 .why-item small {
   display: block;
@@ -841,7 +719,6 @@
   font-size: 12px;
 }
 
-
 .why-item h3 {
   margin: 0 0 10px;
 
@@ -854,7 +731,6 @@
   font-weight: 400;
 }
 
-
 .why-item p {
   margin: 0;
 
@@ -865,7 +741,6 @@
   line-height: 1.8;
 }
 
-
 /* LEFT ALIGNMENT */
 
 .why-left .why-item {
@@ -874,18 +749,15 @@
   grid-template-columns: 1fr 58px;
 }
 
-
 .why-left .why-item .why-icon {
   grid-column: 2;
   grid-row: 1;
 }
 
-
 .why-left .why-item > div:last-child {
   grid-column: 1;
   grid-row: 1;
 }
-
 
 /* =====================================================
    CENTER DIVINE AREA
@@ -900,7 +772,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .why-center-ring {
   position: relative;
@@ -918,7 +789,6 @@
     divineFloat 5s ease-in-out infinite;
 }
 
-
 .why-center-ring::before {
   content: "";
 
@@ -935,7 +805,6 @@
     divineRotate 35s linear infinite;
 }
 
-
 .why-center-ring::after {
   content: "";
 
@@ -948,7 +817,6 @@
 
   border-radius: 50%;
 }
-
 
 .why-center-inner {
   position: relative;
@@ -978,7 +846,6 @@
     inset 0 0 50px rgba(213,169,54,0.10);
 }
 
-
 .why-om {
   margin-bottom: 8px;
 
@@ -989,7 +856,6 @@
   font-size: 42px;
 }
 
-
 .why-center-inner small {
   color: #a97d1f;
 
@@ -999,7 +865,6 @@
 
   letter-spacing: 2px;
 }
-
 
 .why-center-inner h3 {
   margin: 13px 0;
@@ -1018,13 +883,11 @@
   line-height: 1.55;
 }
 
-
 .why-center-inner h3 span {
   display: block;
 
   color: #aa7c1c;
 }
-
 
 .why-center-inner p {
   margin: 8px 0 0;
@@ -1040,7 +903,6 @@
   line-height: 1.8;
 }
 
-
 /* DIVIDER */
 
 .why-divider {
@@ -1049,7 +911,6 @@
 
   gap: 9px;
 }
-
 
 .why-divider i {
   display: block;
@@ -1060,13 +921,11 @@
   background: rgba(171,126,28,0.45);
 }
 
-
 .why-divider b {
   color: #bc912c;
 
   font-size: 10px;
 }
-
 
 /* =====================================================
    CSS LAMP
@@ -1083,7 +942,6 @@
 
   transform: translateX(-50%);
 }
-
 
 .lamp-flame {
   position: absolute;
@@ -1117,7 +975,6 @@
     0 0 40px rgba(228,173,52,0.28);
 }
 
-
 .lamp-light {
   position: absolute;
 
@@ -1138,7 +995,6 @@
       transparent 68%
     );
 }
-
 
 .lamp-bowl {
   position: absolute;
@@ -1163,7 +1019,6 @@
     );
 }
 
-
 .lamp-stem {
   position: absolute;
 
@@ -1183,7 +1038,6 @@
       #946817
     );
 }
-
 
 .lamp-base {
   position: absolute;
@@ -1207,7 +1061,6 @@
     );
 }
 
-
 /* =====================================================
    BOTTOM TAMIL
 ===================================================== */
@@ -1227,7 +1080,6 @@
   gap: 20px;
 }
 
-
 .why-bottom span {
   flex: 1;
 
@@ -1241,7 +1093,6 @@
     );
 }
 
-
 .why-bottom span:last-child {
   background:
     linear-gradient(
@@ -1250,7 +1101,6 @@
       transparent
     );
 }
-
 
 .why-bottom p {
   margin: 0;
@@ -1266,7 +1116,6 @@
   white-space: nowrap;
 }
 
-
 /* =====================================================
    ANIMATIONS
 ===================================================== */
@@ -1281,13 +1130,11 @@
     transform 0.9s ease;
 }
 
-
 .reveal-why.active {
   opacity: 1;
 
   transform: translateY(0);
 }
-
 
 @keyframes divineFloat {
 
@@ -1302,7 +1149,6 @@
 
 }
 
-
 @keyframes divineRotate {
 
   to {
@@ -1310,7 +1156,6 @@
   }
 
 }
-
 
 @keyframes lampFlicker {
 
@@ -1329,7 +1174,6 @@
   }
 
 }
-
 
 /* =====================================================
    TABLET
@@ -1370,7 +1214,6 @@
 
 }
 
-
 /* =====================================================
    MOBILE
 ===================================================== */
@@ -1381,11 +1224,9 @@
     padding: 75px 0 65px;
   }
 
-
   .why-heading {
     margin-bottom: 45px;
   }
-
 
   .why-heading h2 {
     font-size: 38px;
@@ -1393,11 +1234,9 @@
     line-height: 1.12;
   }
 
-
   .why-heading > p {
     font-size: 13px;
   }
-
 
   .why-experience {
     display: flex;
@@ -1405,7 +1244,6 @@
 
     gap: 35px;
   }
-
 
   .why-center {
     order: 1;
@@ -1415,23 +1253,19 @@
     width: 100%;
   }
 
-
   .why-left {
     order: 2;
   }
 
-
   .why-right {
     order: 3;
   }
-
 
   .why-side {
     width: 100%;
 
     gap: 18px;
   }
-
 
   .why-item,
   .why-left .why-item {
@@ -1444,45 +1278,37 @@
     padding: 22px 10px;
   }
 
-
   .why-left .why-item .why-icon {
     grid-column: 1;
   }
 
-
   .why-left .why-item > div:last-child {
     grid-column: 2;
   }
-
 
   .why-icon {
     width: 47px;
     height: 47px;
   }
 
-
   .why-item h3 {
     font-size: 21px;
   }
-
 
   .why-center-ring {
     width: 290px;
     height: 290px;
   }
 
-
   .why-center-inner h3 {
     font-size: 20px;
   }
-
 
   .why-bottom {
     margin-top: 45px;
 
     gap: 10px;
   }
-
 
   .why-bottom p {
     font-size: 10px;
@@ -1521,7 +1347,6 @@
     0 8px 14px rgba(70,40,5,.18);
 }
 
-
 /* TOP GOLD RIM */
 
 .vilakku-bowl::before {
@@ -1548,7 +1373,6 @@
   );
 }
 
-
 /* BOTTOM CENTER */
 
 .vilakku-bowl::after {
@@ -1573,7 +1397,6 @@
   );
 }
 
-
 /* LEFT + RIGHT TRADITIONAL POINTS */
 
 .bowl-left,
@@ -1592,7 +1415,6 @@
   );
 }
 
-
 .bowl-left {
   left: -30px;
 
@@ -1604,7 +1426,6 @@
     100% 100%
   );
 }
-
 
 .bowl-right {
   right: -30px;
@@ -1645,7 +1466,6 @@
     0 0 0 8px rgba(213, 169, 54, 0.08);
 }
 
-
 /* DARK TRANSPARENT LAYER OVER IMAGE
    so Tamil text remains readable */
 .why-center-inner::before {
@@ -1666,7 +1486,6 @@
   z-index: 0;
 }
 
-
 /* KEEP ALL CONTENT ABOVE IMAGE */
 
 .why-center-inner > * {
@@ -1674,20 +1493,17 @@
   z-index: 2;
 }
 
-
 /* OM */
 
 .why-center-inner .why-om {
   color: #f2cf58;
 }
 
-
 /* MADURAI TEXT */
 
 .why-center-inner small {
   color: #f4d66e;
 }
-
 
 /* TAMIL HEADING */
 
@@ -1698,7 +1514,6 @@
 .why-center-inner h3 span {
   color: #f2cf58;
 }
-
 
 /* BOTTOM TAMIL */
 
@@ -1729,7 +1544,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   color: #fff;
 }
-
 
 /* BACKGROUND GLOW */
 
@@ -1763,7 +1577,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* HEADING */
 
@@ -1847,7 +1660,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   font-size: 16px;
 }
 
-
 /* TIMELINE */
 
 .ritual-timeline {
@@ -1878,7 +1690,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   transform: translateX(-50%);
 }
-
 
 /* STEP */
 
@@ -1912,7 +1723,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   text-align: left;
 }
-
 
 /* NUMBER */
 
@@ -1950,7 +1760,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 .ritual-step-right .ritual-number {
   left: -29px;
 }
-
 
 /* CARD */
 
@@ -2014,7 +1823,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     rgba(255,255,255,0.06);
 }
 
-
 /* ICON */
 
 .ritual-icon {
@@ -2056,7 +1864,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* TEXT */
 
 .ritual-card small {
@@ -2090,7 +1897,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-size: 14px;
 }
-
 
 /* BOTTOM */
 
@@ -2153,7 +1959,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 .ritual-journey-bottom a:hover b {
   transform: translateX(5px);
 }
-
 
 /* =========================================================
    MOBILE
@@ -2240,7 +2045,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   background: #0e211b;
 }
 
-
 /* VIDEO */
 
 .about-video-bg {
@@ -2270,7 +2074,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* DARK OVERLAY */
 
 .about-video-overlay {
@@ -2280,7 +2083,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   background:
     rgba(7, 22, 17, 0.42);
 }
-
 
 /* CINEMATIC GRADIENT */
 
@@ -2303,7 +2105,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       rgba(0,0,0,0.55)
     );
 }
-
 
 /* SUBTLE PATTERN */
 
@@ -2336,7 +2137,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* CONTENT */
 
 .about-video-content {
@@ -2348,7 +2148,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   max-width: 1200px;
 }
-
 
 .about-video-kicker {
   display: flex;
@@ -2371,7 +2170,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   animation-delay: 0.25s;
 }
 
-
 .about-video-kicker span {
   width: 55px;
   height: 1px;
@@ -2392,7 +2190,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* MAIN HEADING */
 
@@ -2436,7 +2233,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* PARAGRAPH */
 
 .about-video-content p {
@@ -2456,7 +2252,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   animation-delay: 0.9s;
 }
 
-
 @keyframes aboutFadeUp {
 
   to {
@@ -2465,7 +2260,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* META */
 
@@ -2511,7 +2305,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   background:
     rgba(255,255,255,0.2);
 }
-
 
 /* FLOATING LINES */
 
@@ -2564,7 +2357,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* PARTICLES */
 
 .about-hero-particle {
@@ -2611,7 +2403,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   animation-delay: 0.8s;
 }
 
-
 @keyframes aboutParticleFloat {
 
   0%,
@@ -2626,7 +2417,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* SCROLL CUE */
 
@@ -2687,7 +2477,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* MOBILE */
 
 @media (max-width: 768px) {
@@ -2728,7 +2517,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
@@ -2760,7 +2548,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     ),
     #fffaf0;
 }
-
 
 /* HEADING */
 
@@ -2814,7 +2601,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #776d5d;
 }
 
-
 /* =====================================================
    PROCESS
 ===================================================== */
@@ -2827,7 +2613,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   gap: 35px;
 }
-
 
 /* MAIN HORIZONTAL LINE */
 
@@ -2875,7 +2660,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* STEP */
 
 .santhan-step {
@@ -2916,7 +2700,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* ICON */
 
 .santhan-icon {
@@ -2951,7 +2734,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     box-shadow 0.4s ease;
 }
 
-
 /* INNER CIRCLE */
 
 .santhan-icon::before {
@@ -2977,7 +2759,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* HOVER */
 
 .santhan-step:hover .santhan-icon {
@@ -2993,7 +2774,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     0 20px 40px rgba(23, 71, 55, 0.18);
 }
 
-
 /* NUMBER */
 
 .step-no {
@@ -3008,7 +2788,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #bd8c3b;
 }
 
-
 /* TITLE */
 
 .santhan-step h3 {
@@ -3022,7 +2801,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #173d30;
 }
 
-
 /* DESCRIPTION */
 
 .santhan-step p {
@@ -3035,7 +2813,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   color: #756c5d;
 }
-
 
 /* LITTLE DOT ON LINE */
 
@@ -3059,7 +2836,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   box-shadow:
     0 0 0 5px rgba(189, 140, 59, 0.12);
 }
-
 
 /* =====================================================
    MOBILE
@@ -3199,7 +2975,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     #09251c;
 }
 
-
 /* DECORATIVE GLOW */
 
 .product-video-bg-glow {
@@ -3220,7 +2995,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   pointer-events: none;
 }
-
 
 /* =========================================================
    MAIN LAYOUT
@@ -3245,7 +3019,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   gap: clamp(50px, 7vw, 110px);
 }
 
-
 /* =========================================================
    LEFT
 ========================================================= */
@@ -3253,7 +3026,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 .product-video-menu {
   min-width: 0;
 }
-
 
 .product-video-kicker {
   display: flex;
@@ -3271,7 +3043,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #d9aa53;
 }
 
-
 .product-video-kicker > span {
   width: 43px;
   height: 1px;
@@ -3284,7 +3055,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   transform-origin: left;
 }
 
-
 @keyframes productKickerLine {
 
   from {
@@ -3296,7 +3066,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 .product-video-menu > h1 {
   margin:
@@ -3316,13 +3085,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #fff;
 }
 
-
 .product-video-menu > h1 span {
   display: block;
 
   color: #dbae59;
 }
-
 
 /* =========================================================
    PRODUCT LIST
@@ -3331,7 +3098,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 .product-video-list {
   position: relative;
 }
-
 
 .product-video-item {
   position: relative;
@@ -3370,7 +3136,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     padding-left .35s ease;
 }
 
-
 /* LEFT ACTIVE LINE */
 
 .product-video-item::before {
@@ -3393,18 +3158,15 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     height .4s ease;
 }
 
-
 .product-video-item.active {
   color: #fff;
 
   padding-left: 18px;
 }
 
-
 .product-video-item.active::before {
   height: 44px;
 }
-
 
 .product-list-number {
   font-size: 9px;
@@ -3414,7 +3176,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #bd9148;
 }
 
-
 .product-list-name {
   display: flex;
 
@@ -3422,7 +3183,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   gap: 3px;
 }
-
 
 .product-list-name strong {
   font-family:
@@ -3433,7 +3193,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-weight: 400;
 }
-
 
 .product-list-name small {
   font-family:
@@ -3446,13 +3205,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     rgba(255,255,255,0.38);
 }
 
-
 .product-video-item.active
 .product-list-name small {
   color:
     rgba(219,174,89,0.8);
 }
-
 
 .product-list-arrow {
   justify-self: end;
@@ -3471,7 +3228,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     transform .35s ease;
 }
 
-
 .product-video-item.active
 .product-list-arrow {
   opacity: 1;
@@ -3480,11 +3236,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     translateX(0);
 }
 
-
 .product-video-item:hover {
   color: #fff;
 }
-
 
 /* =========================================================
    VIDEO
@@ -3493,7 +3247,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 .product-video-view {
   min-width: 0;
 }
-
 
 .product-video-frame {
   position: relative;
@@ -3513,7 +3266,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     0 40px 100px
     rgba(0,0,0,.38);
 }
-
 
 .product-feature-video {
   position: absolute;
@@ -3535,7 +3287,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     filter .35s ease;
 }
 
-
 .product-feature-video.changing {
   opacity: 0;
 
@@ -3543,7 +3294,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   filter: blur(5px);
 }
-
 
 /* VIDEO DARK FADE */
 
@@ -3568,7 +3318,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     );
 }
 
-
 /* LARGE NUMBER */
 
 .product-video-number {
@@ -3589,7 +3338,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     rgba(255,255,255,.13);
 }
 
-
 /* VIDEO INFORMATION */
 
 .product-video-info {
@@ -3604,7 +3352,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   max-width: 630px;
 }
 
-
 .product-video-category {
   display: block;
 
@@ -3617,7 +3364,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   color: #e0b35e;
 }
-
 
 .product-video-info h2 {
   margin: 0;
@@ -3636,7 +3382,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #fff;
 }
 
-
 .product-video-tamil {
   margin-top: 7px;
 
@@ -3648,7 +3393,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   color: #dbad58;
 }
-
 
 .product-video-info p {
   max-width: 520px;
@@ -3663,7 +3407,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color:
     rgba(255,255,255,.67);
 }
-
 
 /* PROGRESS */
 
@@ -3680,7 +3423,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     rgba(255,255,255,.12);
 }
 
-
 .product-video-progress span {
   display: block;
 
@@ -3696,7 +3438,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     linear infinite;
 }
 
-
 @keyframes productVideoProgress {
 
   from {
@@ -3708,7 +3449,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* =========================================================
    MOBILE
@@ -3723,18 +3463,15 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     min-height: auto;
   }
 
-
   .product-video-layout {
     grid-template-columns: 1fr;
 
     gap: 40px;
   }
 
-
   .product-video-menu > h1 {
     margin-bottom: 30px;
   }
-
 
   /* horizontal product selector */
 
@@ -3752,11 +3489,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     scrollbar-width: none;
   }
 
-
   .product-video-list::-webkit-scrollbar {
     display: none;
   }
-
 
   .product-video-item {
     flex:
@@ -3777,11 +3512,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       13px 15px;
   }
 
-
   .product-video-item::before {
     display: none;
   }
-
 
   .product-video-item.active {
     padding:
@@ -3794,11 +3527,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       rgba(218,170,82,.08);
   }
 
-
   .product-list-arrow {
     display: none;
   }
-
 
   .product-video-frame {
     aspect-ratio: 4 / 5;
@@ -3809,7 +3540,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 @media (max-width: 480px) {
 
   .product-video-hero {
@@ -3817,16 +3547,13 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       100px 16px 55px;
   }
 
-
   .product-video-menu > h1 {
     font-size: 45px;
   }
 
-
   .product-video-frame {
     min-height: 500px;
   }
-
 
   .product-video-info {
     left: 23px;
@@ -3834,11 +3561,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     bottom: 32px;
   }
 
-
   .product-video-info h2 {
     font-size: 43px;
   }
-
 
   .product-video-number {
     top: 22px;
@@ -3868,7 +3593,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   background: #0c2d22;
 }
 
-
 .contact-hero-image {
   position: absolute;
 
@@ -3886,7 +3610,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   animation:
     contactHeroZoom 12s ease-in-out infinite alternate;
 }
-
 
 .contact-hero-overlay {
   position: absolute;
@@ -3909,7 +3632,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   z-index: 1;
 }
 
-
 .contact-hero-content {
   position: absolute;
 
@@ -3922,7 +3644,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   color: #fff;
 }
-
 
 .contact-hero-kicker {
   display: flex;
@@ -3942,14 +3663,12 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #e4bd72;
 }
 
-
 .contact-hero-kicker span {
   width: 44px;
   height: 1px;
 
   background: #e4bd72;
 }
-
 
 .contact-hero-content h1 {
   margin: 0;
@@ -3973,7 +3692,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: -2px;
 }
 
-
 .contact-hero-content h1 span {
   display: block;
 
@@ -3981,7 +3699,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-style: italic;
 }
-
 
 .contact-hero-content p {
   max-width: 560px;
@@ -3995,7 +3712,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color:
     rgba(255,255,255,.82);
 }
-
 
 /* subtle zoom */
 
@@ -4011,7 +3727,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* =========================
    CONTACT BODY
 ========================= */
@@ -4024,7 +3739,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     #f4efe4;
 }
 
-
 .contact-premium-grid {
   display: grid;
 
@@ -4035,7 +3749,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   align-items: stretch;
 }
-
 
 /* =========================
    MOBILE
@@ -4053,7 +3766,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       0 0 26px 26px;
   }
 
-
   .contact-hero-content {
     left: 40px;
     right: 40px;
@@ -4061,18 +3773,15 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     bottom: 60px;
   }
 
-
   .contact-hero-content h1 {
     font-size: 58px;
   }
-
 
   .contact-premium-grid {
     grid-template-columns: 1fr;
   }
 
 }
-
 
 @media (max-width: 600px) {
 
@@ -4086,7 +3795,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       0 0 22px 22px;
   }
 
-
   .contact-hero-content {
     left: 24px;
     right: 24px;
@@ -4094,18 +3802,15 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     bottom: 45px;
   }
 
-
   .contact-hero-content h1 {
     font-size: 43px;
 
     line-height: 1.02;
   }
 
-
   .contact-hero-content p {
     font-size: 14px;
   }
-
 
   .contact-premium {
     padding:
@@ -4164,7 +3869,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     box-shadow .6s ease;
 }
 
-
 /* IMAGE */
 
 .ritual-card-image {
@@ -4182,14 +3886,12 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     transform 1.2s cubic-bezier(.2,.8,.2,1);
 }
 
-
 .ritual-card-image img {
   width: 100%;
   height: 100%;
 
   object-fit: cover;
 }
-
 
 /* DARK GREEN OVERLAY */
 
@@ -4212,14 +3914,12 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   transition: opacity .6s ease;
 }
 
-
 /* CONTENT */
 
 .ritual-card-content {
   position: relative;
   z-index: 2;
 }
-
 
 /* HOVER */
 
@@ -4230,17 +3930,14 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     0 25px 60px rgba(13, 48, 35, .22);
 }
 
-
 .ritual-card:hover .ritual-card-image {
   opacity: 1;
   transform: scale(1.04);
 }
 
-
 .ritual-card:hover .ritual-card-overlay {
   opacity: 1;
 }
-
 
 /* TEXT CHANGE */
 
@@ -4253,21 +3950,17 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     transform .45s ease;
 }
 
-
 .ritual-card:hover h3 {
   color: #ffffff;
 }
-
 
 .ritual-card:hover p {
   color: rgba(255, 255, 255, .82);
 }
 
-
 .ritual-card:hover small {
   color: #e4bd72;
 }
-
 
 .ritual-card:hover .ritual-icon {
   color: #e4bd72;
@@ -4287,7 +3980,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   background: #0b2f22;
 }
 
-
 /* IMAGE */
 
 .specials-elegant-image {
@@ -4305,7 +3997,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   animation: elegantHeroZoom 14s ease-in-out infinite alternate;
 }
-
 
 /* OVERLAY */
 
@@ -4328,7 +4019,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     );
 }
 
-
 /* CONTENT */
 
 .specials-elegant-content {
@@ -4345,7 +4035,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   z-index: 2;
 }
-
 
 /* KICKER */
 
@@ -4364,7 +4053,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   letter-spacing: 4px;
 }
-
 
 /* HEADING */
 
@@ -4385,7 +4073,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: -2px;
 }
 
-
 .specials-elegant-content h1 span {
   display: block;
 
@@ -4395,7 +4082,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-style: italic;
 }
-
 
 /* TEXT */
 
@@ -4410,7 +4096,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   line-height: 1.8;
 }
-
 
 /* BUTTON */
 
@@ -4440,7 +4125,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   transition: .35s ease;
 }
 
-
 .specials-elegant-btn span {
   color: #d9b36c;
 
@@ -4448,7 +4132,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   transition: transform .35s ease;
 }
-
 
 .specials-elegant-btn:hover {
   background: #d9b36c;
@@ -4458,13 +4141,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   border-color: #d9b36c;
 }
 
-
 .specials-elegant-btn:hover span {
   color: #173b2c;
 
   transform: translateX(5px);
 }
-
 
 /* BOTTOM TEXT */
 
@@ -4490,14 +4171,12 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: 3px;
 }
 
-
 .specials-elegant-bottom i {
   width: 35px;
   height: 1px;
 
   background: rgba(217,179,108,.4);
 }
-
 
 /* ANIMATION */
 
@@ -4512,7 +4191,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* TABLET */
 
@@ -4535,7 +4213,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* MOBILE */
 
 @media (max-width: 600px) {
@@ -4548,11 +4225,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     border-radius: 0 0 22px 22px;
   }
 
-
   .specials-elegant-image {
     object-position: 65% center;
   }
-
 
   .specials-elegant-overlay {
     background:
@@ -4564,7 +4239,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       );
   }
 
-
   .specials-elegant-content {
     left: 24px;
     right: 24px;
@@ -4575,7 +4249,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     transform: none;
   }
 
-
   .specials-elegant-kicker {
     font-size: 9px;
 
@@ -4584,13 +4257,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin-bottom: 18px;
   }
 
-
   .specials-elegant-content h1 {
     font-size: 46px;
 
     line-height: 1;
   }
-
 
   .specials-elegant-content p {
     margin-top: 20px;
@@ -4600,13 +4271,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     line-height: 1.65;
   }
 
-
   .specials-elegant-btn {
     margin-top: 24px;
 
     padding: 12px 20px;
   }
-
 
   .specials-elegant-bottom {
     left: 24px;
@@ -4619,7 +4288,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
     letter-spacing: 1.8px;
   }
-
 
   .specials-elegant-bottom i {
     width: 15px;
@@ -4648,7 +4316,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   margin: auto;
 }
 
-
 /* CARD */
 
 .vm-card {
@@ -4672,7 +4339,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     background .5s ease;
 }
 
-
 .vm-card:hover {
   transform: translateY(-7px);
 
@@ -4681,7 +4347,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   box-shadow:
     0 25px 60px rgba(32, 60, 44, .10);
 }
-
 
 /* NUMBER */
 
@@ -4698,7 +4363,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: 3px;
 }
 
-
 /* SMALL HEADING */
 
 .vm-content small {
@@ -4713,7 +4377,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   letter-spacing: 3px;
 }
-
 
 /* HEADING */
 
@@ -4738,7 +4401,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: -1px;
 }
 
-
 .vm-content h2 span {
   display: block;
 
@@ -4748,7 +4410,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-style: italic;
 }
-
 
 /* DESCRIPTION */
 
@@ -4763,7 +4424,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   line-height: 1.9;
 }
-
 
 /* BACKGROUND SYMBOL */
 
@@ -4786,13 +4446,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     color .6s ease;
 }
 
-
 .vm-card:hover .vm-symbol {
   transform: rotate(8deg) scale(1.08);
 
   color: rgba(190, 146, 65, .13);
 }
-
 
 /* CENTER DIVIDER */
 
@@ -4807,7 +4465,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   gap: 14px;
 }
 
-
 .vm-divider span {
   width: 1px;
   height: 100px;
@@ -4819,7 +4476,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     );
 }
 
-
 .vm-divider span:last-child {
   background:
     linear-gradient(
@@ -4828,13 +4484,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     );
 }
 
-
 .vm-divider b {
   color: #bd9142;
 
   font-size: 14px;
 }
-
 
 /* TABLET */
 
@@ -4855,7 +4509,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* MOBILE */
 
@@ -4909,7 +4562,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   color: #fff;
 }
 
-
 .faq-wrap {
   max-width: 1200px;
 
@@ -4925,7 +4577,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   align-items: start;
 }
 
-
 /* LEFT HEADING */
 
 .faq-head {
@@ -4933,7 +4584,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   top: 140px;
 }
-
 
 .faq-kicker {
   display: flex;
@@ -4953,7 +4603,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: 3px;
 }
 
-
 .faq-kicker span {
   width: 40px;
 
@@ -4961,7 +4610,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   background: #d8ae60;
 }
-
 
 .faq-head h2 {
   margin: 0;
@@ -4980,7 +4628,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: -1px;
 }
 
-
 .faq-head h2 span {
   display: block;
 
@@ -4990,7 +4637,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-style: italic;
 }
-
 
 .faq-head p {
   max-width: 420px;
@@ -5004,7 +4650,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   line-height: 1.8;
 }
 
-
 /* FAQ LIST */
 
 .faq-list {
@@ -5012,12 +4657,10 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     1px solid rgba(255,255,255,.14);
 }
 
-
 .faq-item {
   border-bottom:
     1px solid rgba(255,255,255,.14);
 }
-
 
 /* SUMMARY */
 
@@ -5040,11 +4683,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   list-style: none;
 }
 
-
 .faq-item summary::-webkit-details-marker {
   display: none;
 }
-
 
 /* NUMBER */
 
@@ -5057,7 +4698,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   letter-spacing: 2px;
 }
-
 
 /* QUESTION */
 
@@ -5079,7 +4719,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     color .35s ease,
     transform .35s ease;
 }
-
 
 /* PLUS ICON */
 
@@ -5109,13 +4748,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     color .4s ease;
 }
 
-
 /* OPEN STATE */
 
 .faq-item[open] h3 {
   color: #d8ae60;
 }
-
 
 .faq-item[open] .faq-icon {
   transform: rotate(45deg);
@@ -5124,7 +4761,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   color: #143b2c;
 }
-
 
 /* ANSWER */
 
@@ -5135,7 +4771,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   animation:
     faqAnswerIn .4s ease;
 }
-
 
 .faq-answer p {
   max-width: 640px;
@@ -5149,7 +4784,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   line-height: 1.9;
 }
 
-
 /* HOVER */
 
 .faq-item summary:hover h3 {
@@ -5157,7 +4791,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   transform: translateX(5px);
 }
-
 
 /* ANIMATION */
 
@@ -5179,7 +4812,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 /* TABLET */
 
 @media (max-width: 900px) {
@@ -5189,13 +4821,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       80px 25px;
   }
 
-
   .faq-wrap {
     grid-template-columns: 1fr;
 
     gap: 55px;
   }
-
 
   .faq-head {
     position: static;
@@ -5203,13 +4833,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     max-width: 650px;
   }
 
-
   .faq-head h2 {
     font-size: 52px;
   }
 
 }
-
 
 /* MOBILE */
 
@@ -5220,21 +4848,17 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       65px 18px;
   }
 
-
   .faq-wrap {
     gap: 40px;
   }
-
 
   .faq-head h2 {
     font-size: 42px;
   }
 
-
   .faq-head p {
     font-size: 13px;
   }
-
 
   .faq-item summary {
     grid-template-columns:
@@ -5245,19 +4869,16 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     min-height: 90px;
   }
 
-
   .faq-item h3 {
     font-size: 21px;
 
     line-height: 1.2;
   }
 
-
   .faq-answer {
     padding:
       0 45px 28px 47px;
   }
-
 
   .faq-answer p {
     font-size: 13px;
@@ -5266,33 +4887,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-@media (max-width: 768px) {
-
-  .site-header .nav-wrap {
-    padding-left: 18px !important;
-    padding-right: 18px !important;
-
-    width: 100% !important;
-    max-width: 100% !important;
-
-    margin: 0 auto !important;
-
-    box-sizing: border-box;
-  }
-
-  .site-header .brand {
-    margin-left: 0 !important;
-  }
-
-  .site-header nav {
-    margin-right: 0 !important;
-  }
-
-}
 .nav-hamburger {
   display: none;
 }
-
 
 @media (max-width: 768px) {
 
@@ -5306,7 +4903,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
-
 
   .nav-hamburger {
     display: flex;
@@ -5332,7 +4928,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     z-index: 1002;
   }
 
-
   .nav-hamburger span {
     width: 18px;
     height: 2px;
@@ -5344,21 +4939,17 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     transition: .3s ease;
   }
 
-
   .nav-hamburger.open span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
-
 
   .nav-hamburger.open span:nth-child(2) {
     opacity: 0;
   }
 
-
   .nav-hamburger.open span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
   }
-
 
   .site-header .main-nav {
     position: absolute !important;
@@ -5392,7 +4983,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     z-index: 1000;
   }
 
-
   .site-header .main-nav.open {
     opacity: 1;
     visibility: visible;
@@ -5400,7 +4990,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
     transform: translateY(0);
   }
-
 
   .site-header .main-nav a {
     width: 100%;
@@ -5415,11 +5004,9 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       1px solid rgba(255,255,255,.08);
   }
 
-
   .site-header .main-nav a:last-child {
     border-bottom: none;
   }
-
 
   .site-header .main-nav a.active-link {
     color: #e1b64b !important;
@@ -5446,7 +5033,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     );
 }
 
-
 .about-glance-wrap {
   position: relative;
 
@@ -5465,7 +5051,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   margin: auto;
 }
-
 
 /* LEFT */
 
@@ -5487,7 +5072,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   letter-spacing: 4px;
 }
 
-
 .about-glance-kicker span {
   width: 45px;
   height: 1px;
@@ -5497,7 +5081,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   animation:
     glanceLine 1.4s ease both;
 }
-
 
 .about-glance-left h2 {
   margin: 0;
@@ -5525,7 +5108,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     both;
 }
 
-
 .about-glance-left h2 span {
   display: block;
 
@@ -5535,7 +5117,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   font-style: italic;
 }
-
 
 .about-glance-lead {
   max-width: 510px;
@@ -5552,7 +5133,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     glanceFadeUp 1s .2s ease both;
 }
 
-
 /* RIGHT */
 
 .about-glance-right {
@@ -5560,7 +5140,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   padding-left: 55px;
 }
-
 
 .glance-line {
   position: absolute;
@@ -5576,7 +5155,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   overflow: hidden;
 }
-
 
 .glance-line span {
   display: block;
@@ -5597,7 +5175,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     glanceVerticalLine
     4s ease-in-out infinite;
 }
-
 
 /* POINTS */
 
@@ -5624,21 +5201,17 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     glancePointIn .8s ease forwards;
 }
 
-
 .glance-point:nth-child(2) {
   animation-delay: .25s;
 }
-
 
 .glance-point:nth-child(3) {
   animation-delay: .45s;
 }
 
-
 .glance-point:nth-child(4) {
   animation-delay: .65s;
 }
-
 
 .glance-point small {
   color: #c49448;
@@ -5649,7 +5222,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   letter-spacing: 2px;
 }
-
 
 .glance-point h3 {
   margin: 0;
@@ -5666,7 +5238,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   font-weight: 500;
 }
 
-
 .glance-point p {
   max-width: 500px;
 
@@ -5678,7 +5249,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   line-height: 1.8;
 }
-
 
 /* LARGE BACKGROUND WORD */
 
@@ -5711,7 +5281,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     8s ease-in-out infinite alternate;
 }
 
-
 /* GLOW ORBS */
 
 .about-glance-orb {
@@ -5723,7 +5292,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
   filter: blur(10px);
 }
-
 
 .orb-one {
   width: 420px;
@@ -5740,7 +5308,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     );
 }
 
-
 .orb-two {
   width: 360px;
   height: 360px;
@@ -5755,7 +5322,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
       transparent 70%
     );
 }
-
 
 /* ======================================
    ANIMATION
@@ -5783,7 +5349,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 @keyframes glanceFadeUp {
 
   from {
@@ -5798,7 +5363,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 @keyframes glancePointIn {
 
   to {
@@ -5807,7 +5371,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 @keyframes glanceLine {
 
@@ -5820,7 +5383,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 @keyframes glanceVerticalLine {
 
@@ -5838,7 +5400,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 }
 
-
 @keyframes glanceWordFloat {
 
   from {
@@ -5854,7 +5415,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* TABLET */
 
@@ -5876,7 +5436,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
-
 
 /* MOBILE */
 
@@ -5947,7 +5506,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     height: calc(100svh - 70px) !important;
   }
 
-
   /* MAIN CONTENT */
   .hero .hero-content {
     width: 100% !important;
@@ -5963,7 +5521,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     align-items: center !important;
   }
 
-
   .hero-copy {
     width: 100% !important;
     max-width: 100% !important;
@@ -5971,7 +5528,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     padding: 0 !important;
     margin: 0 !important;
   }
-
 
   /* SMALL TOP TITLE */
   .hero-small-title {
@@ -5984,7 +5540,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   .hero-line {
     width: 30px !important;
   }
-
 
   /* TAMIL MAIN HEADING */
   .tamil-type-heading {
@@ -6003,7 +5558,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     word-break: normal;
   }
 
-
   /* DESCRIPTION */
   .hero-copy > p {
     width: 100% !important;
@@ -6018,7 +5572,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     line-height: 1.7 !important;
   }
 
-
   /* BUTTON AREA */
   .hero-actions {
     width: 100% !important;
@@ -6028,7 +5581,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
     gap: 10px !important;
   }
-
 
   .hero-btn {
     width: 100% !important;
@@ -6041,19 +5593,16 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     font-size: 11px !important;
   }
 
-
   /* SLIDER CONTROLS */
   .slider-controls {
     right: 16px !important;
     bottom: 22px !important;
   }
 
-
   .slider-arrow {
     width: 42px !important;
     height: 42px !important;
   }
-
 
   /* SCROLL */
   .scroll-down {
@@ -6080,7 +5629,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin-right: auto !important;
   }
 
-
   /* =====================================================
      ABOUT PREMIUM
   ===================================================== */
@@ -6089,7 +5637,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     padding: 70px 0 75px !important;
     overflow: hidden !important;
   }
-
 
   .about-premium-grid {
     width: 100% !important;
@@ -6103,7 +5650,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin: 0 !important;
   }
 
-
   .about-premium-content {
     width: 100% !important;
     max-width: 100% !important;
@@ -6112,14 +5658,12 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin: 0 !important;
   }
 
-
   .about-label {
     margin-bottom: 14px !important;
 
     font-size: 9px !important;
     letter-spacing: 2.4px !important;
   }
-
 
   .about-premium-content h2 {
     width: 100% !important;
@@ -6134,7 +5678,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     word-break: normal !important;
   }
 
-
   .about-premium-content h2 span {
     display: block !important;
 
@@ -6144,7 +5687,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     line-height: 1.5 !important;
   }
 
-
   .about-premium-content p,
   .about-lead {
     width: 100% !important;
@@ -6153,7 +5695,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     font-size: 13px !important;
     line-height: 1.85 !important;
   }
-
 
   .about-highlight {
     width: 100% !important;
@@ -6166,7 +5707,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin: 28px 0 !important;
   }
 
-
   .about-link {
     display: inline-flex !important;
 
@@ -6175,7 +5715,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     font-size: 11px !important;
   }
 
-
   /* IMAGE */
   .about-premium-image {
     width: 100% !important;
@@ -6183,7 +5722,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     padding: 0 !important;
     margin: 0 !important;
   }
-
 
   .about-image-frame {
     width: 100% !important;
@@ -6198,7 +5736,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     overflow: hidden !important;
   }
 
-
   .about-image-frame img {
     width: 100% !important;
     height: 100% !important;
@@ -6207,25 +5744,21 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     object-position: center !important;
   }
 
-
   .about-image-caption {
     left: 22px !important;
     right: 22px !important;
     bottom: 28px !important;
   }
 
-
   .about-image-caption small {
     font-size: 7px !important;
     letter-spacing: 1.4px !important;
   }
 
-
   .about-image-caption strong {
     font-size: 26px !important;
     line-height: 1.1 !important;
   }
-
 
   /* GOLD BOX */
   .about-gold-box {
@@ -6241,17 +5774,14 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     transform: none !important;
   }
 
-
   .about-gold-box span {
     font-size: 20px !important;
   }
-
 
   .about-gold-box p {
     font-size: 16px !important;
     line-height: 1.25 !important;
   }
-
 
   /* =====================================================
      RITUAL JOURNEY
@@ -6262,7 +5792,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     overflow: hidden !important;
   }
 
-
   .ritual-journey-head {
     width: 100% !important;
     max-width: 100% !important;
@@ -6272,12 +5801,10 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     padding: 0 !important;
   }
 
-
   .ritual-journey-kicker {
     font-size: 9px !important;
     letter-spacing: 2.4px !important;
   }
-
 
   .ritual-journey-head h2 {
     font-size: 36px !important;
@@ -6286,17 +5813,14 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin: 14px 0 18px !important;
   }
 
-
   .ritual-journey-head h2 span {
     display: block !important;
   }
-
 
   .ritual-journey-head p {
     font-size: 13px !important;
     line-height: 1.8 !important;
   }
-
 
   /* TIMELINE */
   .ritual-timeline {
@@ -6306,7 +5830,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
     padding-left: 58px !important;
   }
-
 
   .ritual-line {
     position: absolute !important;
@@ -6319,7 +5842,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
     transform: none !important;
   }
-
 
   /* STEP */
   .ritual-step,
@@ -6338,7 +5860,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
     transform: none !important;
   }
-
 
   /* NUMBER CIRCLE */
   .ritual-step .ritual-number {
@@ -6361,7 +5882,6 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     z-index: 4 !important;
   }
 
-
   /* CARD */
   .ritual-card {
     width: 100% !important;
@@ -6376,12 +5896,10 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     overflow: hidden !important;
   }
 
-
   .ritual-card-content {
     width: 100% !important;
     max-width: 100% !important;
   }
-
 
   .ritual-icon {
     width: 56px !important;
@@ -6390,12 +5908,10 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin-bottom: 28px !important;
   }
 
-
   .ritual-card small {
     font-size: 8px !important;
     letter-spacing: 1.8px !important;
   }
-
 
   .ritual-card h3 {
     font-size: 31px !important;
@@ -6404,12 +5920,10 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
     margin: 12px 0 14px !important;
   }
 
-
   .ritual-card p {
     font-size: 13px !important;
     line-height: 1.75 !important;
   }
-
 
   /* JOURNEY BOTTOM */
   .ritual-journey-bottom {
@@ -6515,8 +6029,1458 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
 
 
 
+
 app-root:has(app-admin-layout) > header,
 app-root:has(app-admin-layout) > nav,
 app-root:has(app-admin-layout) > footer {
   display: none !important;
 }
+=======
+/* =========================================
+   PRODUCT SHOPPING BUTTONS
+========================================= */
+
+.product-shopping-actions {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 9px;
+
+  margin-top: 17px;
+}
+
+/* ADD TO CART */
+
+.product-add-cart {
+  min-height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 13px;
+
+  border:
+    1px solid rgba(237, 205, 95, 0.7);
+
+  border-radius: 6px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: #f2d367;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background .3s ease,
+    color .3s ease,
+    transform .3s ease,
+    border-color .3s ease;
+}
+
+.product-add-cart i {
+  font-size: 12px;
+}
+
+.product-add-cart:hover {
+  background: #ffffff;
+
+  border-color: #ffffff;
+
+  color: #16432c;
+
+  transform: translateY(-2px);
+}
+
+/* BUY NOW */
+
+.product-buy-now {
+  min-height: 43px;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 13px;
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #edcb59,
+      #cfa337
+    );
+
+  color: #123a26 !important;
+
+  font-size: 10px !important;
+  font-weight: 800 !important;
+
+  text-transform: uppercase;
+  letter-spacing: .6px;
+
+  box-shadow:
+    0 8px 20px
+    rgba(213, 169, 55, .22);
+
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+.product-buy-now:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 28px
+    rgba(213,169,55,.35);
+}
+/* =========================================
+   NAVBAR CART
+========================================= */
+
+.navbar-cart {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid rgba(229, 198, 76, .45);
+  border-radius: 50%;
+
+  color: #f0cf55 !important;
+
+  background: rgba(255,255,255,.05);
+
+  font-size: 16px;
+
+  transition:
+    background .3s ease,
+    color .3s ease,
+    transform .3s ease;
+}
+
+.navbar-cart:hover {
+  background: #e5c64c;
+
+  color: #0b4227 !important;
+
+  transform: translateY(-2px);
+}
+
+.navbar-cart-count {
+  position: absolute;
+
+  top: -4px;
+  right: -4px;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #0b4a2a;
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  color: #0b4227;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+/* ========================================
+   3 LANGUAGE SWITCH
+======================================== */
+
+.language-switch {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 4px;
+
+  border:
+    1px solid rgba(229, 198, 76, 0.35);
+
+  border-radius: 30px;
+
+  background:
+    rgba(255,255,255,0.05);
+}
+
+.language-switch button {
+  min-width: 37px;
+  height: 31px;
+
+  padding: 0 9px;
+
+  border: 0;
+  border-radius: 20px;
+
+  background: transparent;
+
+  color:
+    rgba(255,255,255,0.65);
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background .3s ease,
+    color .3s ease;
+}
+
+.language-switch button.active {
+  background: #e5c64c;
+
+  color: #0b4227;
+}
+
+.language-switch button:hover {
+  color: #f1d462;
+}
+
+/* HERO TYPING */
+
+.hero-main-title {
+  min-height: 180px;
+}
+
+.hero-typing-cursor {
+  display: inline-block;
+  margin-left: 4px;
+  font-weight: 300;
+  animation: heroCursorBlink 0.7s infinite;
+}
+
+@keyframes heroCursorBlink {
+
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  46%,
+  100% {
+    opacity: 0;
+  }
+
+}
+
+/* Tamil */
+
+.hero-main-title.tamil-title {
+  font-size: clamp(36px, 4.2vw, 62px) !important;
+  line-height: 1.28 !important;
+}
+
+/* Hindi */
+
+.hero-main-title.hindi-title {
+  font-size: clamp(38px, 4.4vw, 64px) !important;
+  line-height: 1.28 !important;
+}
+
+@media (max-width: 768px) {
+
+  .hero-main-title {
+    min-height: 150px;
+  }
+
+  .hero-main-title.tamil-title,
+  .hero-main-title.hindi-title {
+    font-size: 32px !important;
+    line-height: 1.35 !important;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .hero-main-title {
+    min-height: 135px;
+  }
+
+  .hero-main-title.tamil-title,
+  .hero-main-title.hindi-title {
+    font-size: 26px !important;
+  }
+
+}
+/* WHY LABEL - TAMIL ONLY */
+
+.why-label.tamil-why-label {
+  font-size: 11px !important;
+  letter-spacing: 1.5px !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .why-label.tamil-why-label {
+    font-size: 9px !important;
+    letter-spacing: 1px !important;
+  }
+
+}
+/* WHY CHOOSE US TITLE - TAMIL ONLY */
+
+.why-heading h2.tamil-why-title {
+  font-size: 44px !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+
+.why-heading h2.tamil-why-title span {
+  font-size: 42px !important;
+  line-height: 1.3 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .why-heading h2.tamil-why-title {
+    font-size: 29px !important;
+    line-height: 1.35 !important;
+  }
+
+  .why-heading h2.tamil-why-title span {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+}
+/* FAQ TITLE - TAMIL ONLY */
+
+.faq-heading h2.tamil-faq-title {
+  font-size: 44px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.faq-heading h2.tamil-faq-title span {
+  font-size: 42px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .faq-heading h2.tamil-faq-title {
+    font-size: 29px !important;
+    line-height: 1.4 !important;
+  }
+
+  .faq-heading h2.tamil-faq-title span {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+}
+/* FAQ QUESTION - TAMIL ONLY */
+
+h3.tamil-faq-question {
+  font-size: 17px !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h3.tamil-faq-question {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+}
+/* ABOUT AT A GLANCE TITLE - TAMIL ONLY */
+
+.glance-heading h2.tamil-glance-title,
+h2.tamil-glance-title {
+  font-size: 44px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.glance-heading h2.tamil-glance-title span,
+h2.tamil-glance-title span {
+  font-size: 42px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .glance-heading h2.tamil-glance-title,
+  h2.tamil-glance-title {
+    font-size: 29px !important;
+    line-height: 1.4 !important;
+  }
+
+  .glance-heading h2.tamil-glance-title span,
+  h2.tamil-glance-title span {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+}
+/* ABOUT HERO TITLE - TAMIL ONLY */
+
+.about-video-content h1.tamil-about-hero-title {
+  font-size: 48px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.about-video-content h1.tamil-about-hero-title span {
+  font-size: 44px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .about-video-content h1.tamil-about-hero-title {
+    font-size: 30px !important;
+    line-height: 1.4 !important;
+  }
+
+  .about-video-content h1.tamil-about-hero-title span {
+    font-size: 27px !important;
+    line-height: 1.45 !important;
+  }
+}
+/* JOURNEY TITLE - TAMIL ONLY */
+
+.ritual-journey-head h2.tamil-journey-title {
+  font-size: 42px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.ritual-journey-head h2.tamil-journey-title span {
+  font-size: 39px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .ritual-journey-head h2.tamil-journey-title {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+
+  .ritual-journey-head h2.tamil-journey-title span {
+    font-size: 25px !important;
+    line-height: 1.45 !important;
+  }
+}
+/* FOOTER BRAND TITLE - TAMIL ONLY */
+
+.footer-brand h2.tamil-footer-title {
+  font-size: 32px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.footer-brand h2.tamil-footer-title span {
+  font-size: 28px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .footer-brand h2.tamil-footer-title {
+    font-size: 25px !important;
+    line-height: 1.4 !important;
+  }
+
+  .footer-brand h2.tamil-footer-title span {
+    font-size: 22px !important;
+    line-height: 1.4 !important;
+  }
+
+}
+/* HERO TITLE - TAMIL ONLY */
+
+h1.tamil-hero-small {
+  font-size: 46px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+h1.tamil-hero-small span {
+  font-size: 42px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h1.tamil-hero-small {
+    font-size: 28px !important;
+    line-height: 1.4 !important;
+  }
+
+  h1.tamil-hero-small span {
+    font-size: 25px !important;
+    line-height: 1.4 !important;
+  }
+
+}
+/* SELECTED PRODUCT TITLE - TAMIL ONLY */
+
+.product-video-info h2.tamil-product-title {
+  font-size: 34px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .product-video-info h2.tamil-product-title {
+    font-size: 24px !important;
+    line-height: 1.4 !important;
+  }
+}
+/* COLLECTION TITLE - TAMIL ONLY */
+
+.products-heading-grid h2.tamil-collection-title {
+  font-size: 40px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.products-heading-grid h2.tamil-collection-title span {
+  font-size: 37px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .products-heading-grid h2.tamil-collection-title {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+
+  .products-heading-grid h2.tamil-collection-title span {
+    font-size: 24px !important;
+    line-height: 1.45 !important;
+  }
+}
+/* VISION TITLE - TAMIL ONLY */
+
+h2.tamil-vision-title {
+  font-size: 40px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+h2.tamil-vision-title span {
+  font-size: 37px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h2.tamil-vision-title {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+
+  h2.tamil-vision-title span {
+    font-size: 24px !important;
+    line-height: 1.45 !important;
+  }
+
+}
+/* SPECIALS HERO TITLE - TAMIL ONLY */
+
+h1.tamil-specials-hero-title {
+  font-size: 44px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+h1.tamil-specials-hero-title span {
+  font-size: 40px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h1.tamil-specials-hero-title {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+
+  h1.tamil-specials-hero-title span {
+    font-size: 24px !important;
+    line-height: 1.45 !important;
+  }
+}
+/* CONTACT VISIT TITLE - TAMIL ONLY */
+
+h2.tamil-visit-title {
+  font-size: 38px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0 !important;
+}
+
+h2.tamil-visit-title span {
+  font-size: 35px !important;
+  line-height: 1.4 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h2.tamil-visit-title {
+    font-size: 26px !important;
+    line-height: 1.45 !important;
+  }
+
+  h2.tamil-visit-title span {
+    font-size: 23px !important;
+    line-height: 1.5 !important;
+  }
+}
+/* =========================================
+}
+
+/* =========================================================
+   MOBILE NAVBAR - SINGLE FINAL SOURCE OF TRUTH
+   Keep this block at the very bottom of styles.css
+========================================================= */
+@media (max-width: 768px) {
+  .site-header {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    overflow: visible !important;
+  }
+
+  .site-header .nav-wrap.container,
+  .site-header .nav-wrap {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 72px !important;
+    margin: 0 !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .site-header .brand {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    gap: 8px !important;
+  }
+
+  .site-header .brand-mark {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    font-size: 20px !important;
+  }
+
+  .site-header .brand > span:last-child {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .site-header .brand strong {
+    display: block !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .site-header .brand small {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: 7px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 1px !important;
+    white-space: nowrap !important;
+  }
+
+  .site-header .language-switch {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 2px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1px !important;
+    border-radius: 25px !important;
+  }
+
+  .site-header .language-switch button {
+    width: auto !important;
+    min-width: 25px !important;
+    height: 25px !important;
+    padding: 0 4px !important;
+    font-size: 6px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .site-header .language-switch button:first-child {
+    min-width: 31px !important;
+  }
+
+  .site-header .nav-hamburger {
+    flex: 0 0 36px !important;
+    display: flex !important;
+    width: 36px !important;
+    height: 36px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  .site-header .nav-hamburger span {
+    width: 16px !important;
+    height: 2px !important;
+  }
+
+  .site-header .main-nav {
+    position: absolute !important;
+    top: 72px !important;
+    left: 14px !important;
+    right: 14px !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 12px 18px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    background: #0b3b29 !important;
+    border-radius: 0 0 16px 16px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-8px) !important;
+    transition: opacity .3s ease, transform .3s ease, visibility .3s ease !important;
+  }
+
+  .site-header .main-nav.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+
+  .site-header .main-nav > a {
+    width: 100% !important;
+    padding: 13px 4px !important;
+    text-align: left !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  .site-header .main-nav > a:last-child {
+    border-bottom: none !important;
+  }
+
+  .site-header .main-nav .navbar-cart {
+    width: 42px !important;
+    height: 42px !important;
+    margin-top: 10px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header .nav-wrap.container,
+  .site-header .nav-wrap {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    gap: 6px !important;
+  }
+
+  .site-header .brand {
+    gap: 6px !important;
+  }
+
+  .site-header .brand-mark {
+    flex-basis: 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    font-size: 18px !important;
+  }
+
+  .site-header .brand strong {
+    font-size: 12px !important;
+  }
+
+  .site-header .brand small {
+    font-size: 6px !important;
+    letter-spacing: .8px !important;
+  }
+
+  .site-header .language-switch button {
+    min-width: 22px !important;
+    height: 23px !important;
+    padding: 0 3px !important;
+    font-size: 5.5px !important;
+  }
+
+  .site-header .language-switch button:first-child {
+    min-width: 28px !important;
+  }
+
+  .site-header .nav-hamburger {
+    flex-basis: 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .site-header .main-nav {
+    left: 10px !important;
+    right: 10px !important;
+  }
+}
+/* =========================================================
+   HOME + CONTACT MOBILE WIDTH FIX
+========================================================= */
+
+@media (max-width: 768px) {
+
+  /* Prevent Home + Contact from affecting viewport width */
+  app-home,
+  app-contact,
+  .contact-page,
+  .hero {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    overflow-x: hidden !important;
+
+    box-sizing: border-box !important;
+  }
+
+
+  /* ===============================
+     HOME
+  =============================== */
+
+  app-home .hero {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  app-home .hero-slider,
+  app-home .hero-slide,
+  app-home .hero-vignette {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  app-home .hero-content {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+
+    box-sizing: border-box !important;
+  }
+
+
+  /* ===============================
+     CONTACT
+  =============================== */
+
+  app-contact .contact-page {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow-x: hidden !important;
+  }
+
+  app-contact .contact-hero {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    border-radius: 0 0 24px 24px !important;
+
+    box-sizing: border-box !important;
+  }
+
+  app-contact .contact-hero-image {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  app-contact .contact-premium {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    overflow-x: hidden !important;
+  }
+}
+
+
+/* VERY SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+  app-home .hero-content {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  app-contact .contact-hero {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+}
+/* MISSION TITLE - TAMIL ONLY */
+
+h2.tamil-mission-title {
+  font-size: 40px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+h2.tamil-mission-title span {
+  font-size: 37px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h2.tamil-mission-title {
+    font-size: 27px !important;
+    line-height: 1.4 !important;
+  }
+
+  h2.tamil-mission-title span {
+    font-size: 24px !important;
+    line-height: 1.45 !important;
+  }
+}
+/* =========================================
+   SANTHAN JOURNEY - ALL TEXT SMALLER
+========================================= */
+
+/* Top small label */
+.santhan-kicker {
+  font-size: 9px !important;
+  letter-spacing: 3px !important;
+}
+
+/* Main heading */
+.santhan-head h2 {
+  font-size: 42px !important;
+  line-height: 1.18 !important;
+}
+
+.santhan-head h2 em {
+  font-size: 38px !important;
+  line-height: 1.22 !important;
+}
+
+/* Description below heading */
+.santhan-head > p {
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+  max-width: 480px !important;
+}
+
+/* 01 / 02 / 03 / 04 */
+.santhan-step .step-no {
+  font-size: 8px !important;
+  letter-spacing: 2px !important;
+}
+
+/* Four step titles */
+.santhan-step h3 {
+  font-size: 20px !important;
+  line-height: 1.35 !important;
+}
+
+/* Four step descriptions */
+.santhan-step > p {
+  font-size: 10px !important;
+  line-height: 1.7 !important;
+}
+
+
+/* =====================
+   MOBILE
+===================== */
+
+@media (max-width: 768px) {
+
+  .santhan-kicker {
+    font-size: 7px !important;
+    letter-spacing: 2px !important;
+  }
+
+  .santhan-head h2 {
+    font-size: 28px !important;
+    line-height: 1.3 !important;
+  }
+
+  .santhan-head h2 em {
+    font-size: 25px !important;
+    line-height: 1.35 !important;
+  }
+
+  .santhan-head > p {
+    font-size: 10px !important;
+    line-height: 1.7 !important;
+  }
+
+  .santhan-step .step-no {
+    font-size: 7px !important;
+  }
+
+  .santhan-step h3 {
+    font-size: 17px !important;
+    line-height: 1.4 !important;
+  }
+
+  .santhan-step > p {
+    font-size: 9px !important;
+    line-height: 1.65 !important;
+  }
+}
+
+
+/* =====================
+   SMALL MOBILE
+===================== */
+
+@media (max-width: 480px) {
+
+  .santhan-head h2 {
+    font-size: 25px !important;
+  }
+
+  .santhan-head h2 em {
+    font-size: 22px !important;
+  }
+
+  .santhan-head > p {
+    font-size: 9px !important;
+  }
+
+  .santhan-step h3 {
+    font-size: 15px !important;
+  }
+
+  .santhan-step > p {
+    font-size: 8.5px !important;
+  }
+}
+/* TRADITION TITLE - TAMIL ONLY */
+
+h2.tamil-tradition-title {
+  font-size: 38px !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+h2.tamil-tradition-title span {
+  font-size: 34px !important;
+  line-height: 1.35 !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  h2.tamil-tradition-title {
+    font-size: 26px !important;
+    line-height: 1.4 !important;
+  }
+
+  h2.tamil-tradition-title span {
+    font-size: 23px !important;
+    line-height: 1.45 !important;
+  }
+}
+/* =========================================
+   CONTACT MOBILE CARD CENTER FIX
+========================================= */
+
+@media (max-width: 768px) {
+
+  .contact-premium {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .contact-premium .container,
+  .contact-premium-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .contact-glass {
+    width: 100% !important;
+    max-width: 360px !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding: 32px 24px !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .contact-map {
+    width: 100% !important;
+    max-width: 360px !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+@media (max-width: 768px) {
+
+  .about-gold-box {
+    right: 16px !important;
+    bottom: 110px !important;
+
+    width: 135px !important;
+    max-width: 42% !important;
+
+    padding: 13px 12px !important;
+  }
+
+  .about-gold-box span {
+    font-size: 14px !important;
+  }
+
+  .about-gold-box p {
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+    margin: 4px 0 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .about-gold-box {
+    right: 14px !important;
+    bottom: 105px !important;
+
+    width: 120px !important;
+    max-width: 40% !important;
+
+    padding: 11px 10px !important;
+  }
+
+  .about-gold-box span {
+    font-size: 12px !important;
+  }
+
+  .about-gold-box p {
+    font-size: 9px !important;
+    line-height: 1.35 !important;
+  }
+
+  .about-image-caption strong {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  .about-image-caption small {
+    font-size: 6px !important;
+  }
+}
+/* ==================================================
+   FINAL FAQ MOBILE FIX
+   ================================================== */
+
+@media screen and (max-width: 600px) {
+
+  .faq-section {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 60px 16px !important;
+    margin: 0 !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .faq-section .faq-wrap {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+  }
+
+
+  /* HEADING */
+
+  .faq-section .faq-head {
+    position: static !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 0 !important;
+    margin: 0 0 35px 0 !important;
+  }
+
+  .faq-section .faq-head h2 {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    font-size: 30px !important;
+    line-height: 1.25 !important;
+
+    overflow-wrap: break-word !important;
+  }
+
+  .faq-section .faq-head h2 span {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
+  .faq-section .faq-head p {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    font-size: 12px !important;
+    line-height: 1.8 !important;
+
+    margin-top: 18px !important;
+  }
+
+
+  /* FAQ LIST */
+
+  .faq-section .faq-list {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+  }
+
+
+  /* EACH QUESTION */
+
+  .faq-section .faq-item {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+
+  /* QUESTION ROW */
+
+  .faq-section .faq-item summary {
+    display: grid !important;
+
+    grid-template-columns: 28px minmax(0, 1fr) 30px !important;
+
+    column-gap: 8px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    min-width: 0 !important;
+
+    min-height: 80px !important;
+
+    padding: 14px 0 !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+  }
+
+
+  /* NUMBER */
+
+  .faq-section .faq-no {
+    width: 28px !important;
+    min-width: 0 !important;
+
+    font-size: 9px !important;
+    letter-spacing: 1px !important;
+  }
+
+
+  /* QUESTION TEXT */
+
+  .faq-section .faq-item summary h3 {
+    display: block !important;
+
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+
+    transform: none !important;
+  }
+
+
+  /* REMOVE HOVER MOVEMENT ON MOBILE */
+
+  .faq-section .faq-item summary:hover h3 {
+    transform: none !important;
+  }
+
+
+  /* + ICON */
+
+  .faq-section .faq-icon {
+    width: 28px !important;
+    height: 28px !important;
+
+    min-width: 28px !important;
+
+    font-size: 17px !important;
+
+    justify-self: end !important;
+  }
+
+
+  /* ANSWER */
+
+  .faq-section .faq-answer {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 0 36px 24px 36px !important;
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+  }
+
+  .faq-section .faq-answer p {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    font-size: 11px !important;
+    line-height: 1.75 !important;
+
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+  }
+}
+

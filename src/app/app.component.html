@@ -2,35 +2,45 @@
 
   <div class="container nav-wrap">
 
+    <!-- BRAND -->
     <a
       class="brand"
       routerLink="/"
       (click)="closeMenu()"
     >
-      <span class="brand-mark">ॐ</span>
+
+      <span class="brand-mark">
+        ॐ
+      </span>
 
       <span>
-        <strong>Madurai Meenakshi</strong>
-        <small>Santhana Kadai</small>
+
+        <strong>
+          {{
+            language === 'ta'
+              ? 'மதுரை மீனாட்சி'
+              : language === 'hi'
+              ? 'मदुरै मीनाक्षी'
+              : 'Madurai Meenakshi'
+          }}
+        </strong>
+
+        <small>
+          {{
+            language === 'ta'
+              ? 'சந்தனக் கடை'
+              : language === 'hi'
+              ? 'चंदन दुकान'
+              : 'Santhana Kadai'
+          }}
+        </small>
+
       </span>
+
     </a>
 
 
-    <!-- MOBILE HAMBURGER BUTTON -->
-    <button
-      type="button"
-      class="nav-hamburger"
-      [class.open]="menuOpen"
-      (click)="toggleMenu()"
-      aria-label="Toggle navigation"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-
-    <!-- NAVIGATION -->
+    <!-- DESKTOP NAVIGATION -->
     <nav
       class="main-nav"
       [class.open]="menuOpen"
@@ -42,42 +52,140 @@
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeMenu()"
       >
-        Home
+        {{
+          language === 'ta'
+            ? 'முகப்பு'
+            : language === 'hi'
+            ? 'होम'
+            : 'Home'
+        }}
       </a>
+
 
       <a
         routerLink="/about"
         routerLinkActive="active-link"
         (click)="closeMenu()"
       >
-        About
+        {{
+          language === 'ta'
+            ? 'எங்களைப் பற்றி'
+            : language === 'hi'
+            ? 'हमारे बारे में'
+            : 'About'
+        }}
       </a>
+
 
       <a
         routerLink="/products"
         routerLinkActive="active-link"
         (click)="closeMenu()"
       >
-        Products
+        {{
+          language === 'ta'
+            ? 'பொருட்கள்'
+            : language === 'hi'
+            ? 'उत्पाद'
+            : 'Products'
+        }}
       </a>
+
 
       <a
         routerLink="/specials"
         routerLinkActive="active-link"
         (click)="closeMenu()"
       >
-        Specials
+        {{
+          language === 'ta'
+            ? 'பாரம்பரியம்'
+            : language === 'hi'
+            ? 'परंपरा'
+            : 'Specials'
+        }}
       </a>
+
 
       <a
         routerLink="/contact"
         routerLinkActive="active-link"
         (click)="closeMenu()"
       >
-        Contact
+        {{
+          language === 'ta'
+            ? 'தொடர்பு'
+            : language === 'hi'
+            ? 'संपर्क'
+            : 'Contact'
+        }}
+      </a>
+
+
+      <!-- CART -->
+      <a
+        routerLink="/cart"
+        class="navbar-cart"
+        aria-label="Cart"
+      >
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        <span class="navbar-cart-count">
+          0
+        </span>
+
       </a>
 
     </nav>
+
+
+    <!-- LANGUAGE SWITCH -->
+    <div class="language-switch">
+
+      <button
+        type="button"
+        [class.active]="language === 'ta'"
+        (click)="changeLanguage('ta')"
+      >
+        தமிழ்
+      </button>
+
+
+      <button
+        type="button"
+        [class.active]="language === 'en'"
+        (click)="changeLanguage('en')"
+      >
+        EN
+      </button>
+
+
+      <button
+        type="button"
+        [class.active]="language === 'hi'"
+        (click)="changeLanguage('hi')"
+      >
+        हिंदी
+      </button>
+
+    </div>
+
+
+    <!-- MOBILE HAMBURGER -->
+    <button
+      type="button"
+      class="nav-hamburger"
+      [class.open]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Toggle navigation"
+    >
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </button>
 
   </div>
 
@@ -93,16 +201,22 @@
 
   <div class="container footer-container">
 
-    <!-- TAMIL DEVOTIONAL MESSAGE -->
+    <!-- DEVOTIONAL MESSAGE -->
     <div class="footer-devotional">
 
       <span class="devotional-symbol">✦</span>
 
       <p class="devotional-small">
-        மதுரை மீனாட்சி தாயே
-      </p>
 
-    
+        {{
+          language === 'ta'
+            ? 'மதுரை மீனாட்சி தாயே'
+            : language === 'hi'
+            ? 'मदुरै मीनाक्षी माता'
+            : 'Madurai Meenakshi Amman'
+        }}
+
+      </p>
 
       <div class="devotional-line">
         <span></span>
@@ -120,46 +234,87 @@
       <div class="footer-brand">
 
         <span class="footer-small-title">
-          MADURAI • TRADITION • DEVOTION
+
+          {{
+            language === 'ta'
+              ? 'மதுரை • பாரம்பரியம் • பக்தி'
+              : language === 'hi'
+              ? 'मदुरै • परंपरा • भक्ति'
+              : 'MADURAI • TRADITION • DEVOTION'
+          }}
+
         </span>
 
-        <h2>
-          Madurai Meenakshi
-          <span>Santhana Kadai</span>
-        </h2>
+
+     <h2 [class.tamil-footer-title]="language === 'ta'">
+
+  {{
+    language === 'ta'
+      ? 'மதுரை மீனாட்சி'
+      : language === 'hi'
+      ? 'मदुरै मीनाक्षी'
+      : 'Madurai Meenakshi'
+  }}
+
+  <span>
+    {{
+      language === 'ta'
+        ? 'சந்தனக் கடை'
+        : language === 'hi'
+        ? 'चंदन दुकान'
+        : 'Santhana Kadai'
+    }}
+  </span>
+
+</h2>
+
 
         <p>
-          Traditional santhanam and pooja essentials,
-          bringing the sacred fragrance and warmth of
-          Madurai into every prayer.
+
+          {{
+            language === 'ta'
+              ? 'பாரம்பரிய சந்தனம் மற்றும் பூஜைப் பொருட்கள், மதுரையின் புனித மணத்தையும் பக்தி நிறைந்த வெப்பத்தையும் உங்கள் ஒவ்வொரு பூஜைக்கும் கொண்டு வருகிறது.'
+              : language === 'hi'
+              ? 'पारंपरिक चंदन और पूजा सामग्री, मदुरै की पवित्र सुगंध और भक्ति की आत्मीयता को आपकी हर पूजा तक पहुँचाती है।'
+              : 'Traditional santhanam and pooja essentials, bringing the sacred fragrance and warmth of Madurai into every prayer.'
+          }}
+
         </p>
 
 
         <!-- SOCIAL MEDIA -->
         <div class="footer-socials">
 
-          <a href="#"
-             aria-label="Instagram"
-             title="Instagram">
+          <a
+            href="#"
+            aria-label="Instagram"
+            title="Instagram"
+          >
             <i class="fa-brands fa-instagram"></i>
           </a>
 
-          <a href="#"
-             aria-label="Facebook"
-             title="Facebook">
+          <a
+            href="#"
+            aria-label="Facebook"
+            title="Facebook"
+          >
             <i class="fa-brands fa-facebook-f"></i>
           </a>
 
-          <a href="#"
-             aria-label="YouTube"
-             title="YouTube">
+          <a
+            href="#"
+            aria-label="YouTube"
+            title="YouTube"
+          >
             <i class="fa-brands fa-youtube"></i>
           </a>
 
-          <a href="https://wa.me/919042111424"
-             target="_blank"
-             aria-label="WhatsApp"
-             title="WhatsApp">
+          <a
+            href="https://wa.me/919042111424"
+            target="_blank"
+            aria-label="WhatsApp"
+            title="WhatsApp"
+          >
             <i class="fa-brands fa-whatsapp"></i>
           </a>
 
@@ -171,13 +326,82 @@
       <!-- QUICK LINKS -->
       <div class="footer-column">
 
-        <span class="footer-title">EXPLORE</span>
+        <span class="footer-title">
 
-        <a routerLink="/">Home</a>
-        <a routerLink="/about">Our Story</a>
-        <a routerLink="/products">Collection</a>
-        <a routerLink="/specials">Tradition</a>
-        <a routerLink="/contact">Contact</a>
+          {{
+            language === 'ta'
+              ? 'விரைவு இணைப்புகள்'
+              : language === 'hi'
+              ? 'त्वरित लिंक'
+              : 'EXPLORE'
+          }}
+
+        </span>
+
+
+        <a routerLink="/">
+
+          {{
+            language === 'ta'
+              ? 'முகப்பு'
+              : language === 'hi'
+              ? 'होम'
+              : 'Home'
+          }}
+
+        </a>
+
+
+        <a routerLink="/about">
+
+          {{
+            language === 'ta'
+              ? 'எங்கள் கதை'
+              : language === 'hi'
+              ? 'हमारी कहानी'
+              : 'Our Story'
+          }}
+
+        </a>
+
+
+        <a routerLink="/products">
+
+          {{
+            language === 'ta'
+              ? 'பொருட்கள்'
+              : language === 'hi'
+              ? 'संग्रह'
+              : 'Collection'
+          }}
+
+        </a>
+
+
+        <a routerLink="/specials">
+
+          {{
+            language === 'ta'
+              ? 'பாரம்பரியம்'
+              : language === 'hi'
+              ? 'परंपरा'
+              : 'Tradition'
+          }}
+
+        </a>
+
+
+        <a routerLink="/contact">
+
+          {{
+            language === 'ta'
+              ? 'தொடர்பு'
+              : language === 'hi'
+              ? 'संपर्क'
+              : 'Contact'
+          }}
+
+        </a>
 
       </div>
 
@@ -185,21 +409,80 @@
       <!-- CONTACT -->
       <div class="footer-column">
 
-        <span class="footer-title">VISIT US</span>
+        <span class="footer-title">
+
+          {{
+            language === 'ta'
+              ? 'எங்களை சந்திக்க'
+              : language === 'hi'
+              ? 'हमसे मिलें'
+              : 'VISIT US'
+          }}
+
+        </span>
+
 
         <p>
-          Madurai,<br>
-          Tamil Nadu
+
+          {{
+            language === 'ta'
+              ? 'மதுரை,'
+              : language === 'hi'
+              ? 'मदुरै,'
+              : 'Madurai,'
+          }}
+
+          <br>
+
+          {{
+            language === 'ta'
+              ? 'தமிழ்நாடு'
+              : language === 'hi'
+              ? 'तमिलनाडु'
+              : 'Tamil Nadu'
+          }}
+
         </p>
+
 
         <p>
-          Daily<br>
-          Morning to Evening
+
+          {{
+            language === 'ta'
+              ? 'தினமும்'
+              : language === 'hi'
+              ? 'प्रतिदिन'
+              : 'Daily'
+          }}
+
+          <br>
+
+          {{
+            language === 'ta'
+              ? 'காலை முதல் மாலை வரை'
+              : language === 'hi'
+              ? 'सुबह से शाम तक'
+              : 'Morning to Evening'
+          }}
+
         </p>
 
-        <a routerLink="/contact" class="footer-direction">
-          Get Directions
+
+        <a
+          routerLink="/contact"
+          class="footer-direction"
+        >
+
+          {{
+            language === 'ta'
+              ? 'வழிகாட்டுதல் பெற'
+              : language === 'hi'
+              ? 'दिशा देखें'
+              : 'Get Directions'
+          }}
+
           <span>→</span>
+
         </a>
 
       </div>
@@ -211,14 +494,28 @@
     <div class="footer-bottom">
 
       <p>
-        © 2026 Madurai Meenakshi Santhana Kadai.
-        All Rights Reserved.
+
+        {{
+          language === 'ta'
+            ? '© 2026 மதுரை மீனாட்சி சந்தனக் கடை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.'
+            : language === 'hi'
+            ? '© 2026 मदुरै मीनाक्षी चंदन दुकान। सर्वाधिकार सुरक्षित।'
+            : '© 2026 Madurai Meenakshi Santhana Kadai. All Rights Reserved.'
+        }}
+
       </p>
 
-  
 
       <a routerLink="/">
-        Back to Top ↑
+
+        {{
+          language === 'ta'
+            ? 'மேலே செல்ல ↑'
+            : language === 'hi'
+            ? 'ऊपर जाएँ ↑'
+            : 'Back to Top ↑'
+        }}
+
       </a>
 
     </div>
