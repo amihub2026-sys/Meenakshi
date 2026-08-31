@@ -27,33 +27,32 @@
 
   <div class="container about-video-content">
 
-    <div class="about-video-kicker">
-      <span></span>
-      OUR STORY
-    </div>
+   <div class="about-video-kicker">
+  <span></span>
+  {{ text.heroKicker }}
+</div>
 
-    <h1>
-      Rooted in Madurai,
-      <span>Carried by Tradition</span>
-    </h1>
+<h1>
+  {{ text.heroTitle1 }}
+  <span>{{ text.heroTitle2 }}</span>
+</h1>
 
-    <p>
-      A journey inspired by devotion, purity and the timeless
-      spiritual traditions of Madurai.
-    </p>
+<p>
+  {{ text.heroDesc }}
+</p>
 
     <div class="about-video-meta">
 
       <div>
-        <small>HERITAGE</small>
-        <strong>Madurai Tradition</strong>
+     <small>{{ text.heritage }}</small>
+    <strong>{{ text.maduraiTradition }}</strong>
       </div>
 
       <i></i>
 
       <div>
-        <small>PROMISE</small>
-        <strong>Pure & Authentic</strong>
+          <small>{{ text.promise }}</small>
+    <strong>{{ text.pureAuthentic }}</strong>
       </div>
 
     </div>
@@ -62,7 +61,7 @@
 
   <div class="about-scroll-cue">
     <span></span>
-    DISCOVER
+  {{ text.discover }}
   </div>
 
 </section>
@@ -82,51 +81,46 @@
     <!-- LEFT CONTENT -->
     <div class="about-premium-content reveal-left">
 
-      <div class="about-label">
-        <span></span>
-        OUR STORY
-      </div>
+     <div class="about-label">
+  <span></span>
+  {{ text.storyLabel }}
+</div>
 
-      <h2>
-        சந்தன மணம் போல வாழ்வில் அமைதியும்,
-      
+<h2>
+  {{ text.storyTitle1 }}
+  <span>{{ text.storyTitle2 }}</span>
+</h2>
 
-        <span> அம்மன் அருளால் இல்லத்தில் வளமும் நிறையட்டும்.</span>
-      </h2>
+<p class="about-lead">
+  {{ text.storyLead }}
+</p>
 
-      <p class="about-lead">
-        Madurai Meenakshi Santhana Kadai carries forward the familiar
-        warmth of Madurai’s pooja traditions with carefully selected
-        santhanam and devotional essentials.
-      </p>
-
-      <p>
-        From everyday worship to temple visits and family occasions,
-        we bring together trusted products with the comforting feeling
-        of a traditional neighbourhood shop.
-      </p>
+<p>
+  {{ text.storyDesc }}
+</p>
 
       <div class="about-highlight">
 
         <div>
-          <strong>Traditional</strong>
-          <span>Madurai Heritage</span>
-        </div>
+    <strong>{{ text.traditional }}</strong>
+    <span>{{ text.maduraiHeritage }}</span>
+  </div>
 
-        <div>
-          <strong>Pure</strong>
-          <span>Selected Essentials</span>
-        </div>
+  <div>
+    <strong>{{ text.pure }}</strong>
+    <span>{{ text.selectedEssentials }}</span>
+  </div>
 
-        <div>
-          <strong>Trusted</strong>
-          <span>Homely Service</span>
-        </div>
+  <div>
+    <strong>{{ text.trusted }}</strong>
+    <span>{{ text.homelyService }}</span>
+  </div>
+
 
       </div>
 
       <a href="/products" class="about-link">
-        Discover Our Collection
+     {{ text.discoverCollection }}
         <span>→</span>
       </a>
 
@@ -146,15 +140,15 @@
         <div class="about-image-overlay"></div>
 
         <div class="about-image-caption">
-          <small>FROM THE HEART OF MADURAI</small>
-          <strong>Tradition you can feel.</strong>
+          <small>{{ text.imageSmall }}</small>
+  <strong>{{ text.imageTitle }}</strong>
         </div>
 
       </div>
 
       <div class="about-gold-box">
         <span>✦</span>
-        <p>Pure tradition, carefully preserved.</p>
+  <p>{{ text.goldText }}</p>
       </div>
 
     </div>
@@ -172,19 +166,17 @@
 
       <div class="ritual-journey-kicker">
         <span></span>
-        A SACRED JOURNEY
-      </div>
+  {{ text.journeyKicker }}
+</div>
 
-      <h2>
-        From Madurai Tradition
-        <span>To Your Daily Prayer</span>
-      </h2>
+<h2>
+  {{ text.journeyTitle1 }}
+  <span>{{ text.journeyTitle2 }}</span>
+</h2>
 
-      <p>
-        Every pooja begins with purity, fragrance and devotion.
-        Our collection brings the traditional essence of Madurai
-        into every sacred moment.
-      </p>
+<p>
+  {{ text.journeyDesc }}
+</p>
 
     </div>
 
@@ -210,14 +202,9 @@
 
     <div class="ritual-icon">ॐ</div>
 
-    <small>BEGIN WITH PURITY</small>
-
-    <h3>Pure Santhanam</h3>
-
-    <p>
-      Authentic sandalwood selected for pooja,
-      abhishekam and traditional worship.
-    </p>
+   <small>{{ text.step1Small }}</small>
+<h3>{{ text.step1Title }}</h3>
+<p>{{ text.step1Desc }}</p>
 
   </div>
 
@@ -243,15 +230,9 @@
 
     <div class="ritual-icon">✦</div>
 
-    <small>CREATE THE DIVINE SPACE</small>
-
-    <h3>Sacred Fragrance</h3>
-
-    <p>
-      Traditional incense and sambrani that fill
-      your prayer space with a peaceful temple aroma.
-    </p>
-
+   <small>{{ text.step2Small }}</small>
+<h3>{{ text.step2Title }}</h3>
+<p>{{ text.step2Desc }}</p>
   </div>
 
 </div>
@@ -276,15 +257,9 @@
 
     <div class="ritual-icon">❋</div>
 
-    <small>COMPLETE THE PRAYER</small>
-
-    <h3>Pooja Essentials</h3>
-
-    <p>
-      Carefully selected traditional essentials
-      for every festival, prayer and auspicious occasion.
-    </p>
-
+   <small>{{ text.step3Small }}</small>
+<h3>{{ text.step3Title }}</h3>
+<p>{{ text.step3Desc }}</p>
   </div>
 
 </div>
@@ -296,10 +271,10 @@
 
     <div class="ritual-journey-bottom">
 
-      <span>மதுரை மரபு</span>
+  <span>{{ text.journeyBottom }}</span>
 
       <a routerLink="/products">
-        Explore Collection
+    {{ text.exploreCollection }}
         <b>→</b>
       </a>
 
