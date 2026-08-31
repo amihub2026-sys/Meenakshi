@@ -1,0 +1,104 @@
+<div class="dashboard-page">
+
+  <header class="dashboard-header">
+    <div>
+      <p>ADMIN OVERVIEW</p>
+      <h1>Dashboard</h1>
+      <span>
+        Manage your products and customer information.
+      </span>
+    </div>
+
+    <a routerLink="/" target="_blank">
+      View Website
+    </a>
+  </header>
+
+  <section class="statistics-grid">
+
+    <article class="stat-card">
+      <div class="stat-icon">◇</div>
+
+      <div>
+        <strong>{{ totalProducts }}</strong>
+        <span>Total Products</span>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon active-icon">✓</div>
+
+      <div>
+        <strong>{{ activeProducts }}</strong>
+        <span>Active Products</span>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon disabled-icon">–</div>
+
+      <div>
+        <strong>{{ disabledProducts }}</strong>
+        <span>Disabled Products</span>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-icon user-icon">♙</div>
+
+      <div>
+        <strong>{{ totalUsers }}</strong>
+        <span>Customer Details</span>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="quick-actions">
+
+    <div class="section-heading">
+      <p>ADMIN TOOLS</p>
+      <h2>Quick Actions</h2>
+    </div>
+
+    <div class="action-grid">
+
+      <a
+        routerLink="/admin/products"
+        class="action-card"
+      >
+        <div class="action-number">01</div>
+
+        <div>
+          <h3>Manage Products</h3>
+          <p>
+            Add products, update prices, replace images and
+            enable or disable products.
+          </p>
+        </div>
+
+        <span class="action-arrow">→</span>
+      </a>
+
+      <a
+        routerLink="/admin/user-details"
+        class="action-card"
+      >
+        <div class="action-number">02</div>
+
+        <div>
+          <h3>View User Details</h3>
+          <p>
+            View customer names, mobile numbers, email addresses
+            and delivery addresses.
+          </p>
+        </div>
+
+        <span class="action-arrow">→</span>
+      </a>
+
+    </div>
+
+  </section>
+
+</div>

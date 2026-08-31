@@ -1,0 +1,256 @@
+<section class="user-details-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">CUSTOMER MANAGEMENT</p>
+      <h1>User Details</h1>
+      <p>View customer information and manage product orders.</p>
+    </div>
+
+    <span class="order-count">
+      {{ filteredOrders.length }} Orders
+    </span>
+  </header>
+
+  <div
+    *ngIf="message"
+    class="alert"
+    [class.success-alert]="messageType === 'success'"
+    [class.error-alert]="messageType === 'error'"
+  >
+    {{ message }}
+  </div>
+
+  <div class="filters">
+    <input
+      type="search"
+      [(ngModel)]="searchTerm"
+      placeholder="Search name, phone, email or product"
+      aria-label="Search orders"
+    />
+
+    <select [(ngModel)]="statusFilter" aria-label="Filter by status">
+      <option value="all">All statuses</option>
+      <option value="new">New</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="shipped">Shipped</option>
+      <option value="delivered">Delivered</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+
+    <button
+      type="button"
+      class="clear-button"
+      (click)="clearFilters()"
+    >
+      Clear
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="state-box">
+    <div class="loader"></div>
+    <p>Loading customer orders...</p>
+  </div>
+
+  <div
+    *ngIf="!isLoading && filteredOrders.length === 0"
+    class="state-box"
+  >
+    <div class="empty-icon">◇</div>
+    <h2>No customer orders found</h2>
+    <p>Customer orders will appear here after checkout.</p>
+  </div>
+
+  <div
+    *ngIf="!isLoading && filteredOrders.length > 0"
+    class="table-container"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Contact</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Ordered Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td>
+            <strong>{{ order.customerName }}</strong>
+            <small>{{ order.address }}</small>
+          </td>
+
+          <td>
+            <a [href]="'tel:' + order.phone">
+              {{ order.phone }}
+            </a>
+
+            <a [href]="'mailto:' + order.email">
+              {{ order.email }}
+            </a>
+          </td>
+
+          <td>
+            <div class="product-cell">
+              <img
+                *ngIf="order.productImage"
+                [src]="order.productImage"
+                [alt]="order.productName"
+              />
+
+              <div>
+                <strong>{{ order.productName }}</strong>
+                <small>₹{{ order.price }}</small>
+              </div>
+            </div>
+          </td>
+
+          <td>{{ order.quantity }}</td>
+
+          <td>
+            <strong>₹{{ order.total }}</strong>
+          </td>
+
+          <td>
+            <select
+              class="status-select"
+              [ngModel]="order.status"
+              (ngModelChange)="updateStatus(order, $event)"
+              [class]="'status-select status-' + order.status"
+            >
+              <option value="new">New</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </td>
+
+          <td>
+            {{ order.createdAt | date:'dd MMM yyyy, h:mm a' }}
+          </td>
+
+          <td>
+            <div class="action-buttons">
+              <button
+                type="button"
+                class="view-button"
+                (click)="viewOrder(order)"
+              >
+                View
+              </button>
+
+              <button
+                type="button"
+                class="delete-button"
+                (click)="deleteOrder(order)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div
+  *ngIf="selectedOrder"
+  class="modal-backdrop"
+  (click)="closeOrderDetails()"
+>
+  <article
+    class="order-modal"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="modal-header">
+      <div>
+        <p class="eyebrow">ORDER DETAILS</p>
+        <h2>{{ selectedOrder.customerName }}</h2>
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="closeOrderDetails()"
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </header>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <span>Customer name</span>
+        <strong>{{ selectedOrder.customerName }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Phone number</span>
+        <a [href]="'tel:' + selectedOrder.phone">
+          {{ selectedOrder.phone }}
+        </a>
+      </div>
+
+      <div class="detail-item">
+        <span>Email address</span>
+        <a [href]="'mailto:' + selectedOrder.email">
+          {{ selectedOrder.email }}
+        </a>
+      </div>
+
+      <div class="detail-item full-width">
+        <span>Delivery address</span>
+        <strong>{{ selectedOrder.address }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Product</span>
+        <strong>{{ selectedOrder.productName }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Price</span>
+        <strong>₹{{ selectedOrder.price }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Quantity</span>
+        <strong>{{ selectedOrder.quantity }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Total amount</span>
+        <strong>₹{{ selectedOrder.total }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Order status</span>
+        <strong>{{ selectedOrder.status | titlecase }}</strong>
+      </div>
+
+      <div class="detail-item">
+        <span>Ordered date</span>
+        <strong>
+          {{ selectedOrder.createdAt | date:'dd MMM yyyy, h:mm a' }}
+        </strong>
+      </div>
+    </div>
+
+    <footer class="modal-footer">
+      <button
+        type="button"
+        class="close-details-button"
+        (click)="closeOrderDetails()"
+      >
+        Close
+      </button>
+    </footer>
+  </article>
+</div>

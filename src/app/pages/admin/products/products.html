@@ -1,0 +1,326 @@
+<div class="admin-page">
+
+  <header class="admin-header">
+    <div>
+      <p class="eyebrow">ADMIN CONTROL PANEL</p>
+      <h1>Product Management</h1>
+      <p class="header-description">
+        Add and manage products displayed on the website.
+      </p>
+    </div>
+
+    <a class="view-site-button" href="/products" target="_blank">
+      View Products Page
+    </a>
+  </header>
+
+  <div
+    *ngIf="message"
+    class="alert success-alert"
+  >
+    <span>✓</span>
+    {{ message }}
+  </div>
+
+  <div
+    *ngIf="errorMessage"
+    class="alert error-alert"
+  >
+    <span>!</span>
+    {{ errorMessage }}
+  </div>
+
+  <main class="admin-layout">
+
+    <!-- ADD / EDIT PRODUCT FORM -->
+    <section class="product-form-section">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-number">01</span>
+
+          <h2>
+            {{ editingProductId ? 'Edit Product' : 'Add New Product' }}
+          </h2>
+        </div>
+
+        <button
+          *ngIf="editingProductId"
+          type="button"
+          class="cancel-edit-button"
+          (click)="resetForm()"
+        >
+          Cancel Edit
+        </button>
+      </div>
+
+      <form
+        class="product-form"
+        (ngSubmit)="saveProduct()"
+      >
+
+        <div class="form-group">
+          <label for="nameEn">
+            Product Name
+            <span>English</span>
+          </label>
+
+          <input
+            id="nameEn"
+            name="nameEn"
+            type="text"
+            [(ngModel)]="productForm.nameEn"
+            placeholder="Example: Pure Santhana Paste"
+            maxlength="100"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="nameTa">
+            பொருளின் பெயர்
+            <span>Tamil</span>
+          </label>
+
+          <input
+            id="nameTa"
+            name="nameTa"
+            type="text"
+            [(ngModel)]="productForm.nameTa"
+            placeholder="உதாரணம்: தூய சந்தனப் பசை"
+            maxlength="100"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="nameHi">
+            उत्पाद का नाम
+            <span>Hindi</span>
+          </label>
+
+          <input
+            id="nameHi"
+            name="nameHi"
+            type="text"
+            [(ngModel)]="productForm.nameHi"
+            placeholder="उदाहरण: शुद्ध चंदन पेस्ट"
+            maxlength="100"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="price">
+            Product Price
+            <span>Indian Rupees</span>
+          </label>
+
+          <div class="price-input">
+            <span>₹</span>
+
+            <input
+              id="price"
+              name="price"
+              type="number"
+              [(ngModel)]="productForm.price"
+              placeholder="250"
+              min="1"
+              step="1"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group image-form-group">
+          <label for="productImage">
+            Product Image
+            <span>
+              {{ editingProductId
+                ? 'Select only when replacing the image'
+                : 'Required'
+              }}
+            </span>
+          </label>
+
+          <label
+            class="image-upload"
+            for="productImage"
+          >
+            <input
+              id="productImage"
+              name="productImage"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              (change)="onImageSelected($event)"
+            >
+
+            <div
+              *ngIf="!imagePreview"
+              class="upload-placeholder"
+            >
+              <div class="upload-icon">＋</div>
+              <strong>Choose product image</strong>
+              <span>PNG, JPG or WEBP • Maximum 5 MB</span>
+            </div>
+
+            <div
+              *ngIf="imagePreview"
+              class="image-preview"
+            >
+              <img
+                [src]="imagePreview"
+                alt="Selected product preview"
+              >
+
+              <div class="replace-image">
+                Click to replace image
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button
+            class="save-button"
+            type="submit"
+            [disabled]="loading"
+          >
+            <span *ngIf="loading" class="spinner"></span>
+
+            <span>
+              {{
+                loading
+                  ? 'Saving...'
+                  : editingProductId
+                    ? 'Update Product'
+                    : 'Add Product'
+              }}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="clear-button"
+            (click)="resetForm()"
+            [disabled]="loading"
+          >
+            Clear
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- PRODUCT LIST -->
+    <section class="product-list-section">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-number">02</span>
+          <h2>Existing Products</h2>
+        </div>
+
+        <span class="product-count">
+          {{ products.length }}
+          {{ products.length === 1 ? 'Product' : 'Products' }}
+        </span>
+      </div>
+
+      <div
+        *ngIf="productsLoading"
+        class="empty-state"
+      >
+        <span class="large-spinner"></span>
+        <p>Loading products...</p>
+      </div>
+
+      <div
+        *ngIf="!productsLoading && products.length === 0"
+        class="empty-state"
+      >
+        <div class="empty-icon">◇</div>
+        <h3>No products added yet</h3>
+        <p>Your newly added products will appear here.</p>
+      </div>
+
+      <div
+        *ngIf="!productsLoading && products.length > 0"
+        class="products-grid"
+      >
+        <article
+          *ngFor="
+            let product of products;
+            trackBy: trackProduct
+          "
+          class="product-card"
+          [class.disabled-product]="!product.isActive"
+        >
+
+          <div class="product-image">
+            <img
+              [src]="product.imageUrl"
+              [alt]="product.name.en"
+            >
+
+            <span
+              class="status-badge"
+              [class.active-status]="product.isActive"
+              [class.inactive-status]="!product.isActive"
+            >
+              {{ product.isActive ? 'Active' : 'Disabled' }}
+            </span>
+          </div>
+
+          <div class="product-details">
+            <div class="product-name-group">
+              <h3>{{ product.name.en }}</h3>
+              <p lang="ta">{{ product.name.ta }}</p>
+              <p lang="hi">{{ product.name.hi }}</p>
+            </div>
+
+            <div class="product-price">
+              ₹{{ product.price | number:'1.0-2' }}
+            </div>
+
+            <div class="product-actions">
+              <button
+                type="button"
+                class="edit-button"
+                (click)="editProduct(product)"
+              >
+                Edit
+              </button>
+
+              <button
+                type="button"
+                class="status-button"
+                [class.enable-button]="!product.isActive"
+                [class.disable-button]="product.isActive"
+                (click)="changeStatus(product)"
+              >
+                {{
+                  product.isActive
+                    ? 'Disable'
+                    : 'Enable'
+                }}
+              </button>
+
+              <button
+                type="button"
+                class="delete-button"
+                (click)="deleteProduct(product)"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+
+        </article>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
