@@ -6512,3 +6512,11 @@ main > app-specials > section, main > app-contact > section { padding-top: 130px
   }
 
 }
+
+
+
+app-root:has(app-admin-layout) > header,
+app-root:has(app-admin-layout) > nav,
+app-root:has(app-admin-layout) > footer {
+  display: none !important;
+}
