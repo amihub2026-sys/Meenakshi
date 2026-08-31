@@ -13,7 +13,7 @@
   {{ text.heroKicker }}
 </div>
 
-<h1>
+<h1 [class.tamil-hero-small]="language === 'ta'">
   {{ text.heroTitle1 }}
   <span>{{ text.heroTitle2 }}</span>
 </h1>
@@ -82,7 +82,7 @@
   {{ getProductTag(heroProducts[activeProductIndex]) }}
 </span>
 
-<h2>
+<h2 [class.tamil-product-title]="language === 'ta'">
   {{ getProductName(heroProducts[activeProductIndex]) }}
 </h2>
 
@@ -127,11 +127,10 @@
 
 <div class="products-heading-grid">
 
-  <h2>
-    {{ text.collectionTitle1 }}
-    <span>{{ text.collectionTitle2 }}</span>
-  </h2>
-
+  <h2 [class.tamil-collection-title]="language === 'ta'">
+  {{ text.collectionTitle1 }}
+  <span>{{ text.collectionTitle2 }}</span>
+</h2>
   <p>
     {{ text.collectionDesc }}
   </p>

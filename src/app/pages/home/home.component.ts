@@ -18,7 +18,8 @@ import {
 export class HomeComponent implements AfterViewInit, OnDestroy {
 
   private timer?: number;
-
+    private typingTimer: any;
+private typingIndex = 0;
   private current = 0;
 
   private whyObserver?: IntersectionObserver;
@@ -38,12 +39,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   ) {
 
     this.languageService.language$.subscribe(
-      (lang: Language) => {
+  (lang: Language) => {
 
-        this.language = lang;
+    this.language = lang;
 
-      }
-    );
+    setTimeout(() => {
+      this.startHeroTyping();
+    }, 100);
+
+  }
+);
 
   }
 
@@ -872,7 +877,48 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   }
 
+private startHeroTyping(): void {
 
+  if (this.typingTimer) {
+    clearTimeout(this.typingTimer);
+  }
+
+  const element =
+    document.getElementById('heroTypingText');
+
+  if (!element) {
+    return;
+  }
+
+  const fullText = this.text.heroTitle;
+
+  element.textContent = '';
+
+  this.typingIndex = 0;
+
+
+  const typeNextCharacter = () => {
+
+    if (this.typingIndex < fullText.length) {
+
+      element.textContent +=
+        fullText.charAt(this.typingIndex);
+
+      this.typingIndex++;
+
+      this.typingTimer = setTimeout(
+        typeNextCharacter,
+        70
+      );
+
+    }
+
+  };
+
+
+  typeNextCharacter();
+
+}
   /* ==========================================
      WHY CHOOSE US ANIMATION
   ========================================== */

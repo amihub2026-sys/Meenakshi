@@ -246,29 +246,27 @@
         </span>
 
 
-        <h2>
+     <h2 [class.tamil-footer-title]="language === 'ta'">
 
-          {{
-            language === 'ta'
-              ? 'மதுரை மீனாட்சி'
-              : language === 'hi'
-              ? 'मदुरै मीनाक्षी'
-              : 'Madurai Meenakshi'
-          }}
+  {{
+    language === 'ta'
+      ? 'மதுரை மீனாட்சி'
+      : language === 'hi'
+      ? 'मदुरै मीनाक्षी'
+      : 'Madurai Meenakshi'
+  }}
 
-          <span>
+  <span>
+    {{
+      language === 'ta'
+        ? 'சந்தனக் கடை'
+        : language === 'hi'
+        ? 'चंदन दुकान'
+        : 'Santhana Kadai'
+    }}
+  </span>
 
-            {{
-              language === 'ta'
-                ? 'சந்தனக் கடை'
-                : language === 'hi'
-                ? 'चंदन दुकान'
-                : 'Santhana Kadai'
-            }}
-
-          </span>
-
-        </h2>
+</h2>
 
 
         <p>

@@ -19,12 +19,10 @@
         <span></span>
         {{ text.heroKicker }}
       </div>
-
-      <h1>
-        {{ text.heroTitle1 }}
-        <span>{{ text.heroTitle2 }}</span>
-      </h1>
-
+<h1 [class.tamil-specials-hero-title]="language === 'ta'">
+  {{ text.heroTitle1 }}
+  <span>{{ text.heroTitle2 }}</span>
+</h1>
       <p>
         {{ text.heroDesc }}
       </p>
@@ -52,10 +50,10 @@
           {{ text.visitLabel }}
         </div>
 
-        <h2>
-          {{ text.visitTitle1 }}
-          <span>{{ text.visitTitle2 }}</span>
-        </h2>
+<h2 [class.tamil-visit-title]="language === 'ta'">
+  {{ text.visitTitle1 }}
+  <span>{{ text.visitTitle2 }}</span>
+</h2>
 
         <p class="contact-intro">
           {{ text.intro }}
