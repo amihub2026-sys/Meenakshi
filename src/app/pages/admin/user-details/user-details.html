@@ -1,40 +1,77 @@
 <section class="user-details-page">
+
   <header class="page-header">
+
     <div>
-      <p class="eyebrow">CUSTOMER MANAGEMENT</p>
+      <p class="eyebrow">
+        CUSTOMER MANAGEMENT
+      </p>
+
       <h1>User Details</h1>
-      <p>View customer information and manage product orders.</p>
+
+      <p>
+        View customer information and manage
+        product orders.
+      </p>
     </div>
 
     <span class="order-count">
       {{ filteredOrders.length }} Orders
     </span>
+
   </header>
 
+
+  <!-- MESSAGE -->
   <div
     *ngIf="message"
     class="alert"
-    [class.success-alert]="messageType === 'success'"
-    [class.error-alert]="messageType === 'error'"
+    [class.success-alert]="
+      messageType === 'success'
+    "
+    [class.error-alert]="
+      messageType === 'error'
+    "
   >
     {{ message }}
   </div>
 
+
+  <!-- FILTERS -->
   <div class="filters">
+
     <input
       type="search"
       [(ngModel)]="searchTerm"
       placeholder="Search name, phone, email or product"
       aria-label="Search orders"
-    />
+    >
 
-    <select [(ngModel)]="statusFilter" aria-label="Filter by status">
-      <option value="all">All statuses</option>
+    <select
+      [(ngModel)]="statusFilter"
+      aria-label="Filter by status"
+    >
+      <option value="all">
+        All statuses
+      </option>
+
       <option value="new">New</option>
-      <option value="confirmed">Confirmed</option>
-      <option value="shipped">Shipped</option>
-      <option value="delivered">Delivered</option>
-      <option value="cancelled">Cancelled</option>
+
+      <option value="confirmed">
+        Confirmed
+      </option>
+
+      <option value="shipped">
+        Shipped
+      </option>
+
+      <option value="delivered">
+        Delivered
+      </option>
+
+      <option value="cancelled">
+        Cancelled
+      </option>
     </select>
 
     <button
@@ -44,99 +81,213 @@
     >
       Clear
     </button>
+
   </div>
 
-  <div *ngIf="isLoading" class="state-box">
+
+  <!-- LOADING -->
+  <div
+    *ngIf="isLoading"
+    class="state-box"
+  >
     <div class="loader"></div>
+
     <p>Loading customer orders...</p>
   </div>
 
+
+  <!-- EMPTY -->
   <div
-    *ngIf="!isLoading && filteredOrders.length === 0"
+    *ngIf="
+      !isLoading &&
+      filteredOrders.length === 0
+    "
     class="state-box"
   >
     <div class="empty-icon">◇</div>
+
     <h2>No customer orders found</h2>
-    <p>Customer orders will appear here after checkout.</p>
+
+    <p>
+      Customer orders will appear here
+      after checkout.
+    </p>
   </div>
 
+
+  <!-- ORDERS TABLE -->
   <div
-    *ngIf="!isLoading && filteredOrders.length > 0"
+    *ngIf="
+      !isLoading &&
+      filteredOrders.length > 0
+    "
     class="table-container"
   >
+
     <table>
+
       <thead>
         <tr>
           <th>Customer</th>
           <th>Contact</th>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Total</th>
+          <th>Products</th>
+          <th>Total Qty</th>
+          <th>Order Total</th>
           <th>Status</th>
           <th>Ordered Date</th>
           <th>Actions</th>
         </tr>
       </thead>
 
+
       <tbody>
-        <tr *ngFor="let order of filteredOrders">
+
+        <tr
+          *ngFor="
+            let order of filteredOrders;
+            trackBy: trackOrder
+          "
+        >
+
+          <!-- CUSTOMER -->
           <td>
-            <strong>{{ order.customerName }}</strong>
-            <small>{{ order.address }}</small>
+            <strong>
+              {{ order.customerName }}
+            </strong>
+
+            <small>
+              {{ order.address }}
+            </small>
           </td>
 
+
+          <!-- CONTACT -->
           <td>
             <a [href]="'tel:' + order.phone">
               {{ order.phone }}
             </a>
 
-            <a [href]="'mailto:' + order.email">
+            <a
+              *ngIf="order.email"
+              [href]="'mailto:' + order.email"
+            >
               {{ order.email }}
             </a>
+
+            <small *ngIf="!order.email">
+              No email provided
+            </small>
           </td>
 
+
+          <!-- PRODUCTS -->
           <td>
-            <div class="product-cell">
+
+            <div
+              class="product-cell"
+              *ngIf="
+                order.items[0] as firstItem
+              "
+            >
+
               <img
-                *ngIf="order.productImage"
-                [src]="order.productImage"
-                [alt]="order.productName"
-              />
+                *ngIf="firstItem.productImage"
+                [src]="firstItem.productImage"
+                [alt]="firstItem.productName"
+              >
 
               <div>
-                <strong>{{ order.productName }}</strong>
-                <small>₹{{ order.price }}</small>
+                <strong>
+                  {{ firstItem.productName }}
+                </strong>
+
+                <small>
+                  {{
+                    firstItem.price
+                      | currency:'INR':'symbol':'1.0-0'
+                  }}
+                  × {{ firstItem.quantity }}
+                </small>
+
+                <small
+                  *ngIf="order.items.length > 1"
+                  class="more-products"
+                >
+                  +{{ order.items.length - 1 }}
+                  more product(s)
+                </small>
               </div>
+
             </div>
+
           </td>
 
-          <td>{{ order.quantity }}</td>
 
+          <!-- TOTAL QUANTITY -->
           <td>
-            <strong>₹{{ order.total }}</strong>
+            {{ getTotalQuantity(order) }}
           </td>
 
+
+          <!-- ORDER TOTAL -->
+          <td>
+            <strong>
+              {{
+                order.total
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+            </strong>
+          </td>
+
+
+          <!-- STATUS -->
           <td>
             <select
-              class="status-select"
               [ngModel]="order.status"
-              (ngModelChange)="updateStatus(order, $event)"
-              [class]="'status-select status-' + order.status"
+              (ngModelChange)="
+                updateStatus(order, $event)
+              "
+              [class]="
+                'status-select status-' +
+                order.status
+              "
             >
-              <option value="new">New</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
+              <option value="new">
+                New
+              </option>
+
+              <option value="confirmed">
+                Confirmed
+              </option>
+
+              <option value="shipped">
+                Shipped
+              </option>
+
+              <option value="delivered">
+                Delivered
+              </option>
+
+              <option value="cancelled">
+                Cancelled
+              </option>
             </select>
           </td>
 
+
+          <!-- DATE -->
           <td>
-            {{ order.createdAt | date:'dd MMM yyyy, h:mm a' }}
+            {{
+              order.createdAt
+                | date:'dd MMM yyyy, h:mm a'
+            }}
           </td>
 
+
+          <!-- ACTIONS -->
           <td>
             <div class="action-buttons">
+
               <button
                 type="button"
                 class="view-button"
@@ -152,98 +303,214 @@
               >
                 Delete
               </button>
+
             </div>
           </td>
+
         </tr>
+
       </tbody>
+
     </table>
+
   </div>
+
 </section>
 
+
+<!-- ORDER DETAILS MODAL -->
 <div
-  *ngIf="selectedOrder"
+  *ngIf="selectedOrder as order"
   class="modal-backdrop"
   (click)="closeOrderDetails()"
 >
+
   <article
     class="order-modal"
     (click)="$event.stopPropagation()"
   >
+
     <header class="modal-header">
+
       <div>
-        <p class="eyebrow">ORDER DETAILS</p>
-        <h2>{{ selectedOrder.customerName }}</h2>
+        <p class="eyebrow">
+          ORDER DETAILS
+        </p>
+
+        <h2>
+          {{ order.customerName }}
+        </h2>
+
+        <small>
+          Order ID: {{ order._id }}
+        </small>
       </div>
 
       <button
         type="button"
         class="close-button"
-        (click)="closeOrderDetails()"
         aria-label="Close"
+        (click)="closeOrderDetails()"
       >
         ×
       </button>
+
     </header>
 
+
+    <!-- CUSTOMER DETAILS -->
     <div class="details-grid">
+
       <div class="detail-item">
         <span>Customer name</span>
-        <strong>{{ selectedOrder.customerName }}</strong>
+
+        <strong>
+          {{ order.customerName }}
+        </strong>
       </div>
+
 
       <div class="detail-item">
         <span>Phone number</span>
-        <a [href]="'tel:' + selectedOrder.phone">
-          {{ selectedOrder.phone }}
+
+        <a [href]="'tel:' + order.phone">
+          {{ order.phone }}
         </a>
       </div>
+
 
       <div class="detail-item">
         <span>Email address</span>
-        <a [href]="'mailto:' + selectedOrder.email">
-          {{ selectedOrder.email }}
+
+        <a
+          *ngIf="order.email; else noEmail"
+          [href]="'mailto:' + order.email"
+        >
+          {{ order.email }}
         </a>
+
+        <ng-template #noEmail>
+          <strong>Not provided</strong>
+        </ng-template>
       </div>
 
-      <div class="detail-item full-width">
-        <span>Delivery address</span>
-        <strong>{{ selectedOrder.address }}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Product</span>
-        <strong>{{ selectedOrder.productName }}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Price</span>
-        <strong>₹{{ selectedOrder.price }}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Quantity</span>
-        <strong>{{ selectedOrder.quantity }}</strong>
-      </div>
-
-      <div class="detail-item">
-        <span>Total amount</span>
-        <strong>₹{{ selectedOrder.total }}</strong>
-      </div>
 
       <div class="detail-item">
         <span>Order status</span>
-        <strong>{{ selectedOrder.status | titlecase }}</strong>
-      </div>
 
-      <div class="detail-item">
-        <span>Ordered date</span>
         <strong>
-          {{ selectedOrder.createdAt | date:'dd MMM yyyy, h:mm a' }}
+          {{ order.status | titlecase }}
         </strong>
       </div>
+
+
+      <div class="detail-item full-width">
+        <span>Delivery address</span>
+
+        <strong>
+          {{ order.address }}
+        </strong>
+      </div>
+
+
+      <!-- ALL PRODUCTS -->
+      <div class="detail-item full-width">
+
+        <span>Ordered products</span>
+
+        <div class="modal-products-list">
+
+          <article
+            class="modal-product-row"
+            *ngFor="
+              let item of order.items;
+              trackBy: trackOrderItem
+            "
+          >
+
+            <img
+              *ngIf="item.productImage"
+              [src]="item.productImage"
+              [alt]="item.productName"
+            >
+
+            <div class="modal-product-name">
+              <strong>
+                {{ item.productName }}
+              </strong>
+
+              <small>
+                {{
+                  item.price
+                    | currency:'INR':'symbol':'1.0-0'
+                }}
+                each
+              </small>
+            </div>
+
+            <div class="modal-product-quantity">
+              <span>Quantity</span>
+
+              <strong>
+                {{ item.quantity }}
+              </strong>
+            </div>
+
+            <div class="modal-product-total">
+              <span>Line total</span>
+
+              <strong>
+                {{
+                  item.lineTotal
+                    | currency:'INR':'symbol':'1.0-0'
+                }}
+              </strong>
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+        <span>Total quantity</span>
+
+        <strong>
+          {{ getTotalQuantity(order) }}
+        </strong>
+      </div>
+
+
+      <div class="detail-item">
+        <span>Total amount</span>
+
+        <strong>
+          {{
+            order.total
+              | currency:'INR':'symbol':'1.0-0'
+          }}
+        </strong>
+      </div>
+
+
+      <div class="detail-item full-width">
+        <span>Ordered date</span>
+
+        <strong>
+          {{
+            order.createdAt
+              | date:'dd MMM yyyy, h:mm a'
+          }}
+        </strong>
+      </div>
+
     </div>
 
+
     <footer class="modal-footer">
+
       <button
         type="button"
         class="close-details-button"
@@ -251,6 +518,9 @@
       >
         Close
       </button>
+
     </footer>
+
   </article>
+
 </div>

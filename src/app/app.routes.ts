@@ -5,6 +5,9 @@ import { AboutComponent } from './pages/about/about.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { SpecialsComponent } from './pages/specials/specials.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { AdminLoginComponent } from './pages/admin/login/login';
+import { adminAuthGuard } from './guards/admin-auth.guard';
+import { CartComponent } from './pages/cart/cart';
 
 import { AdminLayoutComponent } from './pages/admin/layout/layout';
 import { AdminDashboardComponent } from './pages/admin/dashboard/dashboard';
@@ -37,11 +40,21 @@ export const routes: Routes = [
     component: ContactComponent,
     title: 'Contact | Madurai Meenakshi Santhana Kadai'
   },
-
   {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
+  path: 'cart',
+  component: CartComponent
+},
+  {
+  path: 'admin/login',
+  component: AdminLoginComponent,
+  title: 'Admin Login | Madurai Meenakshi Santhana Kadai'
+},
+
+{
+  path: 'admin',
+  component: AdminLayoutComponent,
+  canActivate: [adminAuthGuard],
+  children: [
       {
         path: '',
         redirectTo: 'dashboard',
