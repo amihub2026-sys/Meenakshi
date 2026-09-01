@@ -2,6 +2,8 @@ import {
   Injectable
 } from '@angular/core';
 
+import { environment } from '../../environments/environment';
+
 import {
   HttpClient,
   HttpHeaders
@@ -82,8 +84,8 @@ export interface CreateOrderResponse {
 })
 export class OrderService {
 
-  private readonly apiUrl =
-    'http://localhost:5000/api/orders';
+private readonly apiUrl =
+  `${environment.apiUrl}/orders`;
 
 
   constructor(

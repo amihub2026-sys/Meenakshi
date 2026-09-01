@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ProductName {
   en: string;
@@ -24,7 +25,8 @@ export interface Product {
 })
 export class ProductService {
 
-  private readonly apiUrl = 'http://localhost:5000/api/products';
+  private readonly apiUrl =
+    `${environment.apiUrl}/products`;
 
   constructor(private http: HttpClient) {}
 
