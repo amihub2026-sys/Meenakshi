@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   ViewChild
 } from '@angular/core';
 
@@ -11,6 +12,32 @@ import {
   Language,
   LanguageService
 } from '../../services/language.service';
+
+import {
+  CartService
+} from '../../services/cart';
+
+import {
+  Product,
+  ProductService
+} from '../../services/product';
+
+
+interface HeroProduct {
+  nameEn: string;
+  nameTa: string;
+  nameHi: string;
+
+  tagEn: string;
+  tagTa: string;
+  tagHi: string;
+
+  video: string;
+
+  descriptionEn: string;
+  descriptionTa: string;
+  descriptionHi: string;
+}
 
 
 @Component({
@@ -23,33 +50,32 @@ import {
 
   templateUrl: './products.component.html'
 })
+export class ProductsComponent
+  implements OnInit, AfterViewInit {
 
-export class ProductsComponent implements AfterViewInit {
+  /*
+   * Backend products:
+   * These products appear only in the bottom shopping section.
+   */
+  products: Product[] = [];
+
+  productsLoading = false;
+  productsError = '';
+
+
+  /*
+   * Static cinematic section state
+   */
+  activeProductIndex = 0;
 
   @ViewChild('productVideo')
-  productVideo!: ElementRef<HTMLVideoElement>;
+  productVideo?: ElementRef<HTMLVideoElement>;
 
-
-  activeProductIndex = 0;
 
   language: Language = 'ta';
 
 
-  constructor(
-    private languageService: LanguageService
-  ) {
-
-    this.languageService.language$.subscribe(
-      (lang: Language) => {
-        this.language = lang;
-      }
-    );
-
-  }
-
-
   translations = {
-
     en: {
       heroKicker: 'OUR SACRED COLLECTION',
       heroTitle1: 'Products of',
@@ -59,7 +85,17 @@ export class ProductsComponent implements AfterViewInit {
       collectionTitle1: 'Sacred essentials,',
       collectionTitle2: 'beautifully selected.',
       collectionDesc:
-        'Traditional santhanam and pooja essentials chosen with care for everyday worship, temple visits and auspicious occasions.'
+        'Traditional santhanam and pooja essentials chosen with care for everyday worship, temple visits and auspicious occasions.',
+
+      productCategory: 'SACRED PRODUCT',
+      price: 'Price',
+      loading: 'Loading products...',
+      empty: 'No products are currently available.',
+      error:
+        'Unable to load products. Please try again.',
+      addToCart: 'Add to Cart',
+      productAdded: 'Product Added',
+      buyNow: 'Buy Now'
     },
 
     ta: {
@@ -68,10 +104,23 @@ export class ProductsComponent implements AfterViewInit {
       heroTitle2: 'புனிதப் பொருட்கள்',
 
       collectionLabel: 'எங்கள் தொகுப்பு',
-      collectionTitle1: 'புனிதமான பூஜைப் பொருட்கள்,',
-      collectionTitle2: 'அக்கறையுடன் தேர்ந்தெடுக்கப்பட்டவை.',
+      collectionTitle1:
+        'புனிதமான பூஜைப் பொருட்கள்,',
+      collectionTitle2:
+        'அக்கறையுடன் தேர்ந்தெடுக்கப்பட்டவை.',
       collectionDesc:
-        'தினசரி வழிபாடு, கோவில் தரிசனம் மற்றும் சுபநிகழ்வுகளுக்காக கவனமாக தேர்ந்தெடுக்கப்பட்ட பாரம்பரிய சந்தனம் மற்றும் பூஜைப் பொருட்கள்.'
+        'தினசரி வழிபாடு, கோவில் தரிசனம் மற்றும் சுபநிகழ்வுகளுக்காக கவனமாக தேர்ந்தெடுக்கப்பட்ட பாரம்பரிய சந்தனம் மற்றும் பூஜைப் பொருட்கள்.',
+
+      productCategory: 'புனிதப் பொருள்',
+      price: 'விலை',
+      loading: 'பொருட்கள் ஏற்றப்படுகின்றன...',
+      empty:
+        'தற்போது பொருட்கள் எதுவும் கிடைக்கவில்லை.',
+      error:
+        'பொருட்களை ஏற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+      addToCart: 'கூடையில் சேர்',
+      productAdded: 'கூடையில் சேர்க்கப்பட்டது',
+      buyNow: 'இப்போது வாங்க'
     },
 
     hi: {
@@ -83,19 +132,28 @@ export class ProductsComponent implements AfterViewInit {
       collectionTitle1: 'पवित्र पूजा सामग्री,',
       collectionTitle2: 'सावधानी से चुनी गई।',
       collectionDesc:
-        'दैनिक पूजा, मंदिर दर्शन और शुभ अवसरों के लिए सावधानी से चुनी गई पारंपरिक पूजा सामग्री।'
-    }
+        'दैनिक पूजा, मंदिर दर्शन और शुभ अवसरों के लिए सावधानी से चुनी गई पारंपरिक पूजा सामग्री।',
 
+      productCategory: 'पवित्र उत्पाद',
+      price: 'कीमत',
+      loading: 'उत्पाद लोड हो रहे हैं...',
+      empty:
+        'वर्तमान में कोई उत्पाद उपलब्ध नहीं है।',
+      error:
+        'उत्पाद लोड नहीं हो सके। कृपया पुनः प्रयास करें।',
+      addToCart: 'कार्ट में जोड़ें',
+      productAdded: 'उत्पाद जोड़ा गया',
+      buyNow: 'अभी खरीदें'
+    }
   };
 
 
-  get text() {
-    return this.translations[this.language];
-  }
-
-
-  heroProducts = [
-
+  /*
+   * Static products:
+   * These products appear only in the top cinematic section.
+   * Backend changes will not affect this array.
+   */
+  heroProducts: HeroProduct[] = [
     {
       nameEn: 'Turmeric Powder',
       nameTa: 'மஞ்சள் தூள்',
@@ -116,7 +174,6 @@ export class ProductsComponent implements AfterViewInit {
       descriptionHi:
         'पूजा, शुभ अनुष्ठानों और पवित्र अवसरों के लिए सावधानी से चुना गया शुद्ध पारंपरिक हल्दी पाउडर।'
     },
-
 
     {
       nameEn: 'Kumkum',
@@ -139,7 +196,6 @@ export class ProductsComponent implements AfterViewInit {
         'दैनिक पूजा, मंदिर अनुष्ठानों और शुभ अवसरों के लिए तैयार पारंपरिक कुमकुम।'
     },
 
-
     {
       nameEn: 'Ghee',
       nameTa: 'நெய்',
@@ -160,7 +216,6 @@ export class ProductsComponent implements AfterViewInit {
       descriptionHi:
         'दीपक, पूजा, अभिषेक और पवित्र अनुष्ठानों के लिए उपयोग किया जाने वाला शुद्ध पारंपरिक घी।'
     },
-
 
     {
       nameEn: 'Sambrani',
@@ -183,7 +238,6 @@ export class ProductsComponent implements AfterViewInit {
         'पारंपरिक साम्ब्राणी जो शांत और दिव्य मंदिर जैसा वातावरण बनाती है।'
     },
 
-
     {
       nameEn: 'Pathi',
       nameTa: 'பத்தி',
@@ -204,7 +258,6 @@ export class ProductsComponent implements AfterViewInit {
       descriptionHi:
         'पूजा और दैनिक उपासना के दौरान शांत और दिव्य वातावरण बनाने के लिए उपयोग की जाने वाली पारंपरिक अगरबत्ती।'
     },
-
 
     {
       nameEn: 'Vilakku',
@@ -227,7 +280,6 @@ export class ProductsComponent implements AfterViewInit {
         'पारंपरिक पूजा दीपक जो हर प्रार्थना और उत्सव में पवित्र प्रकाश, शांति और शुभता लाते हैं।'
     },
 
-
     {
       nameEn: 'Honey',
       nameTa: 'தேன்',
@@ -248,12 +300,124 @@ export class ProductsComponent implements AfterViewInit {
       descriptionHi:
         'अभिषेक, पूजा और पवित्र अर्पण के लिए पारंपरिक रूप से उपयोग किया जाने वाला शुद्ध प्राकृतिक शहद।'
     }
-
   ];
 
 
-  getProductName(product: any): string {
+  constructor(
+    private languageService: LanguageService,
+    private productService: ProductService,
+    private cartService: CartService
+  ) {
+    this.languageService.language$.subscribe(
+      (lang: Language) => {
+        this.language = lang;
+      }
+    );
+  }
 
+
+  get text() {
+    return this.translations[this.language];
+  }
+
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+
+  ngAfterViewInit(): void {
+    this.activateRevealElements();
+
+    setTimeout(() => {
+      this.playCurrentVideo();
+    }, 200);
+  }
+
+
+  /*
+   * Backend products are loaded only into this.products.
+   * Do not assign backend products to heroProducts.
+   */
+  loadProducts(): void {
+    this.productsLoading = true;
+    this.productsError = '';
+
+    this.productService.getProducts().subscribe({
+      next: (products: Product[]) => {
+        this.products = products;
+        this.productsLoading = false;
+
+        setTimeout(() => {
+          this.activateRevealElements();
+        }, 100);
+      },
+
+      error: () => {
+        this.products = [];
+        this.productsLoading = false;
+        this.productsError = this.text.error;
+      }
+    });
+  }
+
+
+  /*
+   * Top static cinematic product selection
+   */
+  selectProduct(index: number): void {
+    if (
+      index < 0 ||
+      index >= this.heroProducts.length ||
+      this.activeProductIndex === index
+    ) {
+      return;
+    }
+
+    const video = this.productVideo?.nativeElement;
+
+    if (!video) {
+      this.activeProductIndex = index;
+      return;
+    }
+
+    video.classList.add('changing');
+
+    setTimeout(() => {
+      this.activeProductIndex = index;
+
+      setTimeout(() => {
+        video.load();
+        this.playCurrentVideo();
+        video.classList.remove('changing');
+      }, 100);
+    }, 350);
+  }
+
+
+  private playCurrentVideo(): void {
+    const video = this.productVideo?.nativeElement;
+
+    if (!video) {
+      return;
+    }
+
+    video.muted = true;
+    video.currentTime = 0;
+
+    video.play().catch(error => {
+      console.log(
+        'Video autoplay blocked or video not loaded:',
+        error
+      );
+    });
+  }
+
+
+  /*
+   * Static top-section product helpers
+   */
+  getProductName(product: HeroProduct): string {
     if (this.language === 'ta') {
       return product.nameTa;
     }
@@ -266,8 +430,7 @@ export class ProductsComponent implements AfterViewInit {
   }
 
 
-  getProductTag(product: any): string {
-
+  getProductTag(product: HeroProduct): string {
     if (this.language === 'ta') {
       return product.tagTa;
     }
@@ -280,8 +443,9 @@ export class ProductsComponent implements AfterViewInit {
   }
 
 
-  getProductDescription(product: any): string {
-
+  getProductDescription(
+    product: HeroProduct
+  ): string {
     if (this.language === 'ta') {
       return product.descriptionTa;
     }
@@ -294,98 +458,68 @@ export class ProductsComponent implements AfterViewInit {
   }
 
 
-  ngAfterViewInit(): void {
+  /*
+   * Bottom backend shopping-section helpers
+   */
+  getBackendProductName(product: Product): string {
+    if (this.language === 'ta') {
+      return product.name.ta;
+    }
 
+    if (this.language === 'hi') {
+      return product.name.hi;
+    }
+
+    return product.name.en;
+  }
+
+
+  getSecondaryName(product: Product): string {
+    if (this.language === 'ta') {
+      return product.name.en;
+    }
+
+    return product.name.ta;
+  }
+
+
+  addToCart(product: Product): void {
+    if (this.isProductAdded(product)) {
+      return;
+    }
+
+    this.cartService.addProduct(product);
+  }
+
+
+  isProductAdded(product: Product): boolean {
+    return (
+      this.cartService.getProductQuantity(
+        product._id
+      ) > 0
+    );
+  }
+
+
+  trackBackendProduct(
+    _index: number,
+    product: Product
+  ): string {
+    return product._id;
+  }
+
+
+  private activateRevealElements(): void {
     setTimeout(() => {
-
       document
         .querySelectorAll(
-          '.products-reveal, .product-reveal, .reveal-why'
+          '.products-reveal, ' +
+          '.product-reveal, ' +
+          '.reveal-why'
         )
-        .forEach((el) => {
-
-          el.classList.add('active');
-
+        .forEach(element => {
+          element.classList.add('active');
         });
-
-
-      this.playCurrentVideo();
-
     }, 200);
-
   }
-
-
-  selectProduct(index: number): void {
-
-    if (this.activeProductIndex === index) {
-      return;
-    }
-
-
-    const video =
-      this.productVideo?.nativeElement;
-
-
-    if (!video) {
-
-      this.activeProductIndex = index;
-
-      return;
-
-    }
-
-
-    video.classList.add('changing');
-
-
-    setTimeout(() => {
-
-      this.activeProductIndex = index;
-
-
-      setTimeout(() => {
-
-        video.load();
-
-        this.playCurrentVideo();
-
-        video.classList.remove('changing');
-
-      }, 100);
-
-    }, 350);
-
-  }
-
-
-  private playCurrentVideo(): void {
-
-    const video =
-      this.productVideo?.nativeElement;
-
-
-    if (!video) {
-      return;
-    }
-
-
-    video.muted = true;
-
-    video.currentTime = 0;
-
-
-    video
-      .play()
-      .catch((error) => {
-
-        console.log(
-          'Video autoplay blocked or video not loaded:',
-          error
-        );
-
-      });
-
-  }
-
 }

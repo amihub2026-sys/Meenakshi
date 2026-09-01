@@ -6035,7 +6035,7 @@ app-root:has(app-admin-layout) > nav,
 app-root:has(app-admin-layout) > footer {
   display: none !important;
 }
-=======
+
 /* =========================================
    PRODUCT SHOPPING BUTTONS
 ========================================= */
@@ -7484,3 +7484,15 @@ h2.tamil-tradition-title span {
   }
 }
 
+.product-add-cart.product-added,
+.product-add-cart.product-added:disabled {
+  border-color: #e5bd45;
+  background: #0d5035;
+  color: #ffffff;
+  opacity: 1;
+  cursor: default;
+}
+
+.product-add-cart.product-added i {
+  color: #f0c84b;
+}

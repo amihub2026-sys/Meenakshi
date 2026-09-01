@@ -1,0 +1,573 @@
+<section class="cart-page">
+
+  <div
+    class="cart-container"
+    *ngIf="cartItems$ | async as cartItems"
+  >
+
+    <!-- CART HEADER -->
+    <header class="cart-header">
+
+      <div>
+        <span class="cart-kicker">
+          YOUR SACRED SELECTION
+        </span>
+
+        <h1>
+          {{ orderPlaced ? 'Order Confirmed' : 'Shopping Cart' }}
+        </h1>
+
+        <p *ngIf="!orderPlaced">
+          {{ (cartCount$ | async) || 0 }}
+          item(s) in your cart
+        </p>
+      </div>
+
+      <a
+        routerLink="/products"
+        class="continue-shopping"
+      >
+        ← Continue Shopping
+      </a>
+
+    </header>
+
+
+    <!-- ORDER SUCCESS -->
+    <section
+      class="order-success-card"
+      *ngIf="orderPlaced"
+    >
+
+      <div class="order-success-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+
+      <span class="order-success-kicker">
+        ORDER PLACED SUCCESSFULLY
+      </span>
+
+      <h2>Thank You for Your Order</h2>
+
+      <p>
+        {{ checkoutMessage }}
+        Your order details have been sent to our
+        administration team.
+      </p>
+
+      <div class="order-reference">
+        <small>Order reference</small>
+        <strong>{{ placedOrderId }}</strong>
+      </div>
+
+      <a
+        routerLink="/products"
+        class="shop-products-button"
+      >
+        Continue Shopping
+      </a>
+
+    </section>
+
+
+    <!-- EMPTY CART -->
+    <div
+      class="empty-cart"
+      *ngIf="
+        cartItems.length === 0 &&
+        !orderPlaced
+      "
+    >
+
+      <div class="empty-cart-icon">
+        <i class="fa-solid fa-cart-shopping"></i>
+      </div>
+
+      <h2>Your cart is empty</h2>
+
+      <p>
+        Explore our sacred collection and add products
+        to your cart.
+      </p>
+
+      <a
+        routerLink="/products"
+        class="shop-products-button"
+      >
+        Browse Products
+      </a>
+
+    </div>
+
+
+    <!-- CART CONTENT -->
+    <div
+      class="cart-layout"
+      *ngIf="
+        cartItems.length > 0 &&
+        !orderPlaced
+      "
+    >
+
+      <!-- LEFT: PRODUCTS -->
+      <div class="cart-products-panel">
+
+        <div class="cart-panel-heading">
+
+          <div>
+            <span>01</span>
+            <h2>Your Products</h2>
+          </div>
+
+          <button
+            type="button"
+            class="clear-cart-button"
+            [disabled]="submittingOrder"
+            (click)="clearCart()"
+          >
+            Clear Cart
+          </button>
+
+        </div>
+
+
+        <article
+          class="cart-product"
+          *ngFor="
+            let item of cartItems;
+            trackBy: trackCartItem
+          "
+        >
+
+          <div class="cart-product-image">
+            <img
+              [src]="item.product.imageUrl"
+              [alt]="getProductName(item)"
+            >
+          </div>
+
+
+          <div class="cart-product-details">
+
+            <span class="product-category">
+              SACRED PRODUCT
+            </span>
+
+            <h3>
+              {{ getProductName(item) }}
+            </h3>
+
+            <p>
+              {{ getSecondaryName(item) }}
+            </p>
+
+            <button
+              type="button"
+              class="remove-product-button"
+              [disabled]="submittingOrder"
+              (click)="removeProduct(item.product._id)"
+            >
+              <i class="fa-solid fa-trash"></i>
+              Remove
+            </button>
+
+          </div>
+
+
+          <div class="cart-product-price">
+
+            <small>Unit price</small>
+
+            <strong>
+              {{
+                item.product.price
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+            </strong>
+
+          </div>
+
+
+          <div class="quantity-section">
+
+            <small>Quantity</small>
+
+            <div class="quantity-control">
+
+              <button
+                type="button"
+                aria-label="Decrease quantity"
+                [disabled]="
+                  item.quantity <= 1 ||
+                  submittingOrder
+                "
+                (click)="decreaseQuantity(item.product._id)"
+              >
+                −
+              </button>
+
+              <span>
+                {{ item.quantity }}
+              </span>
+
+              <button
+                type="button"
+                aria-label="Increase quantity"
+                [disabled]="submittingOrder"
+                (click)="increaseQuantity(item.product._id)"
+              >
+                +
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="cart-item-total">
+
+            <small>Total</small>
+
+            <strong>
+              {{
+                getItemTotal(item)
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+            </strong>
+
+          </div>
+
+        </article>
+
+      </div>
+
+
+      <!-- RIGHT: PRICE DETAILS -->
+      <aside class="cart-summary">
+
+        <span class="summary-number">
+          02
+        </span>
+
+        <span class="summary-kicker">
+          ORDER SUMMARY
+        </span>
+
+        <h2>Price Details</h2>
+
+
+        <div class="summary-row">
+
+          <span>
+            Subtotal
+            ({{ (cartCount$ | async) || 0 }} items)
+          </span>
+
+          <strong>
+            {{
+              (cartTotal$ | async)
+                | currency:'INR':'symbol':'1.0-0'
+            }}
+          </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>Delivery charge</span>
+
+          <strong class="free-delivery">
+            FREE
+          </strong>
+
+        </div>
+
+
+        <div class="summary-divider"></div>
+
+
+        <div class="summary-total">
+
+          <div>
+            <span>Total Amount</span>
+
+            <small>
+              Inclusive of all taxes
+            </small>
+          </div>
+
+          <strong>
+            {{
+              (cartTotal$ | async)
+                | currency:'INR':'symbol':'1.0-0'
+            }}
+          </strong>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="checkout-button"
+          [disabled]="submittingOrder"
+          (click)="openCheckoutForm()"
+        >
+          Proceed to Checkout
+          <span>→</span>
+        </button>
+
+
+        <a
+          routerLink="/products"
+          class="add-more-products"
+        >
+          + Add more products
+        </a>
+
+
+        <div class="secure-checkout">
+          <i class="fa-solid fa-lock"></i>
+
+          <span>
+            Safe and secure checkout
+          </span>
+        </div>
+
+      </aside>
+
+    </div>
+
+
+    <!-- CHECKOUT FORM -->
+    <section
+      id="checkout-form"
+      class="checkout-form-section"
+      *ngIf="
+        showCheckoutForm &&
+        cartItems.length > 0 &&
+        !orderPlaced
+      "
+    >
+
+      <div class="checkout-form-heading">
+
+        <div>
+          <span>
+            03 · DELIVERY DETAILS
+          </span>
+
+          <h2>Complete Your Order</h2>
+
+          <p>
+            Enter your details so we can process and
+            deliver your sacred products.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="close-checkout-form"
+          aria-label="Close checkout form"
+          [disabled]="submittingOrder"
+          (click)="closeCheckoutForm()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        #checkoutForm="ngForm"
+        class="checkout-customer-form"
+        novalidate
+        (ngSubmit)="submitCheckout(checkoutForm)"
+      >
+
+        <!-- NAME -->
+        <div class="checkout-field">
+
+          <label for="customerName">
+            Full Name <span>*</span>
+          </label>
+
+          <input
+            id="customerName"
+            name="customerName"
+            type="text"
+            placeholder="Enter your full name"
+            [(ngModel)]="customerForm.name"
+            #customerName="ngModel"
+            [disabled]="submittingOrder"
+            required
+            minlength="3"
+          >
+
+          <small
+            class="field-error"
+            *ngIf="
+              customerName.invalid &&
+              customerName.touched
+            "
+          >
+            Please enter your full name.
+          </small>
+
+        </div>
+
+
+        <!-- PHONE -->
+        <div class="checkout-field">
+
+          <label for="phone">
+            Phone Number <span>*</span>
+          </label>
+
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputmode="numeric"
+            maxlength="10"
+            placeholder="Enter 10-digit phone number"
+            [(ngModel)]="customerForm.phone"
+            #phone="ngModel"
+            [disabled]="submittingOrder"
+            required
+            pattern="[6-9][0-9]{9}"
+          >
+
+          <small
+            class="field-error"
+            *ngIf="
+              phone.invalid &&
+              phone.touched
+            "
+          >
+            Enter a valid 10-digit Indian phone number.
+          </small>
+
+        </div>
+
+
+        <!-- EMAIL -->
+        <div class="checkout-field">
+
+          <label for="email">
+            Email Address
+            <small>(Optional)</small>
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email address"
+            [(ngModel)]="customerForm.email"
+            #email="ngModel"
+            [disabled]="submittingOrder"
+            email
+          >
+
+          <small
+            class="field-error"
+            *ngIf="
+              email.invalid &&
+              email.touched
+            "
+          >
+            Please enter a valid email address.
+          </small>
+
+        </div>
+
+
+        <!-- ADDRESS -->
+        <div
+          class="checkout-field checkout-address-field"
+        >
+
+          <label for="address">
+            Complete Delivery Address <span>*</span>
+          </label>
+
+          <textarea
+            id="address"
+            name="address"
+            rows="5"
+            placeholder="House number, street, area, city, state and PIN code"
+            [(ngModel)]="customerForm.address"
+            #address="ngModel"
+            [disabled]="submittingOrder"
+            required
+            minlength="10"
+          ></textarea>
+
+          <small
+            class="field-error"
+            *ngIf="
+              address.invalid &&
+              address.touched
+            "
+          >
+            Please enter your complete delivery address.
+          </small>
+
+        </div>
+
+
+        <!-- BACKEND ERROR -->
+        <div
+          class="checkout-error-message"
+          *ngIf="checkoutError"
+        >
+          <i class="fa-solid fa-circle-exclamation"></i>
+          {{ checkoutError }}
+        </div>
+
+
+        <!-- FORM ACTIONS -->
+        <div class="checkout-form-actions">
+
+          <button
+            type="button"
+            class="cancel-checkout-button"
+            [disabled]="submittingOrder"
+            (click)="closeCheckoutForm()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="confirm-order-button"
+            [disabled]="submittingOrder"
+          >
+
+            <i
+              class="fa-solid fa-spinner fa-spin"
+              *ngIf="submittingOrder"
+            ></i>
+
+            {{
+              submittingOrder
+                ? 'Placing Order...'
+                : 'Confirm Order'
+            }}
+
+            <span *ngIf="!submittingOrder">
+              →
+            </span>
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </div>
+
+</section>

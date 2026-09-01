@@ -1,22 +1,21 @@
-
 <section class="product-video-hero">
 
   <div class="product-video-bg-glow"></div>
 
   <div class="product-video-layout">
 
-    <!-- LEFT SIDE -->
     <div class="product-video-menu">
 
-     <div class="product-video-kicker">
-  <span></span>
-  {{ text.heroKicker }}
-</div>
+      <div class="product-video-kicker">
+        <span></span>
+        {{ text.heroKicker }}
+      </div>
 
-<h1 [class.tamil-hero-small]="language === 'ta'">
-  {{ text.heroTitle1 }}
-  <span>{{ text.heroTitle2 }}</span>
-</h1>
+      <h1 [class.tamil-hero-small]="language === 'ta'">
+        {{ text.heroTitle1 }}
+        <span>{{ text.heroTitle2 }}</span>
+      </h1>
+
       <div class="product-video-list">
 
         <button
@@ -26,22 +25,21 @@
           [class.active]="activeProductIndex === i"
           (click)="selectProduct(i)"
         >
-
           <span class="product-list-number">
-            0{{ i + 1 }}
+            {{ (i + 1).toString().padStart(2, '0') }}
           </span>
 
           <div class="product-list-name">
-            <strong>  {{ getProductName(product) }}</strong>
-         <small *ngIf="language !== 'ta'">
-  {{ product.nameTa }}
-</small>
+            <strong>
+              {{ getProductName(product) }}
+            </strong>
+
+            <small *ngIf="language !== 'ta'">
+              {{ product.nameTa }}
+            </small>
           </div>
 
-          <span class="product-list-arrow">
-            →
-          </span>
-
+          <span class="product-list-arrow">→</span>
         </button>
 
       </div>
@@ -49,10 +47,12 @@
     </div>
 
 
-    <!-- RIGHT SIDE VIDEO -->
     <div class="product-video-view">
 
-      <div class="product-video-frame">
+      <div
+        class="product-video-frame"
+        *ngIf="heroProducts.length > 0"
+      >
 
         <video
           #productVideo
@@ -64,42 +64,55 @@
           [src]="heroProducts[activeProductIndex].video"
         ></video>
 
-
-        <!-- VIDEO GRADIENT -->
         <div class="product-video-overlay"></div>
 
-
-        <!-- BIG NUMBER -->
         <span class="product-video-number">
-          0{{ activeProductIndex + 1 }}
+          {{
+            (activeProductIndex + 1)
+              .toString()
+              .padStart(2, '0')
+          }}
         </span>
 
-
-        <!-- BOTTOM CONTENT -->
         <div class="product-video-info">
 
-        <span class="product-video-category">
-  {{ getProductTag(heroProducts[activeProductIndex]) }}
-</span>
+          <span class="product-video-category">
+            {{
+              getProductTag(
+                heroProducts[activeProductIndex]
+              )
+            }}
+          </span>
 
-<h2 [class.tamil-product-title]="language === 'ta'">
-  {{ getProductName(heroProducts[activeProductIndex]) }}
-</h2>
+          <h2
+            [class.tamil-product-title]="language === 'ta'"
+          >
+            {{
+              getProductName(
+                heroProducts[activeProductIndex]
+              )
+            }}
+          </h2>
 
-<div
-  class="product-video-tamil"
-  *ngIf="language !== 'ta'"
->
-  {{ heroProducts[activeProductIndex].nameTa }}
-</div>
+          <div
+            class="product-video-tamil"
+            *ngIf="language !== 'ta'"
+          >
+            {{
+              heroProducts[activeProductIndex].nameTa
+            }}
+          </div>
 
-<p>
-  {{ getProductDescription(heroProducts[activeProductIndex]) }}
-</p>
+          <p>
+            {{
+              getProductDescription(
+                heroProducts[activeProductIndex]
+              )
+            }}
+          </p>
+
         </div>
 
-
-        <!-- ACTIVE INDICATOR -->
         <div class="product-video-progress">
           <span></span>
         </div>
@@ -114,41 +127,87 @@
 
 
 
-<section class="products-premium" id="products">
+
+
+
+<section
+  class="products-premium"
+  id="products"
+>
 
   <div class="container">
 
     <div class="products-heading products-reveal">
 
       <div class="products-label">
-  <span></span>
-  {{ text.collectionLabel }}
-</div>
+        <span></span>
+        {{ text.collectionLabel }}
+      </div>
 
-<div class="products-heading-grid">
+      <div class="products-heading-grid">
 
-  <h2 [class.tamil-collection-title]="language === 'ta'">
-  {{ text.collectionTitle1 }}
-  <span>{{ text.collectionTitle2 }}</span>
-</h2>
-  <p>
-    {{ text.collectionDesc }}
-  </p>
+        <h2
+          [class.tamil-collection-title]="
+            language === 'ta'
+          "
+        >
+          {{ text.collectionTitle1 }}
 
-  
+          <span>
+            {{ text.collectionTitle2 }}
+          </span>
+        </h2>
+
+        <p>
+          {{ text.collectionDesc }}
+        </p>
+
       </div>
 
     </div>
 
+    <div
+      *ngIf="productsLoading"
+      class="products-loading"
+    >
+      {{ text.loading }}
+    </div>
 
-    <div class="premium-product-grid">
+    <div
+      *ngIf="productsError"
+      class="products-error"
+    >
+      {{ productsError }}
+    </div>
 
-      <!-- CARD 1 -->
-      <article class="premium-product-card product-reveal">
+    <div
+      *ngIf="
+        !productsLoading &&
+        !productsError &&
+        products.length === 0
+      "
+      class="products-empty"
+    >
+      {{ text.empty }}
+    </div>
+
+    <div
+      *ngIf="products.length > 0"
+      class="premium-product-grid"
+    >
+
+      <article
+        *ngFor="
+          let product of products;
+          let i = index;
+          trackBy: trackBackendProduct
+        "
+        class="premium-product-card product-reveal"
+      >
 
         <img
-          src="/assets/p1.jpg"
-          alt="Pure Santhana Paste"
+          [src]="product.imageUrl"
+          [alt]="getBackendProductName(product)"
         >
 
         <div class="product-shade"></div>
@@ -156,42 +215,71 @@
         <div class="product-glass">
 
           <div class="product-top">
-            <span class="product-number">01</span>
-            <small>DAILY POOJA</small>
+
+            <span class="product-number">
+              {{
+                i + 1 < 10
+                  ? '0' + (i + 1)
+                  : i + 1
+              }}
+            </span>
+
+            <small>
+              {{ text.productCategory }}
+            </small>
+
           </div>
 
-          <h3>Pure Santhana Paste</h3>
+          <h3>
+            {{ getBackendProductName(product) }}
+          </h3>
 
           <p>
-            Cooling and naturally fragrant sandal paste prepared
-            for prayer and sacred rituals.
+            {{ getSecondaryName(product) }}
           </p>
+
+          <div class="product-card-price">
+            {{
+              product.price
+                | currency:'INR':'symbol':'1.0-0'
+            }}
+          </div>
 
           <div class="product-shopping-actions">
 
-      <button
-        type="button"
-        class="product-add-cart"
-      >
-        <i class="fa-solid fa-cart-shopping"></i>
+ <button
+  type="button"
+  class="product-add-cart"
+  [class.product-added]="isProductAdded(product)"
+  [disabled]="isProductAdded(product)"
+  (click)="addToCart(product)"
+>
+  <i
+    class="fa-solid"
+    [class.fa-cart-shopping]="!isProductAdded(product)"
+    [class.fa-check]="isProductAdded(product)"
+  ></i>
 
-        Add to Cart
-      </button>
+  {{
+    isProductAdded(product)
+      ? 'Product Added'
+      : text.addToCart
+  }}
+</button>
 
 
-      <a
-        href="/contact"
-        class="product-buy-now"
-      >
-        Buy Now
-      </a>
+  <a
+    href="/contact"
+    class="product-buy-now"
+  >
+    {{ text.buyNow }}
+  </a>
 
-    </div>
+</div>
 
         </div>
 
       </article>
-
 
     </div>
 

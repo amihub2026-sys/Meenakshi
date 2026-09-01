@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  inject
+} from '@angular/core';
+
+import { AsyncPipe } from '@angular/common';
+import { CartService } from './services/cart';
 import {
   RouterLink,
   RouterLinkActive,
@@ -16,15 +22,23 @@ import {
   imports: [
     RouterOutlet,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+  AsyncPipe
+
   ],
   templateUrl: './app.component.html'
 })
 export class AppComponent {
+  
 
   menuOpen = false;
 
   language: Language = 'ta';
+  private readonly cartService =
+  inject(CartService);
+
+readonly cartCount$ =
+  this.cartService.cartCount$;
 
   constructor(
     private languageService: LanguageService

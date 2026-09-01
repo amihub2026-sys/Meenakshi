@@ -85,4 +85,11 @@ export class ProductService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  // Public: get active products
+getProducts(): Observable<Product[]> {
+  return this.http.get<Product[]>(
+    this.apiUrl
+  );
+}
 }
