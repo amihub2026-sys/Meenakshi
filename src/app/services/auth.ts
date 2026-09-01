@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface AdminLoginData {
   email: string;
@@ -22,8 +23,8 @@ export interface AdminLoginResponse {
 })
 export class AuthService {
 
-  private readonly apiUrl =
-    'http://localhost:5000/api/auth';
+private readonly apiUrl =
+  `${environment.apiUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 
