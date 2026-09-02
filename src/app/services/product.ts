@@ -87,7 +87,14 @@ export class ProductService {
       { headers: this.getAuthHeaders() }
     );
   }
-
+ validateCartProducts(
+  productIds: string[]
+): Observable<Product[]> {
+  return this.http.post<Product[]>(
+    `${this.apiUrl}/cart/validate`,
+    { productIds }
+  );
+}
   // Public: get active products
 getProducts(): Observable<Product[]> {
   return this.http.get<Product[]>(
