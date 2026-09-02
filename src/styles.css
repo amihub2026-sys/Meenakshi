@@ -7496,3 +7496,11 @@ h2.tamil-tradition-title span {
 .product-add-cart.product-added i {
   color: #f0c84b;
 }
+.unavailable-btn,
+button:disabled {
+  background: #d62828 !important;
+  border-color: #d62828 !important;
+  color: #ffffff !important;
+  opacity: 1;
+  cursor: not-allowed;
+}
