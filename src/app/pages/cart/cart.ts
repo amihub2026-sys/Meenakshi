@@ -1,8 +1,12 @@
 import {
   Component,
-  inject
+  inject,
+    OnInit
 } from '@angular/core';
-
+ import {
+  Product,
+  ProductService
+} from '../../services/product';
 import {
   CommonModule
 } from '@angular/common';
@@ -45,8 +49,7 @@ import {
   templateUrl: './cart.html',
   styleUrl: './cart.css'
 })
-export class CartComponent {
-
+export class CartComponent implements OnInit {
   private readonly cartService =
     inject(CartService);
 
@@ -55,7 +58,8 @@ export class CartComponent {
 
   private readonly orderService =
     inject(OrderService);
-
+  private readonly productService =
+  inject(ProductService);
 
   readonly cartItems$ =
     this.cartService.cartItems$;
@@ -97,23 +101,67 @@ export class CartComponent {
       }
     );
   }
+ngOnInit(): void {
+  const cartItems =
+    this.cartService.getCartItems();
 
-
-  openCheckoutForm(): void {
-    this.showCheckoutForm = true;
-    this.orderPlaced = false;
-    this.checkoutMessage = '';
-    this.checkoutError = '';
-
-    setTimeout(() => {
-      document
-        .getElementById('checkout-form')
-        ?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-    });
+  if (cartItems.length === 0) {
+    return;
   }
+
+  const productIds = cartItems.map(
+    item => item.product._id
+  );
+
+  this.productService
+    .validateCartProducts(productIds)
+    .subscribe({
+      next: (products: Product[]) => {
+        this.cartService.syncWithProducts(products);
+      },
+
+      error: error => {
+        console.error(
+          'Unable to validate cart products:',
+          error
+        );
+      }
+    });
+}
+hasOutOfStockProducts(): boolean {
+  return this.cartService
+    .getCartItems()
+    .some(item => !item.product.isActive);
+}
+
+ 
+      openCheckoutForm(): void {
+  if (this.hasOutOfStockProducts()) {
+    this.checkoutError =
+      this.language === 'ta'
+        ? 'கையிருப்பில் இல்லாத பொருட்களை அகற்றவும்.'
+        : this.language === 'hi'
+          ? 'स्टॉक में नहीं उपलब्ध उत्पादों को हटाएँ।'
+          : 'Please remove out-of-stock products.';
+
+    return;
+  }
+
+  this.showCheckoutForm = true;
+  this.orderPlaced = false;
+  this.checkoutMessage = '';
+  this.checkoutError = '';
+
+  setTimeout(() => {
+    document
+      .getElementById('checkout-form')
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+  });
+}
+   
 
 
   closeCheckoutForm(): void {
@@ -148,7 +196,11 @@ export class CartComponent {
         'Your cart is empty. Please add a product.';
       return;
     }
-
+   if (cartItems.some(item => !item.product.isActive)) {
+  this.checkoutError =
+    'Please remove out-of-stock products before checkout.';
+  return;
+}
 
     const orderData: CreateOrderData = {
       customerName:
