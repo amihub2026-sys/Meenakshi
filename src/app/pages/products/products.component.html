@@ -260,9 +260,15 @@
     [class.fa-check]="isProductAdded(product)"
   ></i>
 
-  {{
+    {{
     isProductAdded(product)
-      ? 'Product Added'
+      ? (
+          language === 'ta'
+            ? 'பொருள் சேர்க்கப்பட்டது'
+            : language === 'hi'
+            ? 'उत्पाद जोड़ा गया'
+            : 'Product Added'
+        )
       : text.addToCart
   }}
 </button>
