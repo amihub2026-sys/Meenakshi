@@ -5,35 +5,78 @@
     *ngIf="cartItems$ | async as cartItems"
   >
 
-    <!-- CART HEADER -->
+    <!-- =========================
+         CART HEADER
+    ========================== -->
     <header class="cart-header">
 
       <div>
+
         <span class="cart-kicker">
-          YOUR SACRED SELECTION
+          {{
+            language === 'ta'
+              ? 'உங்கள் புனிதத் தேர்வு'
+              : language === 'hi'
+                ? 'आपका पवित्र चयन'
+                : 'YOUR SACRED SELECTION'
+          }}
         </span>
 
         <h1>
-          {{ orderPlaced ? 'Order Confirmed' : 'Shopping Cart' }}
+          {{
+            orderPlaced
+              ? (
+                  language === 'ta'
+                    ? 'ஆர்டர் உறுதிசெய்யப்பட்டது'
+                    : language === 'hi'
+                      ? 'ऑर्डर की पुष्टि हो गई'
+                      : 'Order Confirmed'
+                )
+              : (
+                  language === 'ta'
+                    ? 'ஷாப்பிங் கார்ட்'
+                    : language === 'hi'
+                      ? 'शॉपिंग कार्ट'
+                      : 'Shopping Cart'
+                )
+          }}
         </h1>
 
         <p *ngIf="!orderPlaced">
           {{ (cartCount$ | async) || 0 }}
-          item(s) in your cart
+
+          {{
+            language === 'ta'
+              ? 'பொருள்(கள்) உங்கள் கார்ட்டில் உள்ளன'
+              : language === 'hi'
+                ? 'उत्पाद आपके कार्ट में हैं'
+                : 'item(s) in your cart'
+          }}
         </p>
+
       </div>
+
 
       <a
         routerLink="/products"
         class="continue-shopping"
       >
-        ← Continue Shopping
+        ←
+        {{
+          language === 'ta'
+            ? 'தொடர்ந்து வாங்குங்கள்'
+            : language === 'hi'
+              ? 'खरीदारी जारी रखें'
+              : 'Continue Shopping'
+        }}
       </a>
 
     </header>
 
 
-    <!-- ORDER SUCCESS -->
+    <!-- =========================
+         ORDER SUCCESS
+    ========================== -->
     <section
       class="order-success-card"
       *ngIf="orderPlaced"
@@ -44,33 +87,79 @@
       </div>
 
       <span class="order-success-kicker">
-        ORDER PLACED SUCCESSFULLY
+        {{
+          language === 'ta'
+            ? 'ஆர்டர் வெற்றிகரமாக பதிவு செய்யப்பட்டது'
+            : language === 'hi'
+              ? 'ऑर्डर सफलतापूर्वक किया गया'
+              : 'ORDER PLACED SUCCESSFULLY'
+        }}
       </span>
 
-      <h2>Thank You for Your Order</h2>
+
+      <h2>
+        {{
+          language === 'ta'
+            ? 'உங்கள் ஆர்டருக்கு நன்றி'
+            : language === 'hi'
+              ? 'आपके ऑर्डर के लिए धन्यवाद'
+              : 'Thank You for Your Order'
+        }}
+      </h2>
+
 
       <p>
         {{ checkoutMessage }}
-        Your order details have been sent to our
-        administration team.
+
+        {{
+          language === 'ta'
+            ? 'உங்கள் ஆர்டர் விவரங்கள் எங்கள் நிர்வாகக் குழுவிற்கு அனுப்பப்பட்டுள்ளன.'
+            : language === 'hi'
+              ? 'आपके ऑर्डर का विवरण हमारी प्रशासन टीम को भेज दिया गया है।'
+              : 'Your order details have been sent to our administration team.'
+        }}
       </p>
 
+
       <div class="order-reference">
-        <small>Order reference</small>
-        <strong>{{ placedOrderId }}</strong>
+
+        <small>
+          {{
+            language === 'ta'
+              ? 'ஆர்டர் குறிப்பு எண்'
+              : language === 'hi'
+                ? 'ऑर्डर संदर्भ'
+                : 'Order reference'
+          }}
+        </small>
+
+        <strong>
+          {{ placedOrderId }}
+        </strong>
+
       </div>
+
 
       <a
         routerLink="/products"
         class="shop-products-button"
       >
-        Continue Shopping
+        {{
+          language === 'ta'
+            ? 'தொடர்ந்து வாங்குங்கள்'
+            : language === 'hi'
+              ? 'खरीदारी जारी रखें'
+              : 'Continue Shopping'
+        }}
       </a>
 
     </section>
 
 
-    <!-- EMPTY CART -->
+
+    <!-- =========================
+         EMPTY CART
+    ========================== -->
     <div
       class="empty-cart"
       *ngIf="
@@ -83,24 +172,49 @@
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
 
-      <h2>Your cart is empty</h2>
+
+      <h2>
+        {{
+          language === 'ta'
+            ? 'உங்கள் கார்ட் காலியாக உள்ளது'
+            : language === 'hi'
+              ? 'आपका कार्ट खाली है'
+              : 'Your cart is empty'
+        }}
+      </h2>
+
 
       <p>
-        Explore our sacred collection and add products
-        to your cart.
+        {{
+          language === 'ta'
+            ? 'எங்கள் புனித பூஜைப் பொருட்களைப் பார்த்து தேவையான பொருட்களை உங்கள் கார்ட்டில் சேர்க்கவும்.'
+            : language === 'hi'
+              ? 'हमारे पूजा उत्पादों को देखें और अपनी आवश्यकता के उत्पाद कार्ट में जोड़ें।'
+              : 'Explore our sacred collection and add products to your cart.'
+        }}
       </p>
+
 
       <a
         routerLink="/products"
         class="shop-products-button"
       >
-        Browse Products
+        {{
+          language === 'ta'
+            ? 'பொருட்களைப் பார்க்க'
+            : language === 'hi'
+              ? 'उत्पाद देखें'
+              : 'Browse Products'
+        }}
       </a>
 
     </div>
 
 
-    <!-- CART CONTENT -->
+
+    <!-- =========================
+         CART CONTENT
+    ========================== -->
     <div
       class="cart-layout"
       *ngIf="
@@ -109,15 +223,31 @@
       "
     >
 
-      <!-- LEFT: PRODUCTS -->
+
+      <!-- =========================
+           LEFT PRODUCTS
+      ========================== -->
       <div class="cart-products-panel">
+
 
         <div class="cart-panel-heading">
 
           <div>
+
             <span>01</span>
-            <h2>Your Products</h2>
+
+            <h2>
+              {{
+                language === 'ta'
+                  ? 'உங்கள் பொருட்கள்'
+                  : language === 'hi'
+                    ? 'आपके उत्पाद'
+                    : 'Your Products'
+              }}
+            </h2>
+
           </div>
+
 
           <button
             type="button"
@@ -125,12 +255,20 @@
             [disabled]="submittingOrder"
             (click)="clearCart()"
           >
-            Clear Cart
+            {{
+              language === 'ta'
+                ? 'கார்ட்டை காலி செய்'
+                : language === 'hi'
+                  ? 'कार्ट खाली करें'
+                  : 'Clear Cart'
+            }}
           </button>
 
         </div>
 
 
+
+        <!-- PRODUCT -->
         <article
           class="cart-product"
           *ngFor="
@@ -140,26 +278,38 @@
         >
 
           <div class="cart-product-image">
+
             <img
               [src]="item.product.imageUrl"
               [alt]="getProductName(item)"
             >
+
           </div>
+
 
 
           <div class="cart-product-details">
 
             <span class="product-category">
-              SACRED PRODUCT
+              {{
+                language === 'ta'
+                  ? 'புனித பூஜைப் பொருள்'
+                  : language === 'hi'
+                    ? 'पवित्र पूजा उत्पाद'
+                    : 'SACRED PRODUCT'
+              }}
             </span>
+
 
             <h3>
               {{ getProductName(item) }}
             </h3>
 
+
             <p>
               {{ getSecondaryName(item) }}
             </p>
+
 
             <button
               type="button"
@@ -167,16 +317,35 @@
               [disabled]="submittingOrder"
               (click)="removeProduct(item.product._id)"
             >
+
               <i class="fa-solid fa-trash"></i>
-              Remove
+
+              {{
+                language === 'ta'
+                  ? 'நீக்கு'
+                  : language === 'hi'
+                    ? 'हटाएँ'
+                    : 'Remove'
+              }}
+
             </button>
 
           </div>
 
 
+
+          <!-- UNIT PRICE -->
           <div class="cart-product-price">
 
-            <small>Unit price</small>
+            <small>
+              {{
+                language === 'ta'
+                  ? 'ஒரு பொருளின் விலை'
+                  : language === 'hi'
+                    ? 'प्रति इकाई मूल्य'
+                    : 'Unit price'
+              }}
+            </small>
 
             <strong>
               {{
@@ -188,15 +357,32 @@
           </div>
 
 
+
+          <!-- QUANTITY -->
           <div class="quantity-section">
 
-            <small>Quantity</small>
+            <small>
+              {{
+                language === 'ta'
+                  ? 'அளவு'
+                  : language === 'hi'
+                    ? 'मात्रा'
+                    : 'Quantity'
+              }}
+            </small>
+
 
             <div class="quantity-control">
 
               <button
                 type="button"
-                aria-label="Decrease quantity"
+                [attr.aria-label]="
+                  language === 'ta'
+                    ? 'அளவை குறைக்க'
+                    : language === 'hi'
+                      ? 'मात्रा कम करें'
+                      : 'Decrease quantity'
+                "
                 [disabled]="
                   item.quantity <= 1 ||
                   submittingOrder
@@ -206,13 +392,21 @@
                 −
               </button>
 
+
               <span>
                 {{ item.quantity }}
               </span>
 
+
               <button
                 type="button"
-                aria-label="Increase quantity"
+                [attr.aria-label]="
+                  language === 'ta'
+                    ? 'அளவை அதிகரிக்க'
+                    : language === 'hi'
+                      ? 'मात्रा बढ़ाएँ'
+                      : 'Increase quantity'
+                "
                 [disabled]="submittingOrder"
                 (click)="increaseQuantity(item.product._id)"
               >
@@ -224,9 +418,19 @@
           </div>
 
 
+
+          <!-- ITEM TOTAL -->
           <div class="cart-item-total">
 
-            <small>Total</small>
+            <small>
+              {{
+                language === 'ta'
+                  ? 'மொத்தம்'
+                  : language === 'hi'
+                    ? 'कुल'
+                    : 'Total'
+              }}
+            </small>
 
             <strong>
               {{
@@ -242,26 +446,64 @@
       </div>
 
 
-      <!-- RIGHT: PRICE DETAILS -->
+
+      <!-- =========================
+           ORDER SUMMARY
+      ========================== -->
       <aside class="cart-summary">
 
         <span class="summary-number">
           02
         </span>
 
+
         <span class="summary-kicker">
-          ORDER SUMMARY
+          {{
+            language === 'ta'
+              ? 'ஆர்டர் சுருக்கம்'
+              : language === 'hi'
+                ? 'ऑर्डर सारांश'
+                : 'ORDER SUMMARY'
+          }}
         </span>
 
-        <h2>Price Details</h2>
+
+        <h2>
+          {{
+            language === 'ta'
+              ? 'விலை விவரங்கள்'
+              : language === 'hi'
+                ? 'मूल्य विवरण'
+                : 'Price Details'
+          }}
+        </h2>
+
 
 
         <div class="summary-row">
 
           <span>
-            Subtotal
-            ({{ (cartCount$ | async) || 0 }} items)
+
+            {{
+              language === 'ta'
+                ? 'துணை மொத்தம்'
+                : language === 'hi'
+                  ? 'उप-योग'
+                  : 'Subtotal'
+            }}
+
+            ({{ (cartCount$ | async) || 0 }}
+
+            {{
+              language === 'ta'
+                ? 'பொருட்கள்'
+                : language === 'hi'
+                  ? 'उत्पाद'
+                  : 'items'
+            }})
+
           </span>
+
 
           <strong>
             {{
@@ -273,12 +515,29 @@
         </div>
 
 
+
+        <!-- DELIVERY -->
         <div class="summary-row">
 
-          <span>Delivery charge</span>
+          <span>
+            {{
+              language === 'ta'
+                ? 'டெலிவரி கட்டணம்'
+                : language === 'hi'
+                  ? 'डिलीवरी शुल्क'
+                  : 'Delivery charge'
+            }}
+          </span>
+
 
           <strong class="free-delivery">
-            FREE
+            {{
+              language === 'ta'
+                ? 'இலவசம்'
+                : language === 'hi'
+                  ? 'मुफ़्त'
+                  : 'FREE'
+            }}
           </strong>
 
         </div>
@@ -287,15 +546,35 @@
         <div class="summary-divider"></div>
 
 
+
+        <!-- GRAND TOTAL -->
         <div class="summary-total">
 
           <div>
-            <span>Total Amount</span>
+
+            <span>
+              {{
+                language === 'ta'
+                  ? 'மொத்த தொகை'
+                  : language === 'hi'
+                    ? 'कुल राशि'
+                    : 'Total Amount'
+              }}
+            </span>
+
 
             <small>
-              Inclusive of all taxes
+              {{
+                language === 'ta'
+                  ? 'அனைத்து வரிகளும் உட்பட'
+                  : language === 'hi'
+                    ? 'सभी कर शामिल'
+                    : 'Inclusive of all taxes'
+              }}
             </small>
+
           </div>
+
 
           <strong>
             {{
@@ -307,31 +586,59 @@
         </div>
 
 
+
+        <!-- CHECKOUT -->
         <button
           type="button"
           class="checkout-button"
           [disabled]="submittingOrder"
           (click)="openCheckoutForm()"
         >
-          Proceed to Checkout
+
+          {{
+            language === 'ta'
+              ? 'செக் அவுட் செய்ய'
+              : language === 'hi'
+                ? 'चेकआउट करें'
+                : 'Proceed to Checkout'
+          }}
+
           <span>→</span>
+
         </button>
+
 
 
         <a
           routerLink="/products"
           class="add-more-products"
         >
-          + Add more products
+          +
+          {{
+            language === 'ta'
+              ? 'மேலும் பொருட்களைச் சேர்க்க'
+              : language === 'hi'
+                ? 'और उत्पाद जोड़ें'
+                : 'Add more products'
+          }}
         </a>
 
 
+
         <div class="secure-checkout">
+
           <i class="fa-solid fa-lock"></i>
 
           <span>
-            Safe and secure checkout
+            {{
+              language === 'ta'
+                ? 'பாதுகாப்பான செக் அவுட்'
+                : language === 'hi'
+                  ? 'सुरक्षित चेकआउट'
+                  : 'Safe and secure checkout'
+            }}
           </span>
+
         </div>
 
       </aside>
@@ -339,7 +646,10 @@
     </div>
 
 
-    <!-- CHECKOUT FORM -->
+
+    <!-- =====================================================
+         CHECKOUT FORM
+    ====================================================== -->
     <section
       id="checkout-form"
       class="checkout-form-section"
@@ -350,25 +660,57 @@
       "
     >
 
+
       <div class="checkout-form-heading">
 
         <div>
+
           <span>
-            03 · DELIVERY DETAILS
+            {{
+              language === 'ta'
+                ? '03 · டெலிவரி விவரங்கள்'
+                : language === 'hi'
+                  ? '03 · डिलीवरी विवरण'
+                  : '03 · DELIVERY DETAILS'
+            }}
           </span>
 
-          <h2>Complete Your Order</h2>
+
+          <h2>
+            {{
+              language === 'ta'
+                ? 'உங்கள் ஆர்டரை நிறைவு செய்யுங்கள்'
+                : language === 'hi'
+                  ? 'अपना ऑर्डर पूरा करें'
+                  : 'Complete Your Order'
+            }}
+          </h2>
+
 
           <p>
-            Enter your details so we can process and
-            deliver your sacred products.
+            {{
+              language === 'ta'
+                ? 'உங்கள் பூஜைப் பொருட்களை செயல்படுத்தி டெலிவரி செய்ய தேவையான விவரங்களை உள்ளிடவும்.'
+                : language === 'hi'
+                  ? 'आपके पूजा उत्पादों को प्रोसेस और डिलीवर करने के लिए अपना विवरण दर्ज करें।'
+                  : 'Enter your details so we can process and deliver your sacred products.'
+            }}
           </p>
+
         </div>
+
+
 
         <button
           type="button"
           class="close-checkout-form"
-          aria-label="Close checkout form"
+          [attr.aria-label]="
+            language === 'ta'
+              ? 'செக் அவுட் படிவத்தை மூடு'
+              : language === 'hi'
+                ? 'चेकआउट फ़ॉर्म बंद करें'
+                : 'Close checkout form'
+          "
           [disabled]="submittingOrder"
           (click)="closeCheckoutForm()"
         >
@@ -378,6 +720,10 @@
       </div>
 
 
+
+      <!-- =========================
+           FORM
+      ========================== -->
       <form
         #checkoutForm="ngForm"
         class="checkout-customer-form"
@@ -385,24 +731,47 @@
         (ngSubmit)="submitCheckout(checkoutForm)"
       >
 
+
         <!-- NAME -->
         <div class="checkout-field">
 
           <label for="customerName">
-            Full Name <span>*</span>
+
+            {{
+              language === 'ta'
+                ? 'முழுப் பெயர்'
+                : language === 'hi'
+                  ? 'पूरा नाम'
+                  : 'Full Name'
+            }}
+
+            <span>*</span>
+
           </label>
+
 
           <input
             id="customerName"
             name="customerName"
             type="text"
-            placeholder="Enter your full name"
+
+            [placeholder]="
+              language === 'ta'
+                ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்'
+                : language === 'hi'
+                  ? 'अपना पूरा नाम दर्ज करें'
+                  : 'Enter your full name'
+            "
+
             [(ngModel)]="customerForm.name"
             #customerName="ngModel"
+
             [disabled]="submittingOrder"
+
             required
             minlength="3"
           >
+
 
           <small
             class="field-error"
@@ -411,32 +780,62 @@
               customerName.touched
             "
           >
-            Please enter your full name.
+            {{
+              language === 'ta'
+                ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்.'
+                : language === 'hi'
+                  ? 'कृपया अपना पूरा नाम दर्ज करें।'
+                  : 'Please enter your full name.'
+            }}
           </small>
 
         </div>
+
 
 
         <!-- PHONE -->
         <div class="checkout-field">
 
           <label for="phone">
-            Phone Number <span>*</span>
+
+            {{
+              language === 'ta'
+                ? 'தொலைபேசி எண்'
+                : language === 'hi'
+                  ? 'फ़ोन नंबर'
+                  : 'Phone Number'
+            }}
+
+            <span>*</span>
+
           </label>
+
 
           <input
             id="phone"
             name="phone"
             type="tel"
+
             inputmode="numeric"
             maxlength="10"
-            placeholder="Enter 10-digit phone number"
+
+            [placeholder]="
+              language === 'ta'
+                ? '10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்'
+                : language === 'hi'
+                  ? '10 अंकों का फ़ोन नंबर दर्ज करें'
+                  : 'Enter 10-digit phone number'
+            "
+
             [(ngModel)]="customerForm.phone"
             #phone="ngModel"
+
             [disabled]="submittingOrder"
+
             required
             pattern="[6-9][0-9]{9}"
           >
+
 
           <small
             class="field-error"
@@ -445,129 +844,8 @@
               phone.touched
             "
           >
-            Enter a valid 10-digit Indian phone number.
-          </small>
-
-        </div>
-
-
-        <!-- EMAIL -->
-        <div class="checkout-field">
-
-          <label for="email">
-            Email Address
-            <small>(Optional)</small>
-          </label>
-
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Enter your email address"
-            [(ngModel)]="customerForm.email"
-            #email="ngModel"
-            [disabled]="submittingOrder"
-            email
-          >
-
-          <small
-            class="field-error"
-            *ngIf="
-              email.invalid &&
-              email.touched
-            "
-          >
-            Please enter a valid email address.
-          </small>
-
-        </div>
-
-
-        <!-- ADDRESS -->
-        <div
-          class="checkout-field checkout-address-field"
-        >
-
-          <label for="address">
-            Complete Delivery Address <span>*</span>
-          </label>
-
-          <textarea
-            id="address"
-            name="address"
-            rows="5"
-            placeholder="House number, street, area, city, state and PIN code"
-            [(ngModel)]="customerForm.address"
-            #address="ngModel"
-            [disabled]="submittingOrder"
-            required
-            minlength="10"
-          ></textarea>
-
-          <small
-            class="field-error"
-            *ngIf="
-              address.invalid &&
-              address.touched
-            "
-          >
-            Please enter your complete delivery address.
-          </small>
-
-        </div>
-
-
-        <!-- BACKEND ERROR -->
-        <div
-          class="checkout-error-message"
-          *ngIf="checkoutError"
-        >
-          <i class="fa-solid fa-circle-exclamation"></i>
-          {{ checkoutError }}
-        </div>
-
-
-        <!-- FORM ACTIONS -->
-        <div class="checkout-form-actions">
-
-          <button
-            type="button"
-            class="cancel-checkout-button"
-            [disabled]="submittingOrder"
-            (click)="closeCheckoutForm()"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            class="confirm-order-button"
-            [disabled]="submittingOrder"
-          >
-
-            <i
-              class="fa-solid fa-spinner fa-spin"
-              *ngIf="submittingOrder"
-            ></i>
-
             {{
-              submittingOrder
-                ? 'Placing Order...'
-                : 'Confirm Order'
-            }}
-
-            <span *ngIf="!submittingOrder">
-              →
-            </span>
-
-          </button>
-
-        </div>
-
-      </form>
-
-    </section>
-
-  </div>
-
-</section>
+              language === 'ta'
+                ? 'சரியான 10 இலக்க இந்திய தொலைபேசி எண்ணை உள்ளிடவும்.'
+                : language === 'hi'
+            

@@ -113,7 +113,93 @@
   </a>
 
 </section>
-  
+      <section class="about-glance">
+
+  <div class="about-glance-orb orb-one"></div>
+  <div class="about-glance-orb orb-two"></div>
+
+  <div class="container about-glance-wrap">
+
+    <!-- LEFT -->
+    <div class="about-glance-left">
+
+     <div class="about-glance-kicker">
+  <span></span>
+  {{ text.glanceKicker }}
+</div>
+
+<h2 [class.tamil-glance-title]="language === 'ta'">
+  {{ text.glanceTitle1 }}
+  <span>{{ text.glanceTitle2 }}</span>
+</h2>
+
+<p class="about-glance-lead">
+  {{ text.glanceLead }}
+</p>
+
+    </div>
+
+
+    <!-- RIGHT -->
+    <div class="about-glance-right">
+
+      <div class="glance-line">
+        <span></span>
+      </div>
+
+      <div class="glance-point">
+
+        <small>01</small>
+
+        <div>
+          <h3>{{ text.rooted }}</h3>
+<p>
+  {{ text.rootedDesc }}
+</p>
+        </div>
+
+      </div>
+
+
+      <div class="glance-point">
+
+        <small>02</small>
+
+        <div>
+          <h3>{{ text.pureChoice }}</h3>
+
+<p>
+  {{ text.pureChoiceDesc }}
+</p>
+        </div>
+
+      </div>
+
+
+      <div class="glance-point">
+
+        <small>03</small>
+
+        <div>
+          <h3>{{ text.trusted }}</h3>
+
+<p>
+  {{ text.trustedDesc }}
+</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="about-glance-word">
+      {{ text.tradition }}
+  </div>
+
+</section>
     
     <section class="why-divine" id="why-us">
 
@@ -432,90 +518,3 @@
 
 <section class="marquee-strip" aria-label="Store highlights">
  <div>   {{ text.marquee }}  </div>   </section>
-    <section class="about-glance">
-
-  <div class="about-glance-orb orb-one"></div>
-  <div class="about-glance-orb orb-two"></div>
-
-  <div class="container about-glance-wrap">
-
-    <!-- LEFT -->
-    <div class="about-glance-left">
-
-     <div class="about-glance-kicker">
-  <span></span>
-  {{ text.glanceKicker }}
-</div>
-
-<h2 [class.tamil-glance-title]="language === 'ta'">
-  {{ text.glanceTitle1 }}
-  <span>{{ text.glanceTitle2 }}</span>
-</h2>
-
-<p class="about-glance-lead">
-  {{ text.glanceLead }}
-</p>
-
-    </div>
-
-
-    <!-- RIGHT -->
-    <div class="about-glance-right">
-
-      <div class="glance-line">
-        <span></span>
-      </div>
-
-      <div class="glance-point">
-
-        <small>01</small>
-
-        <div>
-          <h3>{{ text.rooted }}</h3>
-<p>
-  {{ text.rootedDesc }}
-</p>
-        </div>
-
-      </div>
-
-
-      <div class="glance-point">
-
-        <small>02</small>
-
-        <div>
-          <h3>{{ text.pureChoice }}</h3>
-
-<p>
-  {{ text.pureChoiceDesc }}
-</p>
-        </div>
-
-      </div>
-
-
-      <div class="glance-point">
-
-        <small>03</small>
-
-        <div>
-          <h3>{{ text.trusted }}</h3>
-
-<p>
-  {{ text.trustedDesc }}
-</p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="about-glance-word">
-      {{ text.tradition }}
-  </div>
-
-</section>
