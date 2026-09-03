@@ -233,7 +233,12 @@
           <h3>
             {{ getBackendProductName(product) }}
           </h3>
-
+     <span
+  *ngIf="!product.isActive"
+  class="product-stock-badge"
+>
+  Out of Stock
+</span>
           <p>
             {{ getSecondaryName(product) }}
           </p>
@@ -244,36 +249,46 @@
                 | currency:'INR':'symbol':'1.0-0'
             }}
           </div>
+<div class="product-shopping-actions">
 
-          <div class="product-shopping-actions">
-
- <button
-  type="button"
-  class="product-add-cart"
-  [class.product-added]="isProductAdded(product)"
-  [disabled]="isProductAdded(product)"
-  (click)="addToCart(product)"
->
-  <i
-    class="fa-solid"
-    [class.fa-cart-shopping]="!isProductAdded(product)"
-    [class.fa-check]="isProductAdded(product)"
-  ></i>
-
-  {{
-    isProductAdded(product)
-      ? 'Product Added'
-      : text.addToCart
-  }}
-</button>
-
+  <button
+    type="button"
+    class="product-add-cart"
+    [class.product-added]="
+      product.isActive &&
+      isProductAdded(product)
+    "
+    [disabled]="
+      !product.isActive ||
+      isProductAdded(product)
+    "
+    (click)="addToCart(product)"
+  >
+    {{
+      !product.isActive
+        ? 'Out of Stock'
+        : isProductAdded(product)
+          ? 'Product Added'
+          : text.addToCart
+    }}
+  </button>
 
   <a
+    *ngIf="product.isActive"
     href="/contact"
     class="product-buy-now"
   >
     {{ text.buyNow }}
   </a>
+
+  <button  class="unavailable-btn"
+    *ngIf="!product.isActive"
+    type="button"
+    class="product-buy-now"
+    disabled
+  >
+    Unavailable
+  </button>
 
 </div>
 

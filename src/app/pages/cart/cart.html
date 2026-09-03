@@ -310,6 +310,18 @@
               {{ getSecondaryName(item) }}
             </p>
 
+<span
+  *ngIf="!item.product.isActive"
+  class="out-of-stock-badge"
+>
+  {{
+    language === 'ta'
+      ? 'கையிருப்பில் இல்லை'
+      : language === 'hi'
+        ? 'स्टॉक में नहीं'
+        : 'Out of Stock'
+  }}
+</span>
 
             <button
               type="button"
@@ -593,6 +605,10 @@
           class="checkout-button"
           [disabled]="submittingOrder"
           (click)="openCheckoutForm()"
+           [disabled]="
+    submittingOrder ||
+    hasOutOfStockProducts()
+  "
         >
 
           {{

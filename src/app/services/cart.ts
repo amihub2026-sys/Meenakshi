@@ -152,7 +152,28 @@ export class CartService {
   getCartItems(): CartItem[] {
     return this.cartItemsSubject.value;
   }
+  syncWithProducts(products: Product[]): void {
+  const availableProducts = new Map(
+    products.map(product => [
+      product._id,
+      product
+    ])
+  );
 
+  const validCartItems =
+    this.cartItemsSubject.value
+      .filter(item =>
+        availableProducts.has(item.product._id)
+      )
+      .map(item => ({
+        ...item,
+        product: availableProducts.get(
+          item.product._id
+        )!
+      }));
+
+  this.updateCart(validCartItems);
+}
 
   private updateCart(items: CartItem[]): void {
     this.cartItemsSubject.next(items);

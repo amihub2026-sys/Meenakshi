@@ -1,6 +1,7 @@
 import {
   Component,
-  inject
+  inject,
+  OnInit
 } from '@angular/core';
 
 import {
@@ -15,6 +16,16 @@ import {
   FormsModule,
   NgForm
 } from '@angular/forms';
+
+import {
+  Observable,
+  map
+} from 'rxjs';
+
+import {
+  Product,
+  ProductService
+} from '../../services/product';
 
 import {
   CartItem,
@@ -45,7 +56,7 @@ import {
   templateUrl: './cart.html',
   styleUrl: './cart.css'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
 
   private readonly cartService =
     inject(CartService);
@@ -56,15 +67,64 @@ export class CartComponent {
   private readonly orderService =
     inject(OrderService);
 
+  private readonly productService =
+    inject(ProductService);
 
-  readonly cartItems$ =
+
+  readonly cartItems$: Observable<CartItem[]> =
     this.cartService.cartItems$;
 
-  readonly cartCount$ =
-    this.cartService.cartCount$;
 
-  readonly cartTotal$ =
-    this.cartService.cartTotal$;
+  /*
+   * Counts only available products.
+   * Out-of-stock products are not included.
+   */
+  readonly cartCount$: Observable<number> =
+    this.cartItems$.pipe(
+      map((items: CartItem[]) => {
+        return items
+          .filter((item: CartItem) =>
+            item.product.isActive
+          )
+          .reduce(
+            (
+              count: number,
+              item: CartItem
+            ) => {
+              return count + item.quantity;
+            },
+            0
+          );
+      })
+    );
+
+
+  /*
+   * Calculates only available product prices.
+   * Out-of-stock products have no effect on total.
+   */
+  readonly cartTotal$: Observable<number> =
+    this.cartItems$.pipe(
+      map((items: CartItem[]) => {
+        return items
+          .filter((item: CartItem) =>
+            item.product.isActive
+          )
+          .reduce(
+            (
+              total: number,
+              item: CartItem
+            ) => {
+              return (
+                total +
+                item.product.price *
+                item.quantity
+              );
+            },
+            0
+          );
+      })
+    );
 
 
   language: Language = 'ta';
@@ -99,7 +159,72 @@ export class CartComponent {
   }
 
 
+  ngOnInit(): void {
+    const cartItems =
+      this.cartService.getCartItems();
+
+    if (cartItems.length === 0) {
+      return;
+    }
+
+    const productIds = cartItems.map(
+      (item: CartItem) =>
+        item.product._id
+    );
+
+    this.productService
+      .validateCartProducts(productIds)
+      .subscribe({
+        next: (products: Product[]) => {
+          this.cartService
+            .syncWithProducts(products);
+        },
+
+        error: error => {
+          console.error(
+            'Unable to validate cart products:',
+            error
+          );
+        }
+      });
+  }
+
+
+  /*
+   * Returns only available cart items.
+   */
+  private getAvailableCartItems(): CartItem[] {
+    return this.cartService
+      .getCartItems()
+      .filter(
+        (item: CartItem) =>
+          item.product.isActive
+      );
+  }
+
+hasOutOfStockProducts(): boolean {
+  return this.getAvailableCartItems().length === 0;
+}
+  /*
+   * Opens checkout when at least one
+   * available product exists.
+   */
   openCheckoutForm(): void {
+ front
+    const availableItems =
+      this.getAvailableCartItems();
+
+    if (availableItems.length === 0) {
+      this.checkoutError =
+        this.language === 'ta'
+          ? 'ஆர்டர் செய்ய கையிருப்பில் உள்ள பொருட்கள் இல்லை.'
+          : this.language === 'hi'
+            ? 'ऑर्डर करने के लिए कोई उत्पाद स्टॉक में नहीं है।'
+            : 'There are no available products to checkout.';
+
+      return;
+    }
+ main
 
     this.showCheckoutForm = true;
 
@@ -159,6 +284,7 @@ export class CartComponent {
       return;
     }
 
+ front
 
     const cartItems =
       this.cartService.getCartItems();
@@ -172,6 +298,22 @@ export class CartComponent {
           'உங்கள் கார்ட் காலியாக உள்ளது. ஒரு பொருளைச் சேர்க்கவும்.',
           'आपका कार्ट खाली है। कृपया एक उत्पाद जोड़ें।'
         );
+
+    /*
+     * Only available products are used
+     * for creating the order.
+     */
+    const availableCartItems =
+      this.getAvailableCartItems();
+
+    if (availableCartItems.length === 0) {
+      this.checkoutError =
+        this.language === 'ta'
+          ? 'ஆர்டர் செய்ய கையிருப்பில் உள்ள பொருட்கள் இல்லை.'
+          : this.language === 'hi'
+            ? 'ऑर्डर करने के लिए कोई उत्पाद स्टॉक में नहीं है।'
+            : 'There are no available products to checkout.';
+ main
 
       return;
     }
@@ -188,6 +330,7 @@ export class CartComponent {
       address:
         this.customerForm.address.trim(),
 
+ front
       items: cartItems.map(item => ({
 
         productId:
@@ -198,6 +341,20 @@ export class CartComponent {
 
       }))
 
+
+      /*
+       * Out-of-stock products are excluded.
+       */
+      items: availableCartItems.map(
+        (item: CartItem) => ({
+          productId:
+            item.product._id,
+
+          quantity:
+            item.quantity
+        })
+      )
+main
     };
 
 
@@ -317,6 +474,7 @@ export class CartComponent {
   }
 
 
+ front
   increaseQuantity(
     productId: string
   ): void {
@@ -344,6 +502,55 @@ export class CartComponent {
     this.cartService
       .removeProduct(productId);
 
+=======
+  increaseQuantity(productId: string): void {
+    const item =
+      this.cartService
+        .getCartItems()
+        .find(
+          (cartItem: CartItem) =>
+            cartItem.product._id === productId
+        );
+
+    /*
+     * Do not increase quantity for
+     * an out-of-stock product.
+     */
+    if (!item || !item.product.isActive) {
+      return;
+    }
+
+    this.cartService
+      .increaseQuantity(productId);
+  }
+
+
+  decreaseQuantity(productId: string): void {
+    const item =
+      this.cartService
+        .getCartItems()
+        .find(
+          (cartItem: CartItem) =>
+            cartItem.product._id === productId
+        );
+
+    /*
+     * Do not change quantity for
+     * an out-of-stock product.
+     */
+    if (!item || !item.product.isActive) {
+      return;
+    }
+
+    this.cartService
+      .decreaseQuantity(productId);
+  }
+
+
+  removeProduct(productId: string): void {
+    this.cartService
+      .removeProduct(productId);
+ main
 
     if (
       this.cartService
@@ -372,6 +579,7 @@ export class CartComponent {
       );
 
 
+front
     if (confirmed) {
 
       this.cartService.clearCart();
@@ -386,6 +594,21 @@ export class CartComponent {
 
     }
 
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.cartService.clearCart();
+
+    this.showCheckoutForm = false;
+
+    this.checkoutMessage = '';
+
+    this.checkoutError = '';
+
+    this.orderPlaced = false;
+ main
   }
 
 
@@ -468,6 +691,7 @@ export class CartComponent {
 
 
   /*
+
    * =====================================================
    * ITEM TOTAL
    * =====================================================
@@ -476,6 +700,14 @@ export class CartComponent {
   getItemTotal(
     item: CartItem
   ): number {
+
+   * Displays zero for an out-of-stock product.
+   */
+  getItemTotal(item: CartItem): number {
+    if (!item.product.isActive) {
+      return 0;
+    }
+main
 
     return (
       item.product.price *

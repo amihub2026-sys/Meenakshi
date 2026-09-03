@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 
@@ -306,7 +307,8 @@ export class ProductsComponent
   constructor(
     private languageService: LanguageService,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+      private router: Router
   ) {
     this.languageService.language$.subscribe(
       (lang: Language) => {
@@ -483,13 +485,13 @@ export class ProductsComponent
   }
 
 
-  addToCart(product: Product): void {
-    if (this.isProductAdded(product)) {
-      return;
-    }
-
+ addToCart(product: Product): void {
+  if (!this.isProductAdded(product)) {
     this.cartService.addProduct(product);
   }
+
+  this.router.navigate(['/cart']);
+}
 
 
   isProductAdded(product: Product): boolean {
