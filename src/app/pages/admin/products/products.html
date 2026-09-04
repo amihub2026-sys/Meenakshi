@@ -58,6 +58,35 @@
         class="product-form"
         (ngSubmit)="saveProduct()"
       >
+      <div class="form-group">
+
+  <div class="field-label-row">
+    <label>Product Category</label>
+    <span>REQUIRED</span>
+  </div>
+
+  <select
+    [(ngModel)]="productForm.categoryId"
+    name="categoryId"
+    required
+  >
+    <option value="">
+      {{
+        categoriesLoading
+          ? 'Loading Categories...'
+          : 'Select Category'
+      }}
+    </option>
+
+    <option
+      *ngFor="let category of categories"
+      [value]="category._id"
+    >
+      {{ category.name.en }}
+    </option>
+  </select>
+
+</div>
 
         <div class="form-group">
           <label for="nameEn">

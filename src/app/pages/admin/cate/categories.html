@@ -1,0 +1,258 @@
+<section class="categories-page">
+
+  <div class="page-header">
+    <div>
+      <span>ADMIN</span>
+      <h1>Manage Categories</h1>
+    </div>
+  </div>
+
+
+  <div class="category-layout">
+
+    <!-- FORM -->
+
+    <div class="category-form-card">
+
+      <h2>
+        {{
+          editingId
+            ? 'Edit Category'
+            : 'Add Category'
+        }}
+      </h2>
+
+
+      <div class="form-group">
+
+        <label>
+          Category Name - English
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="form.name.en"
+          placeholder="Example: Pooja Items"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Category Name - Tamil
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="form.name.ta"
+          placeholder="பூஜை பொருட்கள்"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Category Name - Hindi
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="form.name.hi"
+          placeholder="पूजा सामग्री"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Image URL
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="form.imageUrl"
+          placeholder="/assets/category.jpg"
+        >
+
+      </div>
+
+
+      <label class="status-toggle">
+
+        <input
+          type="checkbox"
+          [(ngModel)]="form.isActive"
+        >
+
+        <span>
+          Active Category
+        </span>
+
+      </label>
+
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="save-btn"
+          (click)="saveCategory()"
+        >
+          {{
+            editingId
+              ? 'Update Category'
+              : 'Add Category'
+          }}
+        </button>
+
+
+        <button
+          *ngIf="editingId"
+          type="button"
+          class="cancel-btn"
+          (click)="resetForm()"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- LIST -->
+
+    <div class="category-list-card">
+
+      <div class="list-heading">
+
+        <h2>
+          Categories
+        </h2>
+
+        <span>
+          {{ categories.length }}
+        </span>
+
+      </div>
+
+
+      <div
+        *ngIf="loading"
+        class="loading"
+      >
+        Loading categories...
+      </div>
+
+
+      <div
+        *ngIf="
+          !loading &&
+          categories.length === 0
+        "
+        class="empty"
+      >
+        No categories added yet.
+      </div>
+
+
+      <div
+        class="category-row"
+        *ngFor="let category of categories"
+      >
+
+        <div class="category-image">
+
+          <img
+            *ngIf="category.imageUrl"
+            [src]="category.imageUrl"
+            [alt]="category.name.en"
+          >
+
+          <span
+            *ngIf="!category.imageUrl"
+          >
+            No Image
+          </span>
+
+        </div>
+
+
+        <div class="category-info">
+
+          <h3>
+            {{ category.name.en }}
+          </h3>
+
+          <p>
+            {{ category.name.ta }}
+          </p>
+
+          <small>
+            {{ category.name.hi }}
+          </small>
+
+        </div>
+
+
+        <div class="category-status">
+
+          <span
+            [class.active]="category.isActive"
+            [class.inactive]="!category.isActive"
+          >
+            {{
+              category.isActive
+                ? 'Active'
+                : 'Inactive'
+            }}
+          </span>
+
+        </div>
+
+
+        <div class="category-actions">
+
+          <button
+            type="button"
+            (click)="editCategory(category)"
+          >
+            Edit
+          </button>
+
+
+          <button
+            type="button"
+            (click)="toggleStatus(category)"
+          >
+            {{
+              category.isActive
+                ? 'Disable'
+                : 'Enable'
+            }}
+          </button>
+
+
+          <button
+            type="button"
+            class="delete"
+            (click)="deleteCategory(category)"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
