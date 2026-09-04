@@ -662,3 +662,109 @@
     grid-template-columns: 1fr;
   }
 }
+/* =========================================
+   PRODUCT CATEGORY SELECT
+========================================= */
+
+.form-group select {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+
+  color: #26352f;
+  background: #ffffff;
+
+  border: 1px solid #d9ddd9;
+  border-radius: 8px;
+
+  outline: none;
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Hover */
+
+.form-group select:hover {
+  border-color: #b7c0ba;
+}
+
+
+/* Focus */
+
+.form-group select:focus {
+  border-color: #b78a25;
+
+  box-shadow:
+    0 0 0 3px rgba(183, 138, 37, 0.12);
+}
+
+
+/* Disabled */
+
+.form-group select:disabled {
+  background: #f4f5f4;
+  color: #999999;
+  cursor: not-allowed;
+}
+
+
+/* Dropdown options */
+
+.form-group select option {
+  background: #ffffff;
+  color: #26352f;
+}
+
+
+/* =========================================
+   CATEGORY FIELD LABEL
+========================================= */
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+}
+
+.field-label-row label {
+  margin: 0;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #26352f;
+}
+
+.field-label-row span {
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  color: #a77916;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .form-group select {
+    height: 46px;
+    font-size: 14px;
+  }
+
+}

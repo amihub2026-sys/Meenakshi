@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-
+import { CategoriesComponent } from './pages/admin/cate/categories';
 import { HomeComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ProductsComponent } from './pages/products/products.component';
@@ -74,7 +74,11 @@ export const routes: Routes = [
         path: 'user-details',
         component: AdminUserDetailsComponent,
         title: 'User Details | Admin'
-      }
+      },
+      {
+  path: 'categories',
+  component: CategoriesComponent
+}
     ]
   },
 

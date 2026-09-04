@@ -1,141 +1,13 @@
-<section class="product-video-hero">
-
-  <div class="product-video-bg-glow"></div>
-
-  <div class="product-video-layout">
-
-    <div class="product-video-menu">
-
-      <div class="product-video-kicker">
-        <span></span>
-        {{ text.heroKicker }}
-      </div>
-
-      <h1 [class.tamil-hero-small]="language === 'ta'">
-        {{ text.heroTitle1 }}
-        <span>{{ text.heroTitle2 }}</span>
-      </h1>
-
-      <div class="product-video-list">
-
-        <button
-          *ngFor="let product of heroProducts; let i = index"
-          type="button"
-          class="product-video-item"
-          [class.active]="activeProductIndex === i"
-          (click)="selectProduct(i)"
-        >
-          <span class="product-list-number">
-            {{ (i + 1).toString().padStart(2, '0') }}
-          </span>
-
-          <div class="product-list-name">
-            <strong>
-              {{ getProductName(product) }}
-            </strong>
-
-            <small *ngIf="language !== 'ta'">
-              {{ product.nameTa }}
-            </small>
-          </div>
-
-          <span class="product-list-arrow">→</span>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div class="product-video-view">
-
-      <div
-        class="product-video-frame"
-        *ngIf="heroProducts.length > 0"
-      >
-
-        <video
-          #productVideo
-          class="product-feature-video"
-          muted
-          playsinline
-          loop
-          autoplay
-          [src]="heroProducts[activeProductIndex].video"
-        ></video>
-
-        <div class="product-video-overlay"></div>
-
-        <span class="product-video-number">
-          {{
-            (activeProductIndex + 1)
-              .toString()
-              .padStart(2, '0')
-          }}
-        </span>
-
-        <div class="product-video-info">
-
-          <span class="product-video-category">
-            {{
-              getProductTag(
-                heroProducts[activeProductIndex]
-              )
-            }}
-          </span>
-
-          <h2
-            [class.tamil-product-title]="language === 'ta'"
-          >
-            {{
-              getProductName(
-                heroProducts[activeProductIndex]
-              )
-            }}
-          </h2>
-
-          <div
-            class="product-video-tamil"
-            *ngIf="language !== 'ta'"
-          >
-            {{
-              heroProducts[activeProductIndex].nameTa
-            }}
-          </div>
-
-          <p>
-            {{
-              getProductDescription(
-                heroProducts[activeProductIndex]
-              )
-            }}
-          </p>
-
-        </div>
-
-        <div class="product-video-progress">
-          <span></span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-
-
-
 <section
   class="products-premium"
   id="products"
 >
 
   <div class="container">
+
+    <!-- =========================
+         HEADING
+    ========================== -->
 
     <div class="products-heading products-reveal">
 
@@ -147,9 +19,7 @@
       <div class="products-heading-grid">
 
         <h2
-          [class.tamil-collection-title]="
-            language === 'ta'
-          "
+          [class.tamil-collection-title]="language === 'ta'"
         >
           {{ text.collectionTitle1 }}
 
@@ -166,6 +36,11 @@
 
     </div>
 
+
+    <!-- =========================
+         LOADING
+    ========================== -->
+
     <div
       *ngIf="productsLoading"
       class="products-loading"
@@ -173,12 +48,22 @@
       {{ text.loading }}
     </div>
 
+
+    <!-- =========================
+         ERROR
+    ========================== -->
+
     <div
       *ngIf="productsError"
       class="products-error"
     >
       {{ productsError }}
     </div>
+
+
+    <!-- =========================
+         EMPTY
+    ========================== -->
 
     <div
       *ngIf="
@@ -190,6 +75,11 @@
     >
       {{ text.empty }}
     </div>
+
+
+    <!-- =========================
+         PRODUCTS GRID
+    ========================== -->
 
     <div
       *ngIf="products.length > 0"
@@ -205,12 +95,20 @@
         class="premium-product-card product-reveal"
       >
 
+        <!-- PRODUCT IMAGE -->
+
         <img
           [src]="product.imageUrl"
           [alt]="getBackendProductName(product)"
         >
 
+
+        <!-- IMAGE SHADE -->
+
         <div class="product-shade"></div>
+
+
+        <!-- GLASS CONTENT -->
 
         <div class="product-glass">
 
@@ -230,68 +128,289 @@
 
           </div>
 
+
+          <!-- PRODUCT NAME -->
+
           <h3>
             {{ getBackendProductName(product) }}
           </h3>
-     <span
-  *ngIf="!product.isActive"
-  class="product-stock-badge"
->
-  Out of Stock
-</span>
-          
+
+
+          <!-- STOCK -->
+
+          <span
+            *ngIf="!product.isActive"
+            class="product-stock-badge"
+          >
+            Out of Stock
+          </span>
+
+
+          <!-- PRICE -->
+
           <div class="product-card-price">
             {{
               product.price
                 | currency:'INR':'symbol':'1.0-0'
             }}
           </div>
-<div class="product-shopping-actions">
 
-  <button
-    type="button"
-    class="product-add-cart"
-    [class.product-added]="
-      product.isActive &&
-      isProductAdded(product)
-    "
-    [disabled]="
-      !product.isActive ||
-      isProductAdded(product)
-    "
-    (click)="addToCart(product)"
-  >
-    {{
-      !product.isActive
-        ? 'Out of Stock'
-        : isProductAdded(product)
-          ? 'Product Added'
-          : text.addToCart
-    }}
-  </button>
 
-  <a
-    *ngIf="product.isActive"
-    href="/contact"
-    class="product-buy-now"
-  >
-    {{ text.buyNow }}
-  </a>
+          <!-- BUTTONS -->
 
-  <button  class="unavailable-btn"
-    *ngIf="!product.isActive"
-    type="button"
-    class="product-buy-now"
-    disabled
-  >
-    Unavailable
-  </button>
+          <div class="product-shopping-actions">
 
-</div>
+            <!-- ADD TO CART -->
+
+            <button
+              type="button"
+              class="product-add-cart"
+              [class.product-added]="
+                product.isActive &&
+                isProductAdded(product)
+              "
+              [disabled]="
+                !product.isActive ||
+                isProductAdded(product)
+              "
+              (click)="addToCart(product)"
+            >
+              {{
+                !product.isActive
+                  ? 'Out of Stock'
+                  : isProductAdded(product)
+                    ? 'Product Added'
+                    : text.addToCart
+              }}
+            </button>
+
+
+            <!-- VIEW DETAILS -->
+
+            <button
+              type="button"
+              class="product-buy-now"
+              (click)="openProductDetails(product)"
+            >
+              {{ text.viewDetails }}
+            </button>
+
+          </div>
 
         </div>
 
       </article>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       PRODUCT DETAILS POPUP
+  =================================================== -->
+
+  <div
+    class="product-modal-overlay"
+    *ngIf="selectedProduct"
+    (click)="closeProductDetails()"
+  >
+
+    <div
+      class="product-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <!-- CLOSE -->
+
+      <button
+        type="button"
+        class="product-modal-close"
+        (click)="closeProductDetails()"
+        aria-label="Close product details"
+      >
+        ×
+      </button>
+
+
+      <!-- =========================
+           LEFT SIDE - IMAGE
+      ========================== -->
+
+      <div class="product-modal-image">
+
+        <img
+          [src]="selectedProduct.imageUrl"
+          [alt]="getBackendProductName(selectedProduct)"
+        >
+
+
+        <!-- STOCK BADGE -->
+
+        <span
+          class="modal-stock"
+          [class.out-stock]="!selectedProduct.isActive"
+        >
+          {{
+            selectedProduct.isActive
+              ? 'In Stock'
+              : 'Out of Stock'
+          }}
+        </span>
+
+      </div>
+
+
+      <!-- =========================
+           RIGHT SIDE
+      ========================== -->
+
+      <div class="product-modal-content">
+
+        <!-- CATEGORY -->
+
+        <span class="modal-category">
+          {{ text.productCategory }}
+        </span>
+
+
+        <!-- PRODUCT NAME -->
+
+        <h2>
+          {{ getBackendProductName(selectedProduct) }}
+        </h2>
+
+
+        <!-- PRICE -->
+
+        <div class="modal-price">
+          {{
+            selectedProduct.price
+              | currency:'INR':'symbol':'1.0-0'
+          }}
+        </div>
+
+
+        <!-- =========================
+             DESCRIPTION
+        ========================== -->
+
+        <div class="modal-description">
+
+          <h4>
+            Description
+          </h4>
+
+          <p>
+            {{
+              selectedProduct.description ||
+              'Product description is not available.'
+            }}
+          </p>
+
+        </div>
+
+
+        <!-- =========================
+             PRODUCT INFORMATION
+        ========================== -->
+
+        <div class="modal-product-info">
+
+
+          <!-- AVAILABILITY -->
+
+          <div>
+
+            <span>
+              Availability
+            </span>
+
+            <strong>
+              {{
+                selectedProduct.isActive
+                  ? 'Available'
+                  : 'Out of Stock'
+              }}
+            </strong>
+
+          </div>
+
+
+          <!-- QUANTITY -->
+
+          <div>
+
+            <span>
+              Quantity
+            </span>
+
+            <strong>
+              {{ selectedProduct.quantity ?? 0 }}
+            </strong>
+
+          </div>
+
+
+          <!-- UNIT -->
+
+          <div *ngIf="selectedProduct.unit">
+
+            <span>
+              Unit
+            </span>
+
+            <strong>
+              {{ selectedProduct.unit }}
+            </strong>
+
+          </div>
+
+
+          <!-- BRAND -->
+
+          <div *ngIf="selectedProduct.brand">
+
+            <span>
+              Brand
+            </span>
+
+            <strong>
+              {{ selectedProduct.brand }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             ADD TO CART
+        ========================== -->
+
+        <button
+          type="button"
+          class="modal-add-cart"
+          [class.product-added]="
+            selectedProduct.isActive &&
+            isProductAdded(selectedProduct)
+          "
+          [disabled]="
+            !selectedProduct.isActive ||
+            isProductAdded(selectedProduct)
+          "
+          (click)="addToCart(selectedProduct)"
+        >
+          {{
+            !selectedProduct.isActive
+              ? 'Out of Stock'
+              : isProductAdded(selectedProduct)
+                ? 'Product Added'
+                : text.addToCart
+          }}
+        </button>
+
+      </div>
 
     </div>
 

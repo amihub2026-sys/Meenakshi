@@ -75,7 +75,32 @@ export class ProductsComponent
 
   language: Language = 'ta';
 
+selectedProduct: any = null;
 
+
+openProductDetails(product: any): void {
+
+  this.selectedProduct = product;
+
+
+  
+
+}
+ addToCart(product: Product): void {
+    if (!this.isProductAdded(product)) {
+      this.cartService.addProduct(product);
+    }
+
+    this.router.navigate(['/cart']);
+  }
+
+closeProductDetails(): void {
+
+  this.selectedProduct = null;
+
+  document.body.style.overflow = '';
+
+}
   translations = {
     en: {
       heroKicker: 'OUR SACRED COLLECTION',
@@ -96,7 +121,7 @@ export class ProductsComponent
         'Unable to load products. Please try again.',
       addToCart: 'Add to Cart',
       productAdded: 'Product Added',
-      buyNow: 'Buy Now'
+   viewDetails: 'View Details',
     },
 
     ta: {
@@ -121,7 +146,7 @@ export class ProductsComponent
         'பொருட்களை ஏற்ற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
       addToCart: 'கூடையில் சேர்',
       productAdded: 'கூடையில் சேர்க்கப்பட்டது',
-      buyNow: 'இப்போது வாங்க'
+  viewDetails: 'விவரங்களை காண்க',
     },
 
     hi: {
@@ -144,7 +169,7 @@ export class ProductsComponent
         'उत्पाद लोड नहीं हो सके। कृपया पुनः प्रयास करें।',
       addToCart: 'कार्ट में जोड़ें',
       productAdded: 'उत्पाद जोड़ा गया',
-      buyNow: 'अभी खरीदें'
+ viewDetails: 'विवरण देखें',
     }
   };
 
@@ -485,13 +510,7 @@ export class ProductsComponent
   }
 
 
- addToCart(product: Product): void {
-  if (!this.isProductAdded(product)) {
-    this.cartService.addProduct(product);
-  }
-
-  this.router.navigate(['/cart']);
-}
+ 
 
 
   isProductAdded(product: Product): boolean {

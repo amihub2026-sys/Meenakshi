@@ -9,13 +9,33 @@ export interface ProductName {
   hi: string;
 }
 
+export interface ProductCategory {
+  _id: string;
+
+  name: {
+    en: string;
+    ta: string;
+    hi: string;
+  };
+
+  imageUrl?: string;
+  isActive: boolean;
+}
+
 export interface Product {
   _id: string;
+
+  category?: string | ProductCategory;
+
   name: ProductName;
+
   price: number;
+
   imageUrl: string;
   imageKey: string;
+
   isActive: boolean;
+
   createdAt?: string;
   updatedAt?: string;
 }
