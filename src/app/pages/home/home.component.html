@@ -518,3 +518,40 @@
 
 <section class="marquee-strip" aria-label="Store highlights">
  <div>   {{ text.marquee }}  </div>   </section>
+ <section class="product-gallery-section">
+
+  <div class="gallery-heading">
+    <span>OUR COLLECTION</span>
+    <h2>Product Gallery</h2>
+    <p>Explore our traditional products</p>
+  </div>
+
+  <div class="product-gallery-grid">
+
+    <div
+      class="gallery-product"
+      *ngFor="let product of galleryProducts"
+    >
+      <img
+        [src]="product.image"
+        [alt]="product.en"
+      >
+
+      <div class="gallery-overlay">
+        <span class="gallery-name-ta">
+          {{ product.ta }}
+        </span>
+
+        <span class="gallery-name-hi">
+          {{ product.hi }}
+        </span>
+
+        <span class="gallery-name-en">
+          {{ product.en }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+</section>
