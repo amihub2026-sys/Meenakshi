@@ -7504,3 +7504,632 @@ h2.tamil-tradition-title span {
   opacity: 1 !important;
   cursor: not-allowed;
 }
+/* ========================================
+   PRODUCT GALLERY
+======================================== */
+
+.product-gallery-section {
+  width: 100%;
+  padding: 80px 30px;
+  background: #f8f1df;
+}
+
+
+/* HEADING */
+
+.gallery-heading {
+  max-width: 1200px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.gallery-heading > span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #b78318;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.gallery-heading h2 {
+  margin: 0 0 10px;
+  color: #103f2c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.gallery-heading p {
+  margin: 0;
+  color: #6d746f;
+  font-size: 0.95rem;
+}
+
+
+/* ========================================
+   GALLERY GRID
+======================================== */
+
+.product-gallery-grid {
+  max-width: 1350px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 24px;
+}
+
+
+/* ========================================
+   PRODUCT CARD
+======================================== */
+
+.gallery-product {
+  position: relative;
+
+  flex: 0 0 200px;
+
+  width: 200px;
+  height: 200px;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background: #eee5d1;
+
+  border: 1px solid rgba(16, 63, 44, 0.08);
+
+  box-shadow:
+    0 10px 30px rgba(16, 63, 44, 0.10);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+/* IMAGE */
+
+.gallery-product img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.5s ease,
+    filter 0.4s ease;
+}
+
+
+/* ========================================
+   HOVER OVERLAY
+======================================== */
+
+.gallery-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  padding: 22px 15px;
+
+  background: linear-gradient(
+    to top,
+    rgba(5, 45, 30, 0.96) 0%,
+    rgba(5, 45, 30, 0.70) 38%,
+    rgba(5, 45, 30, 0.12) 75%,
+    transparent 100%
+  );
+
+  color: white;
+
+  text-align: center;
+
+  opacity: 0;
+
+  transition: opacity 0.35s ease;
+}
+
+
+/* CARD HOVER */
+
+.gallery-product:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 18px 40px rgba(16, 63, 44, 0.20);
+}
+
+.gallery-product:hover img {
+  transform: scale(1.1);
+  filter: brightness(0.82);
+}
+
+.gallery-product:hover .gallery-overlay {
+  opacity: 1;
+}
+
+
+/* ========================================
+   PRODUCT NAMES
+======================================== */
+
+.gallery-name-ta {
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 1rem;
+
+  font-weight: 800;
+
+  line-height: 1.25;
+}
+
+
+.gallery-name-hi {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 0.82rem;
+
+  font-weight: 600;
+
+  line-height: 1.25;
+}
+
+
+.gallery-name-en {
+  display: block;
+
+  font-size: 0.78rem;
+
+  font-weight: 500;
+
+  line-height: 1.25;
+
+  opacity: 0.85;
+}
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1100px) {
+
+  .product-gallery-section {
+    padding: 70px 24px;
+  }
+
+  .product-gallery-grid {
+    gap: 20px;
+  }
+
+  .gallery-product {
+    flex-basis: 180px;
+
+    width: 180px;
+    height: 180px;
+  }
+}
+
+
+/* ========================================
+   SMALL TABLET
+======================================== */
+
+@media (max-width: 760px) {
+
+  .product-gallery-section {
+    padding: 60px 18px;
+  }
+
+  .product-gallery-grid {
+    gap: 16px;
+  }
+
+  .gallery-product {
+    flex-basis: 150px;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 18px;
+  }
+
+  .gallery-overlay {
+    padding: 15px 10px;
+  }
+
+  .gallery-name-ta {
+    font-size: 0.85rem;
+  }
+
+  .gallery-name-hi {
+    font-size: 0.72rem;
+  }
+
+  .gallery-name-en {
+    font-size: 0.7rem;
+  }
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 500px) {
+
+  .product-gallery-section {
+    padding: 50px 12px;
+  }
+
+  .gallery-heading {
+    margin-bottom: 30px;
+  }
+
+  .product-gallery-grid {
+    gap: 12px;
+  }
+
+  .gallery-product {
+    flex: 0 0 calc(50% - 6px);
+
+    width: calc(50% - 6px);
+    height: auto;
+
+    aspect-ratio: 1 / 1;
+
+    border-radius: 16px;
+  }
+
+  /* Show names on mobile because hover doesn't exist */
+  .gallery-overlay {
+    opacity: 1;
+
+    padding: 12px 8px;
+
+    background: linear-gradient(
+      to top,
+      rgba(5, 45, 30, 0.94),
+      rgba(5, 45, 30, 0.15) 65%,
+      transparent
+    );
+  }
+
+  .gallery-name-ta {
+    font-size: 0.78rem;
+  }
+
+  .gallery-name-hi {
+    font-size: 0.68rem;
+  }
+
+  .gallery-name-en {
+    font-size: 0.65rem;
+  }
+}
+/* CARD */
+.product-card {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 400px;
+
+  overflow: hidden;
+
+  /* smaller radius */
+  border-radius: 18px;
+}
+
+
+/* GLASS - SAME STYLE, ONLY SMALLER SIZE */
+.product-glass {
+  left: 10px !important;
+  right: 10px !important;
+  bottom: 10px !important;
+
+  padding: 10px 12px !important;
+
+  min-height: 130px !important;
+  max-height: 150px !important;
+
+  border-radius: 12px !important;
+}
+
+/* TOP ROW */
+.product-top {
+  margin-bottom: 5px;
+}
+
+
+/* NUMBER */
+.product-number {
+  font-size: 0.62rem;
+}
+
+
+/* CATEGORY */
+.product-top small {
+  font-size: 0.58rem;
+}
+
+
+/* PRODUCT MAIN NAME */
+.product-glass h3 {
+  margin: 0 0 3px;
+
+  font-size: 0.88rem;
+  line-height: 1.15;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* SECOND LANGUAGE NAME */
+.product-glass p {
+  margin: 0 0 5px;
+
+  font-size: 0.64rem;
+  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* PRICE */
+.product-card-price {
+  margin-bottom: 7px;
+
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+
+/* STOCK BADGE */
+.product-stock-badge {
+  font-size: 0.56rem;
+  padding: 3px 7px;
+  border-radius: 8px;
+}
+
+
+/* BUTTON AREA */
+.product-shopping-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 6px;
+}
+
+
+/* BUTTON SIZE */
+.product-add-cart,
+.product-buy-now,
+.unavailable-btn {
+  min-height: 30px;
+
+  padding: 5px 6px;
+
+  border-radius: 8px;
+
+  font-size: 0.6rem;
+  line-height: 1.1;
+}
+/* =========================================
+   PRODUCT GRID
+   DESKTOP = 5 CARDS
+========================================= */
+
+
+.premium-product-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr)) !important;
+
+  gap: 16px !important;
+
+  width: 100%;
+
+  margin-top: 48px;
+}
+
+
+/* REDUCE CARD SIZE */
+
+.premium-product-card {
+  position: relative;
+
+  width: 100% !important;
+  min-width: 0 !important;
+
+  height: 360px !important;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+}
+
+
+/* IMAGE */
+
+.premium-product-card img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+/* =========================
+   SMALL CONTENT FOR 5 CARDS
+========================= */
+
+.product-top {
+  margin-bottom: 4px;
+}
+
+.product-top span,
+.product-number {
+  font-size: 0.72rem !important;
+}
+
+.product-top small {
+  font-size: 0.5rem !important;
+  letter-spacing: 0.8px;
+}
+
+.product-glass h3 {
+  margin: 5px 0 2px !important;
+
+  font-size: 0.88rem !important;
+  line-height: 1.15 !important;
+}
+
+.product-glass p {
+  margin: 0 0 5px !important;
+
+  font-size: 0.58rem !important;
+  line-height: 1.2 !important;
+}
+
+.product-card-price {
+  margin-bottom: 7px !important;
+
+  font-size: 0.88rem !important;
+  line-height: 1;
+}
+
+.product-stock-badge {
+  font-size: 0.5rem !important;
+
+  padding: 2px 5px !important;
+}
+
+
+/* BUTTON AREA */
+
+.product-shopping-actions {
+  gap: 5px !important;
+}
+
+.product-add-cart,
+.product-buy-now,
+.unavailable-btn {
+  min-height: 30px !important;
+
+  padding: 4px 5px !important;
+
+  font-size: 0.55rem !important;
+  line-height: 1.15 !important;
+
+  border-radius: 7px !important;
+}
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+  .products-grid {
+    width: calc(100% - 32px);
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+  }
+
+}
+
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 850px) {
+
+  .products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+   EXACTLY 2 CARDS
+========================================= */
+
+@media (max-width: 600px) {
+
+  .products-grid {
+    width: 100%;
+
+    padding-left: 12px;
+    padding-right: 12px;
+
+    box-sizing: border-box;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+
+  .product-card {
+    width: 100%;
+
+    height: 300px;
+
+    min-width: 0;
+
+    border-radius: 16px;
+  }
+
+}
+
+
+/* =========================================
+   VERY SMALL MOBILE
+   STILL KEEP 2 CARDS
+========================================= */
+
+@media (max-width: 380px) {
+
+  .products-grid {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+
+  .product-card {
+    height: 280px;
+  }
+
+}

@@ -8,11 +8,17 @@ import {
   LanguageService,
   Language
 } from '../../services/language.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
+
+  imports: [
+    CommonModule
+  ],
+
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
@@ -33,7 +39,188 @@ private typingIndex = 0;
 
   language: Language = 'ta';
 
-
+galleryProducts = [
+  {
+    image: '/assets/p1.jpg',
+    ta: 'மஞ்சள்',
+    hi: 'हल्दी',
+    en: 'Turmeric'
+  },
+  {
+    image: '/assets/p2.jpg',
+    ta: 'குங்குமம்',
+    hi: 'कुमकुम',
+    en: 'Kumkum'
+  },
+  {
+    image: '/assets/p3.jpg',
+    ta: 'சந்தனம்',
+    hi: 'चंदन',
+    en: 'Sandalwood'
+  },
+  {
+    image: 'assets/gallery/product-04.jpg',
+    ta: 'கற்பூரம்',
+    hi: 'कपूर',
+    en: 'Camphor'
+  },
+  {
+    image: 'assets/gallery/product-05.jpg',
+    ta: 'சாம்பிராணி',
+    hi: 'लोबान',
+    en: 'Sambrani'
+  },
+  {
+    image: 'assets/gallery/product-06.jpg',
+    ta: 'ஊதுபத்தி',
+    hi: 'अगरबत्ती',
+    en: 'Incense Sticks'
+  },
+  {
+    image: 'assets/gallery/product-07.jpg',
+    ta: 'தீப எண்ணெய்',
+    hi: 'दीपक तेल',
+    en: 'Deepam Oil'
+  },
+  {
+    image: 'assets/gallery/product-08.jpg',
+    ta: 'நெய்',
+    hi: 'घी',
+    en: 'Ghee'
+  },
+  {
+    image: 'assets/gallery/product-09.jpg',
+    ta: 'திரி',
+    hi: 'बाती',
+    en: 'Cotton Wick'
+  },
+  {
+    image: 'assets/gallery/product-10.jpg',
+    ta: 'பஞ்சு திரி',
+    hi: 'रुई की बाती',
+    en: 'Cotton Wicks'
+  },
+  {
+    image: 'assets/gallery/product-11.jpg',
+    ta: 'மண் அகல் விளக்கு',
+    hi: 'मिट्टी का दीया',
+    en: 'Clay Diya'
+  },
+  {
+    image: 'assets/gallery/product-12.jpg',
+    ta: 'பித்தளை விளக்கு',
+    hi: 'पीतल का दीपक',
+    en: 'Brass Lamp'
+  },
+  {
+    image: 'assets/gallery/product-13.jpg',
+    ta: 'குத்துவிளக்கு',
+    hi: 'पीतल पूजा दीप',
+    en: 'Kuthu Vilakku'
+  },
+  {
+    image: 'assets/gallery/product-14.jpg',
+    ta: 'மணி',
+    hi: 'पूजा घंटी',
+    en: 'Pooja Bell'
+  },
+  {
+    image: 'assets/gallery/product-15.jpg',
+    ta: 'ஆரத்தி தட்டு',
+    hi: 'आरती थाली',
+    en: 'Aarti Plate'
+  },
+  {
+    image: 'assets/gallery/product-16.jpg',
+    ta: 'பஞ்சபாத்திரம்',
+    hi: 'पंचपात्र',
+    en: 'Panchapatra Set'
+  },
+  {
+    image: 'assets/gallery/product-17.jpg',
+    ta: 'கலசம்',
+    hi: 'कलश',
+    en: 'Kalash'
+  },
+  {
+    image: 'assets/gallery/product-18.jpg',
+    ta: 'தேங்காய்',
+    hi: 'नारियल',
+    en: 'Pooja Coconut'
+  },
+  {
+    image: 'assets/gallery/product-19.jpg',
+    ta: 'வெற்றிலை',
+    hi: 'पान का पत्ता',
+    en: 'Betel Leaves'
+  },
+  {
+    image: 'assets/gallery/product-20.jpg',
+    ta: 'பாக்கு',
+    hi: 'सुपारी',
+    en: 'Areca Nut'
+  },
+  {
+    image: 'assets/gallery/product-21.jpg',
+    ta: 'பூ மாலை',
+    hi: 'फूल माला',
+    en: 'Flower Garland'
+  },
+  {
+    image: 'assets/gallery/product-22.jpg',
+    ta: 'தாமரை மலர்',
+    hi: 'कमल का फूल',
+    en: 'Lotus Flower'
+  },
+  {
+    image: 'assets/gallery/product-23.jpg',
+    ta: 'விபூதி',
+    hi: 'विभूति',
+    en: 'Vibhuti'
+  },
+  {
+    image: 'assets/gallery/product-24.jpg',
+    ta: 'நாமக்கட்டி',
+    hi: 'तिलक चंदन',
+    en: 'Namam Stick'
+  },
+  {
+    image: 'assets/gallery/product-25.jpg',
+    ta: 'ருத்ராட்சம்',
+    hi: 'रुद्राक्ष',
+    en: 'Rudraksha'
+  },
+  {
+    image: 'assets/gallery/product-26.jpg',
+    ta: 'துளசி மாலை',
+    hi: 'तुलसी माला',
+    en: 'Tulsi Mala'
+  },
+  {
+    image: 'assets/gallery/product-27.jpg',
+    ta: 'பூஜை தட்டு',
+    hi: 'पूजा थाली',
+    en: 'Pooja Thali'
+  },
+  {
+    image: 'assets/gallery/product-28.jpg',
+    ta: 'சங்கு',
+    hi: 'शंख',
+    en: 'Conch'
+  },
+  {
+    image: 'assets/gallery/product-29.jpg',
+    ta: 'பூஜை பெட்டி',
+    hi: 'पूजा बॉक्स',
+    en: 'Pooja Box'
+  },
+  {
+    image: 'assets/gallery/product-30.jpg',
+    ta: 'பூஜை கிட்',
+    hi: 'पूजा किट',
+    en: 'Pooja Kit'
+  }
+];
   constructor(
     private languageService: LanguageService
   ) {
