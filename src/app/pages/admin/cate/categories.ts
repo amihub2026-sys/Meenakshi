@@ -22,15 +22,19 @@ export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
 
   loading = false;
+  saving = false;
+
   editingId: string | null = null;
 
-  form: Category = {
+  selectedFile: File | null = null;
+  imagePreview = '';
+
+  form = {
     name: {
       en: '',
       ta: '',
       hi: ''
     },
-    imageUrl: '',
     isActive: true
   };
 
@@ -64,6 +68,47 @@ export class CategoriesComponent implements OnInit {
       });
   }
 
+  onImageSelected(event: Event): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    if (
+      !input.files ||
+      input.files.length === 0
+    ) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select a valid image file');
+      input.value = '';
+      return;
+    }
+
+    const maxSize =
+      5 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+      alert('Image size must be below 5 MB');
+      input.value = '';
+      return;
+    }
+
+    this.selectedFile = file;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.imagePreview =
+        reader.result as string;
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   saveCategory(): void {
 
     if (
@@ -71,28 +116,86 @@ export class CategoriesComponent implements OnInit {
       !this.form.name.ta.trim() ||
       !this.form.name.hi.trim()
     ) {
-      alert('Please enter all 3 language names');
+      alert(
+        'Please enter all 3 language names'
+      );
+
       return;
     }
+
+    if (
+      !this.editingId &&
+      !this.selectedFile
+    ) {
+      alert(
+        'Please select a category image'
+      );
+
+      return;
+    }
+
+    const formData =
+      new FormData();
+
+    formData.append(
+      'nameEn',
+      this.form.name.en.trim()
+    );
+
+    formData.append(
+      'nameTa',
+      this.form.name.ta.trim()
+    );
+
+    formData.append(
+      'nameHi',
+      this.form.name.hi.trim()
+    );
+
+    formData.append(
+      'isActive',
+      String(this.form.isActive)
+    );
+
+    if (this.selectedFile) {
+      formData.append(
+        'image',
+        this.selectedFile
+      );
+    }
+
+    this.saving = true;
 
     if (this.editingId) {
 
       this.categoryService
         .updateCategory(
           this.editingId,
-          this.form
+          formData
         )
         .subscribe({
           next: () => {
-            alert('Category updated successfully');
+
+            alert(
+              'Category updated successfully'
+            );
+
+            this.saving = false;
 
             this.resetForm();
             this.loadCategories();
           },
 
           error: (error) => {
+
             console.error(error);
-            alert('Unable to update category');
+
+            alert(
+              error.error?.message ||
+              'Unable to update category'
+            );
+
+            this.saving = false;
           }
         });
 
@@ -100,29 +203,44 @@ export class CategoriesComponent implements OnInit {
     }
 
     this.categoryService
-      .createCategory(this.form)
+      .createCategory(formData)
       .subscribe({
         next: () => {
-          alert('Category added successfully');
+
+          alert(
+            'Category added successfully'
+          );
+
+          this.saving = false;
 
           this.resetForm();
           this.loadCategories();
         },
 
         error: (error) => {
+
           console.error(error);
-          alert('Unable to add category');
+
+          alert(
+            error.error?.message ||
+            'Unable to add category'
+          );
+
+          this.saving = false;
         }
       });
   }
 
-  editCategory(category: Category): void {
+  editCategory(
+    category: Category
+  ): void {
 
     if (!category._id) {
       return;
     }
 
-    this.editingId = category._id;
+    this.editingId =
+      category._id;
 
     this.form = {
       name: {
@@ -131,10 +249,14 @@ export class CategoriesComponent implements OnInit {
         hi: category.name.hi
       },
 
-      imageUrl: category.imageUrl || '',
-
-      isActive: category.isActive
+      isActive:
+        category.isActive
     };
+
+    this.imagePreview =
+      category.imageUrl || '';
+
+    this.selectedFile = null;
 
     window.scrollTo({
       top: 0,
@@ -142,51 +264,84 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  deleteCategory(category: Category): void {
+  deleteCategory(
+    category: Category
+  ): void {
 
     if (!category._id) {
       return;
     }
 
-    const confirmed = confirm(
-      `Delete "${category.name.en}" category?`
-    );
+    const confirmed =
+      confirm(
+        `Delete "${category.name.en}" category?`
+      );
 
     if (!confirmed) {
       return;
     }
 
     this.categoryService
-      .deleteCategory(category._id)
+      .deleteCategory(
+        category._id
+      )
       .subscribe({
         next: () => {
-          alert('Category deleted successfully');
+
+          alert(
+            'Category deleted successfully'
+          );
 
           this.loadCategories();
         },
 
         error: (error) => {
+
           console.error(error);
-          alert('Unable to delete category');
+
+          alert(
+            error.error?.message ||
+            'Unable to delete category'
+          );
         }
       });
   }
 
-  toggleStatus(category: Category): void {
+  toggleStatus(
+    category: Category
+  ): void {
 
     if (!category._id) {
       return;
     }
 
-    const updated: Category = {
-      ...category,
-      isActive: !category.isActive
-    };
+    const formData =
+      new FormData();
+
+    formData.append(
+      'nameEn',
+      category.name.en
+    );
+
+    formData.append(
+      'nameTa',
+      category.name.ta
+    );
+
+    formData.append(
+      'nameHi',
+      category.name.hi
+    );
+
+    formData.append(
+      'isActive',
+      String(!category.isActive)
+    );
 
     this.categoryService
       .updateCategory(
         category._id,
-        updated
+        formData
       )
       .subscribe({
         next: () => {
@@ -194,8 +349,13 @@ export class CategoriesComponent implements OnInit {
         },
 
         error: (error) => {
+
           console.error(error);
-          alert('Unable to change category status');
+
+          alert(
+            error.error?.message ||
+            'Unable to change category status'
+          );
         }
       });
   }
@@ -210,8 +370,20 @@ export class CategoriesComponent implements OnInit {
         ta: '',
         hi: ''
       },
-      imageUrl: '',
+
       isActive: true
     };
+
+    this.selectedFile = null;
+    this.imagePreview = '';
+
+    const imageInput =
+      document.getElementById(
+        'categoryImage'
+      ) as HTMLInputElement | null;
+
+    if (imageInput) {
+      imageInput.value = '';
+    }
   }
 }

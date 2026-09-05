@@ -33,23 +33,26 @@ export class CategoryService {
     return this.http.get<Category[]>(this.apiUrl);
   }
 
-  createCategory(data: Category): Observable<Category> {
-    return this.http.post<Category>(
-      this.apiUrl,
-      data
-    );
-  }
+createCategory(
+  formData: FormData
+): Observable<Category> {
 
-  updateCategory(
-    id: string,
-    data: Category
-  ): Observable<Category> {
-    return this.http.put<Category>(
-      `${this.apiUrl}/${id}`,
-      data
-    );
-  }
+  return this.http.post<Category>(
+    this.apiUrl,
+    formData
+  );
+}
 
+updateCategory(
+  id: string,
+  formData: FormData
+): Observable<Category> {
+
+  return this.http.put<Category>(
+    `${this.apiUrl}/${id}`,
+    formData
+  );
+}
   deleteCategory(id: string): Observable<any> {
     return this.http.delete(
       `${this.apiUrl}/${id}`

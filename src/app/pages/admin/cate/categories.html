@@ -71,17 +71,26 @@
       <div class="form-group">
 
         <label>
-          Image URL
-        </label>
+    Category Image
+  </label>
 
-        <input
-          type="text"
-          [(ngModel)]="form.imageUrl"
-          placeholder="/assets/category.jpg"
-        >
+  <input
+    id="categoryImage"
+    type="file"
+    accept="image/*"
+    (change)="onImageSelected($event)"
+  />
 
-      </div>
+</div>
 
+<div
+  class="category-image-preview"
+  *ngIf="imagePreview"
+>
+  <img
+    [src]="imagePreview"
+    alt="Category Preview"
+  /></div>
 
       <label class="status-toggle">
 

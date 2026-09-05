@@ -28,8 +28,19 @@ export interface Product {
   category?: string | ProductCategory;
 
   name: ProductName;
-
+ description?: string;
   price: number;
+
+  quantity?: number;
+
+  unit?:
+    | 'g'
+    | 'kg'
+    | 'ml'
+    | 'l'
+    | 'piece'
+    | 'packet'
+    | 'box';
 
   imageUrl: string;
   imageKey: string;
@@ -116,7 +127,16 @@ export class ProductService {
   );
 }
   // Public: get active products
-getProducts(): Observable<Product[]> {
+getProducts(
+  categoryId: string = ''
+): Observable<Product[]> {
+
+  if (categoryId) {
+    return this.http.get<Product[]>(
+      `${this.apiUrl}?category=${categoryId}`
+    );
+  }
+
   return this.http.get<Product[]>(
     this.apiUrl
   );

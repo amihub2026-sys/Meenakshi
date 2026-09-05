@@ -23,7 +23,10 @@ import {
   ProductService
 } from '../../services/product';
 
-
+import {
+  Category,
+  CategoryService
+} from '../../services/category.service';
 interface HeroProduct {
   nameEn: string;
   nameTa: string;
@@ -62,7 +65,10 @@ export class ProductsComponent
 
   productsLoading = false;
   productsError = '';
-
+  categories: Category[] = [];
+categoriesLoading = false;
+allProducts: Product[] = [];
+selectedCategoryId = '';
 
   /*
    * Static cinematic section state
@@ -333,6 +339,7 @@ closeProductDetails(): void {
     private languageService: LanguageService,
     private productService: ProductService,
     private cartService: CartService,
+      private categoryService: CategoryService,
       private router: Router
   ) {
     this.languageService.language$.subscribe(
@@ -347,11 +354,10 @@ closeProductDetails(): void {
     return this.translations[this.language];
   }
 
-
-  ngOnInit(): void {
-    this.loadProducts();
-  }
-
+ngOnInit(): void {
+  this.loadCategories();
+  this.loadProducts();
+}
 
   ngAfterViewInit(): void {
     this.activateRevealElements();
@@ -361,18 +367,129 @@ closeProductDetails(): void {
     }, 200);
   }
 
+loadCategories(): void {
+  this.categoriesLoading = true;
 
+  this.categoryService
+    .getCategories()
+    .subscribe({
+      next: (categories) => {
+        this.categories = categories.filter(
+          category => category.isActive
+        );
+
+        this.categoriesLoading = false;
+      },
+
+      error: (error) => {
+        console.error(
+          'Unable to load categories:',
+          error
+        );
+
+        this.categories = [];
+        this.categoriesLoading = false;
+      }
+    });
+}
+
+
+selectCategory(categoryId: string): void {
+  this.selectedCategoryId = categoryId;
+
+  this.loadProducts(categoryId);
+}
+
+
+showAllProducts(): void {
+  this.selectedCategoryId = '';
+
+  this.loadProducts();
+}
+
+
+getCategoryName(
+  category: Category
+): string {
+
+  if (this.language === 'ta') {
+    return category.name.ta;
+  }
+
+  if (this.language === 'hi') {
+    return category.name.hi;
+  }
+
+  return category.name.en;
+}
   /*
    * Backend products are loaded only into this.products.
    * Do not assign backend products to heroProducts.
    */
-  loadProducts(): void {
-    this.productsLoading = true;
-    this.productsError = '';
+loadProducts(
+  categoryId: string = ''
+): void {
 
-    this.productService.getProducts().subscribe({
+  this.productsLoading = true;
+  this.productsError = '';
+
+  this.productService
+    .getProducts(categoryId)
+    .subscribe({
+
       next: (products: Product[]) => {
-        this.products = products;
+
+        // Specific category selected:
+        // show ALL products in that category
+        if (categoryId) {
+          this.products = products;
+        }
+
+        // All Products selected:
+        // show maximum 2 products per category
+        else {
+
+          const categoryCount =
+            new Map<string, number>();
+
+          this.products = products.filter(
+            (product) => {
+
+              let categoryId = '';
+
+              if (
+                typeof product.category === 'string'
+              ) {
+                categoryId = product.category;
+              }
+              else if (product.category?._id) {
+                categoryId =
+                  product.category._id;
+              }
+
+              // Products without category
+              if (!categoryId) {
+                return false;
+              }
+
+              const currentCount =
+                categoryCount.get(categoryId) || 0;
+
+              // Already showing 2 from this category
+              if (currentCount >= 2) {
+                return false;
+              }
+
+              categoryCount.set(
+                categoryId,
+                currentCount + 1
+              );
+
+              return true;
+            }
+          );
+        }
+
         this.productsLoading = false;
 
         setTimeout(() => {
@@ -381,14 +498,13 @@ closeProductDetails(): void {
       },
 
       error: () => {
+
         this.products = [];
         this.productsLoading = false;
         this.productsError = this.text.error;
       }
     });
-  }
-
-
+}
   /*
    * Top static cinematic product selection
    */

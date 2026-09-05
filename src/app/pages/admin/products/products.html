@@ -138,7 +138,22 @@
             required
           >
         </div>
+   <div class="form-group">
+  <label for="description">
+    Product Description
+    <span>English</span>
+  </label>
 
+  <textarea
+    id="description"
+    name="description"
+    [(ngModel)]="productForm.description"
+    placeholder="Example: Premium quality pooja product made with traditional ingredients."
+    rows="4"
+    maxlength="1000"
+    required
+  ></textarea>
+</div>
         <div class="form-group">
           <label for="price">
             Product Price
@@ -160,7 +175,58 @@
             >
           </div>
         </div>
+       <!-- UNIT -->
+<div class="form-group">
 
+  <label for="unit">
+    Product Unit
+    <span>Required</span>
+  </label>
+
+  <select
+    id="unit"
+    [(ngModel)]="productForm.unit"
+    name="unit"
+    (change)="onUnitChange()"
+    required
+  >
+
+    <option value="">
+      Select Unit
+    </option>
+
+    <option
+      *ngFor="let unit of unitOptions"
+      [value]="unit.value"
+    >
+      {{ unit.label }}
+    </option>
+
+  </select>
+
+</div>
+
+
+<!-- QUANTITY / WEIGHT -->
+<div class="form-group">
+
+  <label for="quantity">
+    Quantity / Weight
+    <span>Required</span>
+  </label>
+
+  <input
+    id="quantity"
+    type="number"
+    name="quantity"
+    [(ngModel)]="productForm.quantity"
+    placeholder="Example: 0.5, 1, 2, 250"
+    min="0.01"
+    step="0.01"
+    required
+  >
+
+</div>
         <div class="form-group image-form-group">
           <label for="productImage">
             Product Image
@@ -277,75 +343,187 @@
         *ngIf="!productsLoading && products.length > 0"
         class="products-grid"
       >
-        <article
-          *ngFor="
-            let product of products;
-            trackBy: trackProduct
-          "
-          class="product-card"
-          [class.disabled-product]="!product.isActive"
-        >
+<article
+  *ngFor="
+    let product of products;
+    trackBy: trackProduct
+  "
+  class="product-card"
+  [class.disabled-product]="!product.isActive"
+  (click)="openProductDetails(product)"
+>
 
-          <div class="product-image">
-            <img
-              [src]="product.imageUrl"
-              [alt]="product.name.en"
-            >
+  <div class="product-image">
 
-            <span
-              class="status-badge"
-              [class.active-status]="product.isActive"
-              [class.inactive-status]="!product.isActive"
-            >
-              {{ product.isActive ? 'Active' : 'Disabled' }}
-            </span>
-          </div>
+    <img
+      [src]="product.imageUrl"
+      [alt]="product.name.en"
+    >
 
-          <div class="product-details">
-            <div class="product-name-group">
-              <h3>{{ product.name.en }}</h3>
-              <p lang="ta">{{ product.name.ta }}</p>
-              <p lang="hi">{{ product.name.hi }}</p>
-            </div>
+    <span
+      class="status-badge"
+      [class.active-status]="product.isActive"
+      [class.inactive-status]="!product.isActive"
+    >
+      {{ product.isActive ? 'Active' : 'Disabled' }}
+    </span>
 
-            <div class="product-price">
-              ₹{{ product.price | number:'1.0-2' }}
-            </div>
+  </div>
 
-            <div class="product-actions">
-              <button
-                type="button"
-                class="edit-button"
-                (click)="editProduct(product)"
-              >
-                Edit
-              </button>
 
-              <button
-                type="button"
-                class="status-button"
-                [class.enable-button]="!product.isActive"
-                [class.disable-button]="product.isActive"
-                (click)="changeStatus(product)"
-              >
-                {{
-                  product.isActive
-                    ? 'Disable'
-                    : 'Enable'
-                }}
-              </button>
+  <div class="product-details">
 
-              <button
-                type="button"
-                class="delete-button"
-                (click)="deleteProduct(product)"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+    <h3>
+      {{ product.name.en }}
+    </h3>
 
-        </article>
+    <div class="product-price">
+      ₹{{ product.price | number:'1.0-2' }}
+    </div>
+
+    <div
+      class="product-quantity"
+      *ngIf="product.quantity && product.unit"
+    >
+      {{ product.quantity }} {{ product.unit }}
+    </div>
+
+
+    <div class="product-actions">
+
+      <button
+        type="button"
+        class="edit-button"
+        (click)="
+          $event.stopPropagation();
+          editProduct(product)
+        "
+      >
+        Edit
+      </button>
+
+
+      <button
+        type="button"
+        class="status-button"
+        [class.enable-button]="!product.isActive"
+        [class.disable-button]="product.isActive"
+        (click)="
+          $event.stopPropagation();
+          changeStatus(product)
+        "
+      >
+        {{
+          product.isActive
+            ? 'Disable'
+            : 'Enable'
+        }}
+      </button>
+
+
+      <button
+        type="button"
+        class="delete-button"
+        (click)="
+          $event.stopPropagation();
+          deleteProduct(product)
+        "
+      >
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+</article>
+<div
+  class="product-modal-overlay"
+  *ngIf="selectedProduct"
+  (click)="closeProductDetails()"
+>
+
+  <div
+    class="product-modal"
+    (click)="$event.stopPropagation()"
+  >
+
+    <button
+      type="button"
+      class="modal-close"
+      (click)="closeProductDetails()"
+    >
+      ×
+    </button>
+
+    <div class="modal-product-image">
+
+      <img
+        [src]="selectedProduct.imageUrl"
+        [alt]="selectedProduct.name.en"
+      >
+
+    </div>
+
+
+    <div class="modal-product-content">
+
+      <h2>
+        {{ selectedProduct.name.en }}
+      </h2>
+
+      <p>
+        <strong>Tamil:</strong>
+        {{ selectedProduct.name.ta }}
+      </p>
+
+      <p>
+        <strong>Hindi:</strong>
+        {{ selectedProduct.name.hi }}
+      </p>
+
+      <p>
+        <strong>Category:</strong>
+        {{ getProductCategoryName(selectedProduct) }}
+      </p>
+
+      <p>
+        <strong>Description:</strong>
+        {{
+          selectedProduct.description ||
+          'No description added'
+        }}
+      </p>
+
+      <p>
+        <strong>Price:</strong>
+        ₹{{ selectedProduct.price | number:'1.0-2' }}
+      </p>
+
+      <p>
+        <strong>Quantity:</strong>
+        {{
+          selectedProduct.quantity || 'Not Added'
+        }}
+        {{
+          selectedProduct.unit || ''
+        }}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        {{
+          selectedProduct.isActive
+            ? 'Active'
+            : 'Disabled'
+        }}
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
       </div>
 
     </section>
