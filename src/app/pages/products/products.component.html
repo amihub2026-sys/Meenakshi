@@ -81,8 +81,171 @@
          PRODUCTS GRID
     ========================== -->
 
+ <!-- =========================================
+     CATEGORY + PRODUCTS LAYOUT
+========================================== -->
+
+<div class="products-shop-layout">
+
+  <!-- ================================
+       LEFT CATEGORY SIDEBAR
+  ================================= -->
+
+  <aside class="products-category-sidebar">
+
+    <div class="category-sidebar-title">
+
+      <span>
+        SHOP BY
+      </span>
+
+      <h3>
+        Categories
+      </h3>
+
+    </div>
+
+
+    <!-- ALL PRODUCTS -->
+
+    <button
+      type="button"
+      class="category-sidebar-item"
+      [class.active]="selectedCategoryId === ''"
+      (click)="showAllProducts()"
+    >
+
+      <div class="category-sidebar-icon all-category">
+        ✦
+      </div>
+
+      <div class="category-sidebar-name">
+        <strong>
+          {{
+            language === 'ta'
+              ? 'அனைத்து பொருட்கள்'
+              : language === 'hi'
+                ? 'सभी उत्पाद'
+                : 'All Products'
+          }}
+        </strong>
+      </div>
+
+      <span class="category-arrow">
+        ›
+      </span>
+
+    </button>
+
+
+    <!-- LOADING -->
+
     <div
-      *ngIf="products.length > 0"
+      *ngIf="categoriesLoading"
+      class="category-sidebar-loading"
+    >
+      Loading...
+    </div>
+
+
+    <!-- DYNAMIC CATEGORIES -->
+
+    <button
+      *ngFor="let category of categories"
+      type="button"
+      class="category-sidebar-item"
+      [class.active]="
+        selectedCategoryId === category._id
+      "
+      (click)="selectCategory(category._id || '')"
+    >
+
+      <!-- CATEGORY IMAGE -->
+
+      <div class="category-sidebar-icon">
+
+        <img
+          *ngIf="category.imageUrl"
+          [src]="category.imageUrl"
+          [alt]="getCategoryName(category)"
+        >
+
+        <span *ngIf="!category.imageUrl">
+          ॐ
+        </span>
+
+      </div>
+
+
+      <!-- CATEGORY NAME -->
+
+      <div class="category-sidebar-name">
+
+        <strong>
+          {{ getCategoryName(category) }}
+        </strong>
+
+      </div>
+
+
+      <span class="category-arrow">
+        ›
+      </span>
+
+    </button>
+
+  </aside>
+
+
+
+  <!-- ================================
+       RIGHT PRODUCTS
+  ================================= -->
+
+  <div class="products-right-content">
+
+
+    <!-- LOADING -->
+
+    <div
+      *ngIf="productsLoading"
+      class="products-loading"
+    >
+      {{ text.loading }}
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      *ngIf="productsError"
+      class="products-error"
+    >
+      {{ productsError }}
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+      *ngIf="
+        !productsLoading &&
+        !productsError &&
+        products.length === 0
+      "
+      class="products-empty"
+    >
+      {{ text.empty }}
+    </div>
+
+
+    <!-- PRODUCTS -->
+
+    <div
+      *ngIf="
+        !productsLoading &&
+        products.length > 0
+      "
       class="premium-product-grid"
     >
 
@@ -95,20 +258,14 @@
         class="premium-product-card product-reveal"
       >
 
-        <!-- PRODUCT IMAGE -->
-
         <img
           [src]="product.imageUrl"
           [alt]="getBackendProductName(product)"
         >
 
 
-        <!-- IMAGE SHADE -->
-
         <div class="product-shade"></div>
 
-
-        <!-- GLASS CONTENT -->
 
         <div class="product-glass">
 
@@ -129,14 +286,10 @@
           </div>
 
 
-          <!-- PRODUCT NAME -->
-
           <h3>
             {{ getBackendProductName(product) }}
           </h3>
 
-
-          <!-- STOCK -->
 
           <span
             *ngIf="!product.isActive"
@@ -146,21 +299,17 @@
           </span>
 
 
-          <!-- PRICE -->
-
           <div class="product-card-price">
+
             {{
               product.price
                 | currency:'INR':'symbol':'1.0-0'
             }}
+
           </div>
 
 
-          <!-- BUTTONS -->
-
           <div class="product-shopping-actions">
-
-            <!-- ADD TO CART -->
 
             <button
               type="button"
@@ -175,6 +324,7 @@
               "
               (click)="addToCart(product)"
             >
+
               {{
                 !product.isActive
                   ? 'Out of Stock'
@@ -182,10 +332,9 @@
                     ? 'Product Added'
                     : text.addToCart
               }}
+
             </button>
 
-
-            <!-- VIEW DETAILS -->
 
             <button
               type="button"
@@ -203,6 +352,9 @@
 
     </div>
 
+  </div>
+
+</div>
   </div>
 
 
