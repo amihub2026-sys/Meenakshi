@@ -8134,17 +8134,16 @@ h2.tamil-tradition-title span {
 
 }
 /* =====================================================
-   PRODUCT DETAILS POPUP - FINAL
+   PRODUCT DETAILS POPUP - CLEAN FINAL
 ===================================================== */
 
 .product-modal-overlay {
   position: fixed !important;
   inset: 0 !important;
+  z-index: 999999 !important;
 
   width: 100vw !important;
   height: 100vh !important;
-
-  z-index: 999999 !important;
 
   display: flex !important;
   align-items: center !important;
@@ -8152,132 +8151,140 @@ h2.tamil-tradition-title span {
 
   padding: 20px;
 
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(7, 18, 12, 0.72);
 
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
 }
 
 
-/* POPUP BOX */
+/* POPUP */
 
 .product-modal {
   position: relative !important;
 
-  width: min(850px, 95vw);
-  max-height: 90vh;
+  width: min(920px, 94vw);
+  max-height: 88vh;
 
   display: grid;
-  grid-template-columns: 42% 58%;
+  grid-template-columns:
+    minmax(300px, 0.9fr)
+    minmax(380px, 1.15fr);
 
   overflow: hidden;
 
+  border: 1px solid rgba(16, 63, 44, 0.08);
+  border-radius: 20px;
+
   background: #fffaf0;
 
-  border-radius: 22px;
-
   box-shadow:
-    0 30px 100px rgba(0, 0, 0, 0.45);
+    0 30px 90px rgba(0, 0, 0, 0.38);
 
-  animation: productModalOpen 0.3s ease;
+  animation: productModalOpen 0.28s ease;
 }
 
 
-/* OPEN ANIMATION */
-
 @keyframes productModalOpen {
-
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.96);
+    transform: translateY(16px) scale(0.97);
   }
 
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-
 }
 
 
-/* CLOSE BUTTON */
+/* CLOSE */
 
 .product-modal-close {
   position: absolute;
-
   top: 14px;
   right: 14px;
-
   z-index: 20;
 
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: none;
+  border: 1px solid rgba(16, 63, 44, 0.10);
   border-radius: 50%;
 
   background: #ffffff;
-
   color: #103f2c;
 
-  font-size: 25px;
+  font-size: 22px;
   line-height: 1;
 
   cursor: pointer;
 
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.12);
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.product-modal-close:hover {
+  background: #103f2c;
+  color: #ffffff;
+  transform: rotate(6deg);
 }
 
 
-/* LEFT IMAGE */
+/* IMAGE SIDE */
 
 .product-modal-image {
   position: relative;
 
   min-height: 500px;
+  overflow: hidden;
 
   background: #eee6d6;
-
-  overflow: hidden;
 }
 
 .product-modal-image img {
-  width: 100%;
-  height: 100%;
-
   position: absolute;
   inset: 0;
+
+  width: 100%;
+  height: 100%;
 
   display: block;
 
   object-fit: cover;
+  object-position: center;
 }
 
 
-/* STOCK BADGE */
+/* STOCK */
 
 .modal-stock {
   position: absolute;
-
   left: 18px;
   bottom: 18px;
-
   z-index: 5;
 
   padding: 7px 13px;
 
-  border-radius: 30px;
+  border-radius: 999px;
 
   background: #103f2c;
-
   color: #ffffff;
 
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 800;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.18);
 }
 
 .modal-stock.out-stock {
@@ -8285,12 +8292,13 @@ h2.tamil-tradition-title span {
 }
 
 
-/* RIGHT CONTENT */
+/* CONTENT SIDE */
 
 .product-modal-content {
-  padding: 50px 38px 35px;
+  padding: 42px 38px 34px;
 
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 
@@ -8303,35 +8311,45 @@ h2.tamil-tradition-title span {
 
   color: #b88619;
 
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10px;
+  font-weight: 900;
 
-  letter-spacing: 1.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
 }
 
 
-/* NAME */
+/* PRODUCT NAME */
 
 .product-modal-content h2 {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 
   color: #103f2c;
 
-  font-family: Georgia, "Times New Roman", serif;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
 
-  font-size: 30px;
-  line-height: 1.2;
+  font-size: 29px;
+  font-weight: 600;
+  line-height: 1.15;
 }
 
 
 /* PRICE */
 
 .modal-price {
-  margin-bottom: 22px;
+  margin: 8px 0 0;
 
   color: #b88619;
 
-  font-size: 24px;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 25px;
   font-weight: 800;
 }
 
@@ -8339,9 +8357,11 @@ h2.tamil-tradition-title span {
 /* DESCRIPTION */
 
 .modal-description {
-  padding-top: 18px;
+  margin-top: 15px;
+  padding-top: 17px;
 
-  border-top: 1px solid rgba(16, 63, 44, 0.12);
+  border-top:
+    1px solid rgba(16, 63, 44, 0.11);
 }
 
 .modal-description h4 {
@@ -8349,7 +8369,8 @@ h2.tamil-tradition-title span {
 
   color: #103f2c;
 
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .modal-description p {
@@ -8357,67 +8378,148 @@ h2.tamil-tradition-title span {
 
   color: #687069;
 
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.65;
+
+  overflow-wrap: anywhere;
 }
 
 
-/* DETAILS */
+/* SELECTED WEIGHT + AVAILABILITY */
 
 .modal-product-info {
   display: grid;
 
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 
   gap: 10px;
 
-  margin: 22px 0;
+  margin: 20px 0 0;
 }
 
 .modal-product-info > div {
-  padding: 12px;
+  min-width: 0;
+  min-height: 128px;
+
+  padding: 14px;
+
+  border: 1px solid rgba(16, 63, 44, 0.05);
+  border-radius: 11px;
 
   background: #f3ecdd;
-
-  border-radius: 10px;
 }
 
 .modal-product-info span {
   display: block;
 
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 
   color: #858b86;
 
-  font-size: 11px;
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 .modal-product-info strong {
   color: #103f2c;
 
   font-size: 13px;
+  font-weight: 800;
 }
 
 
-/* ADD CART */
+/* WEIGHT BUTTONS
+   Targets the existing buttons inside modal info
+*/
 
-.modal-add-cart {
-  width: 100%;
+.modal-product-info button {
+  min-width: 58px;
+  height: 34px;
 
-  min-height: 44px;
+  margin: 7px 5px 0 0;
+  padding: 0 10px;
 
-  border: none;
+  border: 1px solid #d3cdbd;
+  border-radius: 7px;
 
-  border-radius: 10px;
+  background: #ffffff;
+  color: #173f2d;
 
-  background: #103f2c;
-
-  color: #ffffff;
-
-  font-size: 13px;
+  font-family: inherit;
+  font-size: 11px;
   font-weight: 800;
 
   cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.modal-product-info button:hover:not(:disabled) {
+  border-color: #103f2c;
+  transform: translateY(-1px);
+}
+
+.modal-product-info button.active,
+.modal-product-info button.selected {
+  border-color: #103f2c;
+
+  background: #103f2c;
+  color: #ffffff;
+}
+
+.modal-product-info button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+
+/* ADD TO CART */
+
+.modal-add-cart,
+.product-add-cart {
+  width: 100%;
+  min-height: 46px;
+
+  margin-top: 20px;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #103f2c;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.modal-add-cart:hover:not(:disabled),
+.product-add-cart:hover:not(:disabled) {
+  background: #0a422e;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(16, 63, 44, 0.18);
 }
 
 .modal-add-cart:disabled {
@@ -8425,46 +8527,97 @@ h2.tamil-tradition-title span {
   cursor: not-allowed;
 }
 
+.product-add-cart.product-added,
+.product-add-cart.product-added:disabled {
+  border-color: #103f2c;
 
-/* ================================
-   MOBILE
-================================ */
+  background: #86a091;
+  color: #ffffff;
+
+  opacity: 1;
+  cursor: default;
+}
+
+
+/* TABLET */
+
+@media (max-width: 850px) {
+  .product-modal {
+    width: min(760px, 94vw);
+
+    grid-template-columns:
+      minmax(270px, 0.88fr)
+      minmax(330px, 1.12fr);
+  }
+
+  .product-modal-content {
+    padding: 34px 26px;
+  }
+
+  .product-modal-image {
+    min-height: 470px;
+  }
+}
+
+
+/* MOBILE */
 
 @media (max-width: 700px) {
-
   .product-modal-overlay {
     padding: 12px !important;
   }
 
   .product-modal {
     width: 100%;
-
     max-height: 92vh;
 
     display: block;
 
     overflow-y: auto;
 
-    border-radius: 18px;
+    border-radius: 16px;
   }
 
   .product-modal-image {
-    min-height: 260px;
+    min-height: 245px;
+    height: 245px;
   }
 
   .product-modal-content {
-    padding: 28px 20px;
+    padding: 24px 18px;
   }
 
   .product-modal-content h2 {
     font-size: 23px;
   }
 
-  .modal-price {
-    font-size: 20px;
+  .modal-description {
+    margin-top: 13px;
   }
 
+  .modal-product-info {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-product-info > div {
+    min-height: auto;
+  }
+
+  .modal-product-info button {
+    min-width: 56px;
+    height: 33px;
+
+    padding: 0 9px;
+
+    font-size: 10px;
+  }
+
+  .modal-price {
+    font-size: 22px;
+  }
 }
+
+
 /* ==================================================
    CATEGORY + PRODUCT SHOP LAYOUT
 ================================================== */
