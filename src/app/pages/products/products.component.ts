@@ -82,6 +82,7 @@ selectedCategoryId = '';
   language: Language = 'ta';
 
 selectedProduct: any = null;
+selectedVariant: any = null;
 
 
 openProductDetails(product: any): void {
@@ -89,12 +90,26 @@ openProductDetails(product: any): void {
   this.selectedProduct = product;
 
 
-  
+   if (
+    product.variants &&
+    product.variants.length > 0
+  ) {
+    this.selectedVariant = product.variants[0];
+  } else {
+    this.selectedVariant = null;
+  }
 
+
+}
+selectVariant(variant: any): void {
+  this.selectedVariant = variant;
 }
  addToCart(product: Product): void {
     if (!this.isProductAdded(product)) {
-      this.cartService.addProduct(product);
+this.cartService.addProduct(
+  product,
+  this.selectedVariant
+);
     }
 
     this.router.navigate(['/cart']);

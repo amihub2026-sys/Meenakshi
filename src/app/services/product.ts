@@ -8,7 +8,20 @@ export interface ProductName {
   ta: string;
   hi: string;
 }
+export interface ProductVariant {
+  quantity: number;
 
+  unit:
+    | 'g'
+    | 'kg'
+    | 'ml'
+    | 'l'
+    | 'piece'
+    | 'packet'
+    | 'box';
+
+  price: number;
+}
 export interface ProductCategory {
   _id: string;
 
@@ -29,6 +42,7 @@ export interface Product {
 
   name: ProductName;
  description?: string;
+ variants: ProductVariant[];
   price: number;
 
   quantity?: number;

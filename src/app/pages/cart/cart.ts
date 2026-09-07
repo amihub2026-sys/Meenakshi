@@ -42,7 +42,7 @@ export class CartComponent implements OnInit {
         .filter((item: CartItem) => item.product.isActive)
         .reduce(
           (total: number, item: CartItem) =>
-            total + item.product.price * item.quantity,
+          total + item.selectedVariant.price * item.quantity,
           0
         )
     )
@@ -297,6 +297,20 @@ export class CartComponent implements OnInit {
 
     this.cartService.decreaseQuantity(productId);
   }
+changeVariant(
+  item: CartItem,
+  variant: CartItem['selectedVariant']
+): void {
+
+  if (!item.product.isActive) {
+    return;
+  }
+
+  this.cartService.changeVariant(
+    item.product._id,
+    variant
+  );
+}
 
   removeProduct(productId: string): void {
     this.cartService.removeProduct(productId);
@@ -368,8 +382,7 @@ export class CartComponent implements OnInit {
       return 0;
     }
 
-    return item.product.price * item.quantity;
-  }
+  return item.selectedVariant.price * item.quantity;  }
 
   trackCartItem(
     _index: number,
