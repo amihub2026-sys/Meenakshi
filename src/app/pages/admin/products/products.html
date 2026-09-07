@@ -154,79 +154,113 @@
     required
   ></textarea>
 </div>
-        <div class="form-group">
-          <label for="price">
-            Product Price
-            <span>Indian Rupees</span>
-          </label>
+       <div class="form-group">
 
-          <div class="price-input">
-            <span>₹</span>
+  <div class="field-label-row">
+    <label>
+      Product Weight / Price
+    </label>
 
-            <input
-              id="price"
-              name="price"
-              type="number"
-              [(ngModel)]="productForm.price"
-              placeholder="250"
-              min="1"
-              step="1"
-              required
-            >
-          </div>
-        </div>
-       <!-- UNIT -->
-<div class="form-group">
+    <span>
+      REQUIRED
+    </span>
+  </div>
 
-  <label for="unit">
-    Product Unit
-    <span>Required</span>
-  </label>
 
-  <select
-    id="unit"
-    [(ngModel)]="productForm.unit"
-    name="unit"
-    (change)="onUnitChange()"
-    required
+  <div
+    *ngFor="
+      let variant of productForm.variants;
+      let i = index
+    "
+    class="variant-row"
   >
 
-    <option value="">
-      Select Unit
-    </option>
+    <div>
+      <label>
+        Quantity / Weight
+      </label>
 
-    <option
-      *ngFor="let unit of unitOptions"
-      [value]="unit.value"
+      <input
+        type="number"
+        [name]="'variantQuantity' + i"
+        [(ngModel)]="variant.quantity"
+        placeholder="Example: 50"
+        min="0.01"
+        step="0.01"
+        required
+      >
+    </div>
+
+
+    <div>
+      <label>
+        Unit
+      </label>
+
+      <select
+        [name]="'variantUnit' + i"
+        [(ngModel)]="variant.unit"
+        required
+      >
+
+        <option value="">
+          Select Unit
+        </option>
+
+        <option
+          *ngFor="let unit of unitOptions"
+          [value]="unit.value"
+        >
+          {{ unit.label }}
+        </option>
+
+      </select>
+    </div>
+
+
+    <div>
+      <label>
+        Price
+      </label>
+
+      <div class="price-input">
+        <span>₹</span>
+
+        <input
+          type="number"
+          [name]="'variantPrice' + i"
+          [(ngModel)]="variant.price"
+          placeholder="Example: 30"
+          min="1"
+          step="1"
+          required
+        >
+      </div>
+    </div>
+
+
+    <button
+      *ngIf="productForm.variants.length > 1"
+      type="button"
+      class="remove-variant-button"
+      (click)="removeVariant(i)"
     >
-      {{ unit.label }}
-    </option>
+      Remove
+    </button>
 
-  </select>
-
-</div>
+  </div>
 
 
-<!-- QUANTITY / WEIGHT -->
-<div class="form-group">
-
-  <label for="quantity">
-    Quantity / Weight
-    <span>Required</span>
-  </label>
-
-  <input
-    id="quantity"
-    type="number"
-    name="quantity"
-    [(ngModel)]="productForm.quantity"
-    placeholder="Example: 0.5, 1, 2, 250"
-    min="0.01"
-    step="0.01"
-    required
+  <button
+    type="button"
+    class="add-variant-button"
+    (click)="addVariant()"
   >
+    + Add Another Weight
+  </button>
 
 </div>
+
         <div class="form-group image-form-group">
           <label for="productImage">
             Product Image
@@ -376,17 +410,24 @@
     <h3>
       {{ product.name.en }}
     </h3>
+<div
+  class="product-price"
+  *ngIf="product.variants && product.variants.length > 0"
+>
+  ₹{{ product.variants[0].price | number:'1.0-2' }}
+</div>
 
-    <div class="product-price">
-      ₹{{ product.price | number:'1.0-2' }}
-    </div>
+<div
+  class="product-quantity"
+  *ngIf="product.variants && product.variants.length > 0"
+>
+  {{ product.variants[0].quantity }}
+  {{ product.variants[0].unit }}
 
-    <div
-      class="product-quantity"
-      *ngIf="product.quantity && product.unit"
-    >
-      {{ product.quantity }} {{ product.unit }}
-    </div>
+  <span *ngIf="product.variants.length > 1">
+    + {{ product.variants.length - 1 }} more
+  </span>
+</div>
 
 
     <div class="product-actions">
@@ -495,20 +536,30 @@
         }}
       </p>
 
-      <p>
-        <strong>Price:</strong>
-        ₹{{ selectedProduct.price | number:'1.0-2' }}
-      </p>
+     <div
+  *ngIf="
+    selectedProduct.variants &&
+    selectedProduct.variants.length > 0
+  "
+>
+  <strong>Available Weights & Prices:</strong>
 
-      <p>
-        <strong>Quantity:</strong>
-        {{
-          selectedProduct.quantity || 'Not Added'
-        }}
-        {{
-          selectedProduct.unit || ''
-        }}
-      </p>
+  <div
+    *ngFor="
+      let variant of selectedProduct.variants
+    "
+    class="modal-variant-row"
+  >
+    <span>
+      {{ variant.quantity }}
+      {{ variant.unit }}
+    </span>
+
+    <span>
+      ₹{{ variant.price | number:'1.0-2' }}
+    </span>
+  </div>
+</div>
 
       <p>
         <strong>Status:</strong>

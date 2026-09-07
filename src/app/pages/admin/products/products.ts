@@ -47,7 +47,14 @@ export class AdminProductsComponent
     description: '',
     price: '',
     quantity: '',
-    unit: ''
+    unit: '',
+     variants: [
+    {
+      quantity: '',
+      unit: '',
+      price: ''
+    }
+  ]
   };
 unitOptions = [
   { value: 'g', label: 'Gram (g)' },
@@ -145,6 +152,21 @@ getAvailableQuantities() {
 onUnitChange(): void {
 
   this.productForm.quantity = '';
+}
+addVariant(): void {
+  this.productForm.variants.push({
+    quantity: '',
+    unit: '',
+    price: ''
+  });
+}
+
+removeVariant(index: number): void {
+  if (this.productForm.variants.length <= 1) {
+    return;
+  }
+
+  this.productForm.variants.splice(index, 1);
 }
 
   selectedFile:
@@ -385,23 +407,14 @@ onUnitChange(): void {
         .nameHi
         .trim();
 
-
-    const price =
-      Number(
-        this.productForm.price
-      );
-
-
-    const quantity =
-      Number(
-        this.productForm.quantity
-      );
-
-
-    const unit =
-      this.productForm
-        .unit
-        .trim();
+const variants =
+  this.productForm.variants.map(
+    variant => ({
+      quantity: Number(variant.quantity),
+      unit: variant.unit,
+      price: Number(variant.price)
+    })
+  );
 
 
     // CATEGORY VALIDATION
@@ -432,42 +445,14 @@ onUnitChange(): void {
 
     // PRICE VALIDATION
 
-    if (
-      !price ||
-      price <= 0
-    ) {
+   // VARIANTS VALIDATION
 
-      this.errorMessage =
-        'Please enter a valid product price.';
+if (!variants.length) {
+  this.errorMessage =
+    'Please add at least one weight and price.';
 
-      return;
-    }
-
-
-    // QUANTITY VALIDATION
-
-    if (
-      !quantity ||
-      quantity <= 0
-    ) {
-
-      this.errorMessage =
-        'Please enter a valid product quantity.';
-
-      return;
-    }
-
-
-    // UNIT VALIDATION
-
-    if (!unit) {
-
-      this.errorMessage =
-        'Please select a product unit.';
-
-      return;
-    }
-
+  return;
+}
 
 const allowedUnits = [
   'g',
@@ -479,16 +464,23 @@ const allowedUnits = [
   'box'
 ];
 
-    if (
-      !allowedUnits.includes(unit)
-      )
-     {
+const invalidVariant =
+  variants.some(
+    variant =>
+      !variant.quantity ||
+      variant.quantity <= 0 ||
+      !variant.unit ||
+      !allowedUnits.includes(variant.unit) ||
+      !variant.price ||
+      variant.price <= 0
+  );
 
-      this.errorMessage =
-        'Please select a valid product unit.';
+if (invalidVariant) {
+  this.errorMessage =
+    'Please enter a valid quantity, unit and price for every weight.';
 
-      return;
-    }
+  return;
+}
 
 
     // IMAGE REQUIRED ONLY
@@ -543,28 +535,12 @@ formData.append(
 
     // PRICE
 
-    formData.append(
-      'price',
-      String(price)
-    );
+   // PRODUCT VARIANTS
 
-
-    // QUANTITY
-
-    formData.append(
-      'quantity',
-      String(quantity)
-    );
-
-
-    // UNIT
-
-    formData.append(
-      'unit',
-      unit
-    );
-
-
+formData.append(
+  'variants',
+  JSON.stringify(variants)
+);
     // IMAGE
 
     if (
@@ -764,7 +740,23 @@ formData.append(
           : '',
 
       unit:
-        product.unit || ''
+        product.unit || '',
+         variants:
+    product.variants && product.variants.length > 0
+      ? product.variants.map(variant => ({
+          quantity: String(variant.quantity),
+          unit: variant.unit,
+          price: String(variant.price)
+        }))
+      : [
+          {
+            quantity: '',
+            unit: '',
+            price: ''
+          }
+        ]
+
+  
     };
 
 
@@ -951,7 +943,14 @@ getProductCategoryName(product: Product): string {
 
       quantity: '',
 
-      unit: ''
+      unit: '',
+      variants: [
+    {
+      quantity: '',
+      unit: '',
+      price: ''
+    }
+  ]
     };
 
 

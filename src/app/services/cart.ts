@@ -20,6 +20,20 @@ import {
 
 export interface CartItem {
   product: Product;
+
+  selectedVariant: {
+    quantity: number;
+    unit:
+      | 'g'
+      | 'kg'
+      | 'ml'
+      | 'l'
+      | 'piece'
+      | 'packet'
+      | 'box';
+    price: number;
+  };
+
   quantity: number;
 }
 
@@ -51,7 +65,8 @@ export class CartService {
         items.reduce(
           (total, item) =>
             total +
-            item.product.price * item.quantity,
+         total +
+item.selectedVariant.price * item.quantity,
           0
         )
       )
@@ -65,26 +80,33 @@ export class CartService {
     this.loadCart();
   }
 
+addProduct(
+  product: Product,
+  selectedVariant: CartItem['selectedVariant']
+): void {
 
-  addProduct(product: Product): void {
-    const items = [...this.cartItemsSubject.value];
+  const items = [...this.cartItemsSubject.value];
 
-    const existingItem = items.find(
-      item => item.product._id === product._id
-    );
+  const existingItem = items.find(
+    item =>
+      item.product._id === product._id &&
+      item.selectedVariant.quantity === selectedVariant.quantity &&
+      item.selectedVariant.unit === selectedVariant.unit &&
+      item.selectedVariant.price === selectedVariant.price
+  );
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      items.push({
-        product,
-        quantity: 1
-      });
-    }
-
-    this.updateCart(items);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    items.push({
+      product,
+      selectedVariant,
+      quantity: 1
+    });
   }
 
+  this.updateCart(items);
+}
 
   increaseQuantity(productId: string): void {
     const items = this.cartItemsSubject.value.map(
@@ -123,7 +145,27 @@ export class CartService {
 
     this.updateCart(items);
   }
+  changeVariant(
+  productId: string,
+  selectedVariant: CartItem['selectedVariant']
+): void {
 
+  const items = this.cartItemsSubject.value.map(
+    item => {
+
+      if (item.product._id === productId) {
+        return {
+          ...item,
+          selectedVariant
+        };
+      }
+
+      return item;
+    }
+  );
+
+  this.updateCart(items);
+}
 
   removeProduct(productId: string): void {
     const items = this.cartItemsSubject.value.filter(

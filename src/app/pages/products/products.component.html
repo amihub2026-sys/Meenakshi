@@ -435,13 +435,6 @@
 
         <!-- PRICE -->
 
-        <div class="modal-price">
-          {{
-            selectedProduct.price
-              | currency:'INR':'symbol':'1.0-0'
-          }}
-        </div>
-
 
         <!-- =========================
              DESCRIPTION
@@ -468,7 +461,51 @@
         ========================== -->
 
         <div class="modal-product-info">
+<!-- =========================
+     WEIGHT / VARIANT SELECTOR
+========================== -->
 
+<div
+  class="modal-variant-section"
+  *ngIf="
+    selectedProduct.variants &&
+    selectedProduct.variants.length > 0
+  "
+>
+
+  <div class="selected-variant-label">
+    Selected Weight:
+    <strong>
+      {{ selectedVariant?.quantity }}
+      {{ selectedVariant?.unit }}
+    </strong>
+  </div>
+
+  <div class="variant-options">
+
+    <button
+      type="button"
+      *ngFor="let variant of selectedProduct.variants"
+      class="variant-option"
+      [class.active]="selectedVariant === variant"
+      (click)="selectVariant(variant)"
+    >
+      {{ variant.quantity }} {{ variant.unit }}
+    </button>
+
+  </div>
+
+  <div
+    class="modal-price"
+    *ngIf="selectedVariant"
+  >
+    {{
+      selectedVariant.price
+        | currency:'INR':'symbol':'1.0-0'
+    }}
+  </div>
+
+</div>
 
           <!-- AVAILABILITY -->
 
@@ -490,34 +527,6 @@
 
 
           <!-- QUANTITY -->
-
-          <div>
-
-            <span>
-              Quantity
-            </span>
-
-            <strong>
-              {{ selectedProduct.quantity ?? 0 }}
-            </strong>
-
-          </div>
-
-
-          <!-- UNIT -->
-
-          <div *ngIf="selectedProduct.unit">
-
-            <span>
-              Unit
-            </span>
-
-            <strong>
-              {{ selectedProduct.unit }}
-            </strong>
-
-          </div>
-
 
           <!-- BRAND -->
 

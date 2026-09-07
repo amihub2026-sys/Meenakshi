@@ -309,7 +309,36 @@
             <p>
               {{ getSecondaryName(item) }}
             </p>
+<div class="cart-variant-selector">
 
+  <small>
+    Weight
+  </small>
+
+  <div class="cart-variant-options">
+
+    <button
+      type="button"
+      *ngFor="let variant of item.product.variants"
+      class="cart-variant-option"
+      [class.active]="
+        item.selectedVariant.quantity === variant.quantity &&
+        item.selectedVariant.unit === variant.unit &&
+        item.selectedVariant.price === variant.price
+      "
+      [disabled]="
+        !item.product.isActive ||
+        submittingOrder
+      "
+      (click)="changeVariant(item, variant)"
+    >
+      {{ variant.quantity }}
+      {{ variant.unit }}
+    </button>
+
+  </div>
+
+</div>
 <span
   *ngIf="!item.product.isActive"
   class="out-of-stock-badge"
@@ -359,13 +388,12 @@
               }}
             </small>
 
-            <strong>
-              {{
-                item.product.price
-                  | currency:'INR':'symbol':'1.0-0'
-              }}
-            </strong>
-
+       <strong>
+  {{
+    item.selectedVariant.price
+      | currency:'INR':'symbol':'1.0-0'
+  }}
+</strong>
           </div>
 
 
