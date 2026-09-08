@@ -1,0 +1,201 @@
+<section class="payment-page">
+
+  <div class="payment-shell">
+
+    <!-- LEFT -->
+    <div class="payment-main-card">
+
+      <div class="payment-heading">
+
+        <span>
+          04 · PAYMENT
+        </span>
+
+        <h1>
+          Complete Your Payment
+        </h1>
+
+        <p>
+          Review your order and continue with secure payment.
+        </p>
+
+      </div>
+
+
+      <!-- CUSTOMER -->
+      <div class="payment-section">
+
+        <div class="payment-section-title">
+          Delivery Details
+        </div>
+
+        <div class="customer-grid">
+
+          <div>
+            <small>Full Name</small>
+            <strong>
+              {{ customerName }}
+            </strong>
+          </div>
+
+          <div>
+            <small>Phone Number</small>
+            <strong>
+              {{ phone }}
+            </strong>
+          </div>
+
+          <div class="customer-address">
+            <small>Delivery Address</small>
+            <strong>
+              {{ address }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PAYMENT METHOD -->
+      <div class="payment-section">
+
+        <div class="payment-section-title">
+          Payment Method
+        </div>
+
+        <label class="payment-method active">
+
+          <div class="payment-radio">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="razorpay"
+              [(ngModel)]="paymentMethod"
+            >
+
+            <span></span>
+          </div>
+
+          <div class="payment-method-content">
+
+            <strong>
+              Razorpay Secure Payment
+            </strong>
+
+            <p>
+              Pay securely using UPI, debit card,
+              credit card, net banking or supported wallets.
+            </p>
+
+          </div>
+
+          <div class="payment-badge">
+            Secure
+          </div>
+
+        </label>
+
+      </div>
+
+
+      <!-- PAY BUTTON -->
+      <button
+        type="button"
+        class="pay-now-button"
+        [disabled]="processingPayment"
+        (click)="payNow()"
+      >
+
+        <span *ngIf="!processingPayment">
+          Pay ₹{{ totalAmount | number:'1.0-2' }}
+        </span>
+
+        <span *ngIf="processingPayment">
+          Opening Secure Payment...
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="back-cart-button"
+        routerLink="/cart"
+      >
+        ← Back to Cart
+      </button>
+
+    </div>
+
+
+    <!-- RIGHT SUMMARY -->
+    <aside class="payment-summary">
+
+      <span class="summary-number">
+        05
+      </span>
+
+      <small>
+        ORDER SUMMARY
+      </small>
+
+      <h2>
+        Price Details
+      </h2>
+
+
+      <div class="summary-row">
+
+        <span>
+          Subtotal
+        </span>
+
+        <strong>
+          ₹{{ subtotal | number:'1.0-2' }}
+        </strong>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Delivery Charge
+        </span>
+
+        <strong>
+          FREE
+        </strong>
+
+      </div>
+
+
+      <div class="summary-divider"></div>
+
+
+      <div class="summary-total">
+
+        <span>
+          Total Amount
+          <small>
+            Inclusive of all taxes
+          </small>
+        </span>
+
+        <strong>
+          ₹{{ totalAmount | number:'1.0-2' }}
+        </strong>
+
+      </div>
+
+
+      <div class="secure-message">
+        🔒 Safe and secure payment
+      </div>
+
+    </aside>
+
+  </div>
+
+</section>

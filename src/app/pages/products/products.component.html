@@ -248,107 +248,106 @@
       "
       class="premium-product-grid"
     >
+<article
+  *ngFor="
+    let product of products;
+    let i = index;
+    trackBy: trackBackendProduct
+  "
+  class="premium-product-card"
+>
 
-      <article
-        *ngFor="
-          let product of products;
-          let i = index;
-          trackBy: trackBackendProduct
+  <!-- IMAGE -->
+  <div class="product-card-image">
+
+    <img
+      [src]="product.imageUrl"
+      [alt]="getBackendProductName(product)"
+    >
+
+    <span
+      *ngIf="!product.isActive"
+      class="product-stock-badge"
+    >
+      Out of Stock
+    </span>
+
+  </div>
+
+
+  <!-- DETAILS -->
+  <div class="product-card-content">
+
+    <div class="product-card-top">
+
+      <span class="product-number">
+        {{
+          i + 1 < 10
+            ? '0' + (i + 1)
+            : i + 1
+        }}
+      </span>
+
+      <small>
+        {{ text.productCategory }}
+      </small>
+
+    </div>
+
+
+    <h3>
+      {{ getBackendProductName(product) }}
+    </h3>
+
+
+    <div class="product-card-price">
+      {{
+        product.price
+          | currency:'INR':'symbol':'1.0-0'
+      }}
+    </div>
+
+
+    <div class="product-shopping-actions">
+
+      <button
+        type="button"
+        class="product-add-cart"
+        [class.product-added]="
+          product.isActive &&
+          isProductAdded(product)
         "
-        class="premium-product-card product-reveal"
+        [disabled]="
+          !product.isActive ||
+          isProductAdded(product)
+        "
+        (click)="addToCart(product)"
       >
 
-        <img
-          [src]="product.imageUrl"
-          [alt]="getBackendProductName(product)"
-        >
+        {{
+          !product.isActive
+            ? 'Out of Stock'
+            : isProductAdded(product)
+              ? 'Product Added'
+              : text.addToCart
+        }}
+
+      </button>
 
 
-        <div class="product-shade"></div>
+      <button
+        type="button"
+        class="product-buy-now"
+        (click)="openProductDetails(product)"
+      >
+        {{ text.viewDetails }}
+      </button>
 
+    </div>
 
-        <div class="product-glass">
+  </div>
 
-          <div class="product-top">
-
-            <span class="product-number">
-              {{
-                i + 1 < 10
-                  ? '0' + (i + 1)
-                  : i + 1
-              }}
-            </span>
-
-            <small>
-              {{ text.productCategory }}
-            </small>
-
-          </div>
-
-
-          <h3>
-            {{ getBackendProductName(product) }}
-          </h3>
-
-
-          <span
-            *ngIf="!product.isActive"
-            class="product-stock-badge"
-          >
-            Out of Stock
-          </span>
-
-
-          <div class="product-card-price">
-
-            {{
-              product.price
-                | currency:'INR':'symbol':'1.0-0'
-            }}
-
-          </div>
-
-
-          <div class="product-shopping-actions">
-
-            <button
-              type="button"
-              class="product-add-cart"
-              [class.product-added]="
-                product.isActive &&
-                isProductAdded(product)
-              "
-              [disabled]="
-                !product.isActive ||
-                isProductAdded(product)
-              "
-              (click)="addToCart(product)"
-            >
-
-              {{
-                !product.isActive
-                  ? 'Out of Stock'
-                  : isProductAdded(product)
-                    ? 'Product Added'
-                    : text.addToCart
-              }}
-
-            </button>
-
-
-            <button
-              type="button"
-              class="product-buy-now"
-              (click)="openProductDetails(product)"
-            >
-              {{ text.viewDetails }}
-            </button>
-
-          </div>
-
-        </div>
-
-      </article>
+</article>
 
     </div>
 
