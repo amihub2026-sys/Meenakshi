@@ -768,128 +768,224 @@
       <!-- =========================
            FORM
       ========================== -->
-      <form
-        #checkoutForm="ngForm"
-        class="checkout-customer-form"
-        novalidate
-        (ngSubmit)="submitCheckout(checkoutForm)"
-      >
+     <form
+  #checkoutForm="ngForm"
+  class="checkout-customer-form"
+  novalidate
+  (ngSubmit)="submitCheckout(checkoutForm)"
+>
+
+  <!-- =========================
+       FULL NAME
+  ========================== -->
+  <div class="checkout-field">
+
+    <label for="customerName">
+      {{
+        language === 'ta'
+          ? 'முழுப் பெயர்'
+          : language === 'hi'
+            ? 'पूरा नाम'
+            : 'Full Name'
+      }}
+      <span>*</span>
+    </label>
+
+    <input
+      id="customerName"
+      name="customerName"
+      type="text"
+
+      [placeholder]="
+        language === 'ta'
+          ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்'
+          : language === 'hi'
+            ? 'अपना पूरा नाम दर्ज करें'
+            : 'Enter your full name'
+      "
+
+      [(ngModel)]="customerForm.name"
+      #customerName="ngModel"
+
+      [disabled]="submittingOrder"
+
+      required
+      minlength="3"
+    >
+
+    <small
+      class="field-error"
+      *ngIf="
+        customerName.invalid &&
+        customerName.touched
+      "
+    >
+      {{
+        language === 'ta'
+          ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்.'
+          : language === 'hi'
+            ? 'कृपया अपना पूरा नाम दर्ज करें।'
+            : 'Please enter your full name.'
+      }}
+    </small>
+
+  </div>
 
 
-        <!-- NAME -->
-        <div class="checkout-field">
+  <!-- =========================
+       PHONE NUMBER
+  ========================== -->
+  <div class="checkout-field">
 
-          <label for="customerName">
+    <label for="phone">
+      {{
+        language === 'ta'
+          ? 'தொலைபேசி எண்'
+          : language === 'hi'
+            ? 'फ़ोन नंबर'
+            : 'Phone Number'
+      }}
+      <span>*</span>
+    </label>
 
-            {{
-              language === 'ta'
-                ? 'முழுப் பெயர்'
-                : language === 'hi'
-                  ? 'पूरा नाम'
-                  : 'Full Name'
-            }}
+    <input
+      id="phone"
+      name="phone"
+      type="tel"
 
-            <span>*</span>
+      inputmode="numeric"
+      maxlength="10"
 
-          </label>
+      [placeholder]="
+        language === 'ta'
+          ? '10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்'
+          : language === 'hi'
+            ? '10 अंकों का फ़ोन नंबर दर्ज करें'
+            : 'Enter 10-digit phone number'
+      "
 
+      [(ngModel)]="customerForm.phone"
+      #phone="ngModel"
 
-          <input
-            id="customerName"
-            name="customerName"
-            type="text"
+      [disabled]="submittingOrder"
 
-            [placeholder]="
-              language === 'ta'
-                ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்'
-                : language === 'hi'
-                  ? 'अपना पूरा नाम दर्ज करें'
-                  : 'Enter your full name'
-            "
+      required
+      pattern="[6-9][0-9]{9}"
+    >
 
-            [(ngModel)]="customerForm.name"
-            #customerName="ngModel"
+    <small
+      class="field-error"
+      *ngIf="
+        phone.invalid &&
+        phone.touched
+      "
+    >
+      {{
+        language === 'ta'
+          ? 'சரியான 10 இலக்க இந்திய தொலைபேசி எண்ணை உள்ளிடவும்.'
+          : language === 'hi'
+            ? 'कृपया सही 10 अंकों का भारतीय फ़ोन नंबर दर्ज करें।'
+            : 'Please enter a valid 10-digit Indian phone number.'
+      }}
+    </small>
 
-            [disabled]="submittingOrder"
-
-            required
-            minlength="3"
-          >
-
-
-          <small
-            class="field-error"
-            *ngIf="
-              customerName.invalid &&
-              customerName.touched
-            "
-          >
-            {{
-              language === 'ta'
-                ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்.'
-                : language === 'hi'
-                  ? 'कृपया अपना पूरा नाम दर्ज करें।'
-                  : 'Please enter your full name.'
-            }}
-          </small>
-
-        </div>
-
-
-
-        <!-- PHONE -->
-        <div class="checkout-field">
-
-          <label for="phone">
-
-            {{
-              language === 'ta'
-                ? 'தொலைபேசி எண்'
-                : language === 'hi'
-                  ? 'फ़ोन नंबर'
-                  : 'Phone Number'
-            }}
-
-            <span>*</span>
-
-          </label>
+  </div>
 
 
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
+  <!-- =========================
+       ADDRESS
+  ========================== -->
+  <div class="checkout-field checkout-field-full">
 
-            inputmode="numeric"
-            maxlength="10"
+    <label for="address">
+      {{
+        language === 'ta'
+          ? 'டெலிவரி முகவரி'
+          : language === 'hi'
+            ? 'डिलीवरी पता'
+            : 'Delivery Address'
+      }}
+      <span>*</span>
+    </label>
 
-            [placeholder]="
-              language === 'ta'
-                ? '10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்'
-                : language === 'hi'
-                  ? '10 अंकों का फ़ोन नंबर दर्ज करें'
-                  : 'Enter 10-digit phone number'
-            "
+    <textarea
+      id="address"
+      name="address"
+      rows="4"
 
-            [(ngModel)]="customerForm.phone"
-            #phone="ngModel"
+      [placeholder]="
+        language === 'ta'
+          ? 'உங்கள் முழு டெலிவரி முகவரியை உள்ளிடவும்'
+          : language === 'hi'
+            ? 'अपना पूरा डिलीवरी पता दर्ज करें'
+            : 'Enter your complete delivery address'
+      "
 
-            [disabled]="submittingOrder"
+      [(ngModel)]="customerForm.address"
+      #address="ngModel"
 
-            required
-            pattern="[6-9][0-9]{9}"
-          >
+      [disabled]="submittingOrder"
+
+      required
+      minlength="10"
+    ></textarea>
+
+    <small
+      class="field-error"
+      *ngIf="
+        address.invalid &&
+        address.touched
+      "
+    >
+      {{
+        language === 'ta'
+          ? 'உங்கள் முழு டெலிவரி முகவரியை உள்ளிடவும்.'
+          : language === 'hi'
+            ? 'कृपया अपना पूरा डिलीवरी पता दर्ज करें।'
+            : 'Please enter your complete delivery address.'
+      }}
+    </small>
+
+  </div>
 
 
-          <small
-            class="field-error"
-            *ngIf="
-              phone.invalid &&
-              phone.touched
-            "
-          >
-            {{
-              language === 'ta'
-                ? 'சரியான 10 இலக்க இந்திய தொலைபேசி எண்ணை உள்ளிடவும்.'
-                : language === 'hi'
+  <!-- =========================
+       SUBMIT BUTTON
+  ========================== -->
+  <div class="checkout-submit-row">
+
+    <button
+      type="submit"
+      class="checkout-submit-btn"
+      [disabled]="
+        checkoutForm.invalid ||
+        submittingOrder
+      "
+    >
+
+      <span *ngIf="!submittingOrder">
+        {{
+          language === 'ta'
+            ? 'பணம் செலுத்த தொடரவும்'
+            : language === 'hi'
+              ? 'भुगतान के लिए आगे बढ़ें'
+              : 'Proceed to Payment'
+        }}
+      </span>
+
+      <span *ngIf="submittingOrder">
+        {{
+          language === 'ta'
+            ? 'செயலாக்கப்படுகிறது...'
+            : language === 'hi'
+              ? 'प्रक्रिया जारी है...'
+              : 'Processing...'
+        }}
+      </span>
+
+    </button>
+
+  </div>
+
+</form>
             
