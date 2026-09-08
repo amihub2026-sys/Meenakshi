@@ -23,7 +23,7 @@ export interface Category {
 })
 export class CategoryService {
 
-  private apiUrl = 'http://localhost:5000/api/categories';
+private apiUrl = 'https://meenakshi-backend.onrender.com/api/categories';
 
   constructor(
     private http: HttpClient
