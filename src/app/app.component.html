@@ -14,7 +14,12 @@
     <span></span>
   </button>
 
-
+ <!-- ADD THIS -->
+  <div
+    class="mobile-menu-overlay"
+    *ngIf="menuOpen"
+    (click)="closeMenu()"
+  ></div>
   <!-- SINGLE BRAND -->
   <a
     class="brand"
@@ -183,11 +188,11 @@
   <!-- MOBILE LANGUAGE -->
   <div class="mobile-language">
 
-    <button
-      type="button"
-      class="mobile-language-btn"
-      (click)="languageMenuOpen = !languageMenuOpen"
-    >
+   <button 
+  type="button" 
+  class="mobile-language-btn" 
+  (click)="toggleLanguageMenu()"
+>
       <i class="fa-solid fa-language"></i>
 
       <span>

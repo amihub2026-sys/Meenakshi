@@ -1,6 +1,7 @@
 import {
   Component,
-  inject
+  inject,
+    HostListener
 } from '@angular/core';
 
 import { AsyncPipe } from '@angular/common';
@@ -80,8 +81,44 @@ export class AppComponent {
   closeMenu(): void {
     this.menuOpen = false;
   }
+   toggleLanguageMenu(): void {
+  this.languageMenuOpen = !this.languageMenuOpen;
+}
+changeLanguage(lang: Language): void {
+  this.languageService.setLanguage(lang);
 
-  changeLanguage(lang: Language): void {
-    this.languageService.setLanguage(lang);
+  this.languageMenuOpen = false;
+}
+ @HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+
+  const target = event.target as HTMLElement;
+
+  const clickedHamburger = target.closest('.nav-hamburger');
+  const clickedMenu = target.closest('.main-nav');
+
+  const clickedLanguageButton = target.closest('.mobile-language-btn');
+  const clickedLanguageDropdown = target.closest('.mobile-language-dropdown');
+
+
+  // CLOSE MOBILE NAV
+  if (
+    this.menuOpen &&
+    !clickedHamburger &&
+    !clickedMenu
+  ) {
+    this.menuOpen = false;
   }
+
+
+  // CLOSE LANGUAGE DROPDOWN
+  if (
+    this.languageMenuOpen &&
+    !clickedLanguageButton &&
+    !clickedLanguageDropdown
+  ) {
+    this.languageMenuOpen = false;
+  }
+
+}
 }
