@@ -1,193 +1,270 @@
 <header class="site-header">
+<div class="container nav-wrap">
 
-  <div class="container nav-wrap">
+  <!-- MOBILE HAMBURGER -->
+  <button
+    type="button"
+    class="nav-hamburger"
+    [class.open]="menuOpen"
+    (click)="toggleMenu()"
+    aria-label="Toggle navigation"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-    <!-- BRAND -->
+
+  <!-- SINGLE BRAND -->
+  <a
+    class="brand"
+    routerLink="/"
+    (click)="closeMenu()"
+  >
+    <span class="brand-mark">
+      ॐ
+    </span>
+
+    <span class="brand-text">
+
+      <strong>
+        {{
+          language === 'ta'
+            ? 'மதுரை மீனாட்சி'
+            : language === 'hi'
+            ? 'मदुरै मीनाक्षी'
+            : 'Madurai Meenakshi'
+        }}
+      </strong>
+
+      <small>
+        {{
+          language === 'ta'
+            ? 'சந்தனக் கடை'
+            : language === 'hi'
+            ? 'चंदन दुकान'
+            : 'Santhana Kadai'
+        }}
+      </small>
+
+    </span>
+  </a>
+
+
+  <!-- DESKTOP NAVIGATION -->
+  <nav
+    class="main-nav"
+    [class.open]="menuOpen"
+  >
+
     <a
-      class="brand"
       routerLink="/"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
       (click)="closeMenu()"
     >
-
-      <span class="brand-mark">
-        ॐ
-      </span>
-
-      <span>
-
-        <strong>
-          {{
-            language === 'ta'
-              ? 'மதுரை மீனாட்சி'
-              : language === 'hi'
-              ? 'मदुरै मीनाक्षी'
-              : 'Madurai Meenakshi'
-          }}
-        </strong>
-
-        <small>
-          {{
-            language === 'ta'
-              ? 'சந்தனக் கடை'
-              : language === 'hi'
-              ? 'चंदन दुकान'
-              : 'Santhana Kadai'
-          }}
-        </small>
-
-      </span>
-
+      {{
+        language === 'ta'
+          ? 'முகப்பு'
+          : language === 'hi'
+          ? 'होम'
+          : 'Home'
+      }}
     </a>
 
 
-    <!-- DESKTOP NAVIGATION -->
-    <nav
-      class="main-nav"
-      [class.open]="menuOpen"
+    <a
+      routerLink="/about"
+      routerLinkActive="active-link"
+      (click)="closeMenu()"
     >
+      {{
+        language === 'ta'
+          ? 'எங்களைப் பற்றி'
+          : language === 'hi'
+          ? 'हमारे बारे में'
+          : 'About'
+      }}
+    </a>
 
-      <a
-        routerLink="/"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }"
-        (click)="closeMenu()"
-      >
+
+    <a
+      routerLink="/products"
+      routerLinkActive="active-link"
+      (click)="closeMenu()"
+    >
+      {{
+        language === 'ta'
+          ? 'பொருட்கள்'
+          : language === 'hi'
+          ? 'उत्पाद'
+          : 'Products'
+      }}
+    </a>
+
+
+    <a
+      routerLink="/specials"
+      routerLinkActive="active-link"
+      (click)="closeMenu()"
+    >
+      {{
+        language === 'ta'
+          ? 'பாரம்பரியம்'
+          : language === 'hi'
+          ? 'परंपरा'
+          : 'Specials'
+      }}
+    </a>
+
+
+    <a
+      routerLink="/contact"
+      routerLinkActive="active-link"
+      (click)="closeMenu()"
+    >
+      {{
+        language === 'ta'
+          ? 'தொடர்பு'
+          : language === 'hi'
+          ? 'संपर्क'
+          : 'Contact'
+      }}
+    </a>
+
+
+    <!-- DESKTOP CART -->
+    <a
+      routerLink="/cart"
+      class="cart-button"
+      aria-label="Open shopping cart"
+      (click)="closeMenu()"
+    >
+      <i class="fa-solid fa-cart-shopping"></i>
+
+      <span class="cart-count">
+        {{ (cartCount$ | async) || 0 }}
+      </span>
+    </a>
+
+  </nav>
+
+
+  <!-- DESKTOP LANGUAGE SWITCH -->
+  <div class="language-switch">
+
+    <button
+      type="button"
+      [class.active]="language === 'ta'"
+      (click)="changeLanguage('ta')"
+    >
+      தமிழ்
+    </button>
+
+    <button
+      type="button"
+      [class.active]="language === 'en'"
+      (click)="changeLanguage('en')"
+    >
+      EN
+    </button>
+
+    <button
+      type="button"
+      [class.active]="language === 'hi'"
+      (click)="changeLanguage('hi')"
+    >
+      हिंदी
+    </button>
+
+  </div>
+
+
+  <!-- MOBILE LANGUAGE -->
+  <div class="mobile-language">
+
+    <button
+      type="button"
+      class="mobile-language-btn"
+      (click)="languageMenuOpen = !languageMenuOpen"
+    >
+      <i class="fa-solid fa-language"></i>
+
+      <span>
         {{
           language === 'ta'
-            ? 'முகப்பு'
+            ? 'தமிழ்'
             : language === 'hi'
-            ? 'होम'
-            : 'Home'
+            ? 'हिंदी'
+            : 'EN'
         }}
-      </a>
+      </span>
+
+      <i
+        class="fa-solid fa-chevron-down"
+        [class.rotate]="languageMenuOpen"
+      ></i>
+    </button>
 
 
-      <a
-        routerLink="/about"
-        routerLinkActive="active-link"
-        (click)="closeMenu()"
-      >
-        {{
-          language === 'ta'
-            ? 'எங்களைப் பற்றி'
-            : language === 'hi'
-            ? 'हमारे बारे में'
-            : 'About'
-        }}
-      </a>
-
-
-      <a
-        routerLink="/products"
-        routerLinkActive="active-link"
-        (click)="closeMenu()"
-      >
-        {{
-          language === 'ta'
-            ? 'பொருட்கள்'
-            : language === 'hi'
-            ? 'उत्पाद'
-            : 'Products'
-        }}
-      </a>
-
-
-      <a
-        routerLink="/specials"
-        routerLinkActive="active-link"
-        (click)="closeMenu()"
-      >
-        {{
-          language === 'ta'
-            ? 'பாரம்பரியம்'
-            : language === 'hi'
-            ? 'परंपरा'
-            : 'Specials'
-        }}
-      </a>
-
-
-      <a
-        routerLink="/contact"
-        routerLinkActive="active-link"
-        (click)="closeMenu()"
-      >
-        {{
-          language === 'ta'
-            ? 'தொடர்பு'
-            : language === 'hi'
-            ? 'संपर्क'
-            : 'Contact'
-        }}
-      </a>
-
-
-      <!-- CART -->
-      <a
-  routerLink="/cart"
-  class="cart-button"
-  aria-label="Open shopping cart"
-  (click)="closeMenu()"
->
-  <i class="fa-solid fa-cart-shopping"></i>
-
-  <span class="cart-count">
-    {{ (cartCount$ | async) || 0 }}
-  </span>
-</a>
-
-    </nav>
-
-
-    <!-- LANGUAGE SWITCH -->
-    <div class="language-switch">
+    <div
+      class="mobile-language-dropdown"
+      *ngIf="languageMenuOpen"
+    >
 
       <button
         type="button"
         [class.active]="language === 'ta'"
-        (click)="changeLanguage('ta')"
+        (click)="
+          changeLanguage('ta');
+          languageMenuOpen = false
+        "
       >
         தமிழ்
       </button>
 
-
       <button
         type="button"
         [class.active]="language === 'en'"
-        (click)="changeLanguage('en')"
+        (click)="
+          changeLanguage('en');
+          languageMenuOpen = false
+        "
       >
-        EN
+        English
       </button>
-
 
       <button
         type="button"
         [class.active]="language === 'hi'"
-        (click)="changeLanguage('hi')"
+        (click)="
+          changeLanguage('hi');
+          languageMenuOpen = false
+        "
       >
         हिंदी
       </button>
 
     </div>
 
-
-    <!-- MOBILE HAMBURGER -->
-    <button
-      type="button"
-      class="nav-hamburger"
-      [class.open]="menuOpen"
-      (click)="toggleMenu()"
-      aria-label="Toggle navigation"
-    >
-
-      <span></span>
-      <span></span>
-      <span></span>
-
-    </button>
-
   </div>
 
+
+  <!-- MOBILE CART -->
+  <a
+    routerLink="/cart"
+    class="mobile-cart-button"
+    aria-label="Open shopping cart"
+    (click)="closeMenu()"
+  >
+    <i class="fa-solid fa-cart-shopping"></i>
+
+    <span class="cart-count">
+      {{ (cartCount$ | async) || 0 }}
+    </span>
+  </a>
+
+</div>
 </header>
 
 

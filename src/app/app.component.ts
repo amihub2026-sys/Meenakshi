@@ -8,6 +8,7 @@ import { AsyncPipe } from '@angular/common';
 import {
   Router,
   RouterLink,
+  
   RouterLinkActive,
   RouterOutlet,
   NavigationEnd
@@ -16,6 +17,7 @@ import {
 import { filter } from 'rxjs/operators';
 
 import { CartService } from './services/cart';
+import { CommonModule } from '@angular/common';
 
 import {
   LanguageService,
@@ -30,6 +32,7 @@ import {
   imports: [
     RouterOutlet,
     RouterLink,
+      CommonModule,
     RouterLinkActive,
     AsyncPipe
   ],
@@ -37,7 +40,7 @@ import {
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-
+  languageMenuOpen = false;
   menuOpen = false;
 
   language: Language = 'ta';
