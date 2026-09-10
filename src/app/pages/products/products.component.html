@@ -241,115 +241,121 @@
 
     <!-- PRODUCTS -->
 
-    <div
-      *ngIf="
-        !productsLoading &&
-        products.length > 0
-      "
-      class="premium-product-grid"
-    >
-<article
-  *ngFor="
-    let product of products;
-    let i = index;
-    trackBy: trackBackendProduct
+   <div
+  *ngIf="
+    !productsLoading &&
+    products.length > 0
   "
-  class="premium-product-card"
+  class="premium-product-grid"
 >
 
-  <!-- IMAGE -->
-  <div class="product-card-image">
+  <article
+    *ngFor="
+      let product of products;
+      let i = index;
+      trackBy: trackBackendProduct
+    "
+    class="premium-product-card"
+    (click)="openProductDetails(product)"
+  >
 
-    <img
-      [src]="product.imageUrl"
-      [alt]="getBackendProductName(product)"
-    >
+    <!-- IMAGE AREA -->
+    <div class="product-card-image">
 
-    <span
-      *ngIf="!product.isActive"
-      class="product-stock-badge"
-    >
-      Out of Stock
-    </span>
+      <img
+        [src]="product.imageUrl"
+        [alt]="getBackendProductName(product)"
+      >
 
-  </div>
-
-
-  <!-- DETAILS -->
-  <div class="product-card-content">
-
-    <div class="product-card-top">
-
-      <span class="product-number">
-        {{
-          i + 1 < 10
-            ? '0' + (i + 1)
-            : i + 1
-        }}
+      <span
+        *ngIf="!product.isActive"
+        class="product-stock-badge"
+      >
+        Sold Out
       </span>
 
-      <small>
-        {{ text.productCategory }}
-      </small>
-
-    </div>
-
-
-    <h3>
-      {{ getBackendProductName(product) }}
-    </h3>
-
-
-    <div class="product-card-price">
-      {{
-        product.price
-          | currency:'INR':'symbol':'1.0-0'
-      }}
-    </div>
-
-
-    <div class="product-shopping-actions">
-
       <button
+        *ngIf="product.isActive"
         type="button"
-        class="product-add-cart"
-        [class.product-added]="
-          product.isActive &&
-          isProductAdded(product)
+        class="hover-add-cart-btn"
+        (click)="
+          addCardProductToCart(product);
+          $event.stopPropagation()
         "
-        [disabled]="
-          !product.isActive ||
-          isProductAdded(product)
-        "
-        (click)="addToCart(product)"
       >
-
-        {{
-          !product.isActive
-            ? 'Out of Stock'
-            : isProductAdded(product)
-              ? 'Product Added'
-              : text.addToCart
-        }}
-
-      </button>
-
-
-      <button
-        type="button"
-        class="product-buy-now"
-        (click)="openProductDetails(product)"
-      >
-        {{ text.viewDetails }}
+        Add to Cart
       </button>
 
     </div>
+
+
+    <!-- GREEN GLASS CONTENT -->
+   <!-- GREEN GLASS CONTENT -->
+<div class="product-card-content">
+
+  <h3>
+    {{ getBackendProductName(product) }}
+  </h3>
+
+  <!-- PRICE -->
+  <div
+    class="product-card-price"
+    *ngIf="
+      product.variants &&
+      product.variants.length > 0
+    "
+  >
+    {{
+      getCardPrice(product)
+        | currency:'INR':'symbol':'1.0-0'
+    }}
+  </div>
+
+  <div
+    class="product-card-price"
+    *ngIf="
+      !product.variants ||
+      product.variants.length === 0
+    "
+  >
+    {{
+      product.price
+        | currency:'INR':'symbol':'1.0-0'
+    }}
+  </div>
+
+  <!-- QUANTITY ONLY -->
+  <div
+    class="card-variant-options"
+    *ngIf="
+      product.variants &&
+      product.variants.length > 0
+    "
+    (click)="$event.stopPropagation()"
+  >
+
+    <button
+      type="button"
+      *ngFor="let variant of product.variants"
+      class="card-variant-btn"
+      [class.active]="
+        getCardSelectedVariant(product) === variant
+      "
+      (click)="
+        selectCardVariant(product, variant);
+        $event.stopPropagation()
+      "
+    >
+      {{ variant.quantity }} {{ variant.unit }}
+    </button>
 
   </div>
 
-</article>
+</div>
 
-    </div>
+  </article>
+
+</div>
 
   </div>
 

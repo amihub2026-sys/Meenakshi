@@ -83,7 +83,9 @@ selectedCategoryId = '';
 
 selectedProduct: any = null;
 selectedVariant: any = null;
-
+cardSelectedVariants: {
+  [productId: string]: any
+} = {};
 
 openProductDetails(product: any): void {
 
@@ -651,6 +653,82 @@ loadProducts(
       ) > 0
     );
   }
+  getCardSelectedVariant(product: any): any {
+
+  if (!product) {
+    return null;
+  }
+
+  const productId =
+    product._id ||
+    product.id;
+
+  if (
+    productId &&
+    this.cardSelectedVariants[productId]
+  ) {
+    return this.cardSelectedVariants[productId];
+  }
+
+  if (
+    product.variants &&
+    product.variants.length > 0
+  ) {
+    return product.variants[0];
+  }
+
+  return null;
+}
+
+
+selectCardVariant(
+  product: any,
+  variant: any
+): void {
+
+  const productId =
+    product._id ||
+    product.id;
+
+  if (!productId) {
+    return;
+  }
+
+  this.cardSelectedVariants[productId] =
+    variant;
+}
+
+
+getCardPrice(product: any): number {
+
+  const selectedVariant =
+    this.getCardSelectedVariant(product);
+
+  if (
+    selectedVariant &&
+    selectedVariant.price != null
+  ) {
+    return Number(selectedVariant.price);
+  }
+
+  return Number(product.price || 0);
+}
+addCardProductToCart(product: any): void {
+
+  if (!product || !product.isActive) {
+    return;
+  }
+
+  const variant =
+    this.getCardSelectedVariant(product);
+
+  this.cartService.addProduct(
+    product,
+    variant
+  );
+
+  this.router.navigate(['/cart']);
+}
 
 
   trackBackendProduct(
