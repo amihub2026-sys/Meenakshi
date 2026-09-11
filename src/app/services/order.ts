@@ -78,7 +78,23 @@ export interface CreateOrderResponse {
   order: CustomerOrder;
 }
 
+export interface MonthlySalesProduct {
+  _id: string;
+  productName: string;
+  productImage?: string;
+  totalQuantity: number;
+  totalRevenue: number;
+}
 
+export interface MonthlySalesResponse {
+  success: boolean;
+  month: number;
+  year: number;
+  totalItemsSold: number;
+  totalRevenue: number;
+  topProducts: MonthlySalesProduct[];
+  lowProducts: MonthlySalesProduct[];
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -161,4 +177,18 @@ private readonly apiUrl =
       }
     );
   }
+  getMonthlySales(
+  month: number,
+  year: number
+): Observable<MonthlySalesResponse> {
+
+  return this.http.get<MonthlySalesResponse>(
+    `${this.apiUrl}/admin/monthly-sales?month=${month}&year=${year}`,
+    {
+      headers: this.getAuthHeaders()
+    }
+  );
+}
+
+
 }

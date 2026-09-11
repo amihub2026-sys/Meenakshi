@@ -100,5 +100,146 @@
     </div>
 
   </section>
+  <section class="sales-analytics" *ngIf="monthlySales">
+
+  <div class="sales-header">
+
+    <div>
+      <span class="section-label">
+        MONTHLY SALES
+      </span>
+
+      <h2>
+        Sales Performance
+      </h2>
+    </div>
+
+    <div class="sales-summary">
+
+      <div class="summary-card">
+        <span>Total Items Sold</span>
+
+        <strong>
+          {{ monthlySales.totalItemsSold }}
+        </strong>
+      </div>
+
+      <div class="summary-card">
+        <span>Total Revenue</span>
+
+        <strong>
+          ₹{{ monthlySales.totalRevenue }}
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="sales-grid">
+
+    <!-- TOP SELLING -->
+    <div class="sales-panel">
+
+      <h3>
+        Top Selling Products
+      </h3>
+
+      <div
+        class="sales-row"
+        *ngFor="
+          let product of monthlySales.topProducts;
+          let i = index
+        "
+      >
+
+        <span class="sales-rank">
+          {{ i + 1 }}
+        </span>
+
+        <div class="sales-product">
+
+          <strong>
+            {{ product.productName }}
+          </strong>
+
+          <small>
+            {{ product.totalQuantity }} sold
+          </small>
+
+        </div>
+
+        <div class="sales-bar-wrap">
+
+          <div
+            class="sales-bar top"
+            [style.width.%]="
+              monthlySales.topProducts[0]?.totalQuantity
+                ? (product.totalQuantity /
+                  monthlySales.topProducts[0].totalQuantity) * 100
+                : 0
+            "
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- LOW SELLING -->
+    <div class="sales-panel">
+
+      <h3>
+        Low Selling Products
+      </h3>
+
+      <div
+        class="sales-row"
+        *ngFor="
+          let product of monthlySales.lowProducts;
+          let i = index
+        "
+      >
+
+        <span class="sales-rank">
+          {{ i + 1 }}
+        </span>
+
+        <div class="sales-product">
+
+          <strong>
+            {{ product.productName }}
+          </strong>
+
+          <small>
+            {{ product.totalQuantity }} sold
+          </small>
+
+        </div>
+
+        <div class="sales-bar-wrap">
+
+          <div
+            class="sales-bar low"
+            [style.width.%]="
+              monthlySales.topProducts[0]?.totalQuantity
+                ? (product.totalQuantity /
+                  monthlySales.topProducts[0].totalQuantity) * 100
+                : 0
+            "
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 
 </div>
