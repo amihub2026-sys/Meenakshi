@@ -9,13 +9,18 @@ import { ProductService } from '../../../services/product';
 import {
   CategoryService
 } from '../../../services/category.service';
-
+import {
+  OrderService,
+  MonthlySalesResponse
+} from '../../../services/order';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+      FormsModule
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
@@ -29,7 +34,16 @@ export class AdminDashboardComponent
   private readonly categoryService =
     inject(CategoryService);
 
+private readonly orderService =
+  inject(OrderService);
 
+monthlySales?: MonthlySalesResponse;
+
+selectedMonth =
+  new Date().getMonth() + 1;
+
+selectedYear =
+  new Date().getFullYear();
   totalProducts = 0;
 
   activeProducts = 0;
@@ -46,16 +60,48 @@ export class AdminDashboardComponent
 
   totalUsers = 0;
 
-
+onMonthChange(): void {
+  this.loadMonthlySales();
+}
   ngOnInit(): void {
 
     this.loadProductCounts();
 
     this.loadCategoryCounts();
-
+      this.loadMonthlySales();
   }
 
+loadMonthlySales(): void {
+  this.orderService
+    .getMonthlySales(
+      this.selectedMonth,
+      this.selectedYear
+    )
+    .subscribe({
 
+      next: response => {
+
+        this.monthlySales = response;
+
+        console.log(
+          'MONTHLY SALES:',
+          response
+        );
+
+      },
+
+      error: error => {
+
+        console.error(
+          'Unable to load monthly sales:',
+          error
+        );
+
+      }
+
+    });
+
+}
   private loadProductCounts(): void {
 
     this.productService
