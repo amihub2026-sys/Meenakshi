@@ -17,7 +17,7 @@ import {
   OrderService,
   OrderStatus
 } from '../../../services/order';
-
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin-user-details',
@@ -300,4 +300,126 @@ export class AdminUserDetailsComponent
   private clearMessage(): void {
     this.message = '';
   }
+  downloadOrdersExcel(): void {
+
+  if (this.filteredOrders.length === 0) {
+    this.showMessage(
+      'No orders available to download.',
+      'error'
+    );
+
+    return;
+  }
+
+  const rows: any[] = [];
+
+  this.filteredOrders.forEach(
+    (order, orderIndex) => {
+
+      order.items.forEach(
+        (item, itemIndex) => {
+
+          rows.push({
+            'S.No':
+              orderIndex + 1,
+
+            'Order ID':
+              order._id,
+
+            'Order Date':
+              order.createdAt
+                ? new Date(
+                    order.createdAt
+                  ).toLocaleString('en-IN')
+                : '',
+
+            'Customer Name':
+              order.customerName,
+
+            'Phone':
+              order.phone,
+
+            'Email':
+              order.email || '',
+
+            'Address':
+              order.address,
+
+            'Product':
+              item.productName,
+
+            'Product Qty':
+              item.quantity,
+
+            'Price':
+              item.price,
+
+            'Line Total':
+              item.lineTotal,
+
+            'Order Total':
+              itemIndex === 0
+                ? order.total
+                : '',
+
+            'Status':
+              order.status
+          });
+
+        }
+      );
+
+    }
+  );
+
+
+  const worksheet =
+    XLSX.utils.json_to_sheet(rows);
+
+
+  /* COLUMN WIDTHS */
+  worksheet['!cols'] = [
+    { wch: 7 },
+    { wch: 28 },
+    { wch: 22 },
+    { wch: 22 },
+    { wch: 16 },
+    { wch: 28 },
+    { wch: 40 },
+    { wch: 32 },
+    { wch: 12 },
+    { wch: 12 },
+    { wch: 14 },
+    { wch: 14 },
+    { wch: 14 }
+  ];
+
+
+  const workbook =
+    XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    'Orders'
+  );
+
+
+  const today =
+    new Date()
+      .toISOString()
+      .slice(0, 10);
+
+
+  XLSX.writeFile(
+    workbook,
+    `meenakshi-orders-${today}.xlsx`
+  );
+
+
+  this.showMessage(
+    'Order Excel downloaded successfully.',
+    'success'
+  );
+}
 }

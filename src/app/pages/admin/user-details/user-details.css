@@ -436,3 +436,42 @@ td a:hover {
     padding-right: 18px;
   }
 }
+.download-button {
+  min-height: 42px;
+  padding: 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #17613f;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.download-button:hover {
+  background: #0f4a30;
+  transform: translateY(-1px);
+}
+
+.download-button i {
+  color: #e7c75a;
+}
+
+@media (max-width: 700px) {
+
+  .download-button {
+    width: 100%;
+  }
+
+}
