@@ -628,28 +628,25 @@
 
 
         <!-- CHECKOUT -->
-        <button
-          type="button"
-          class="checkout-button"
-          [disabled]="submittingOrder"
-          (click)="openCheckoutForm()"
-           [disabled]="
+       <button
+  type="button"
+  class="checkout-button"
+  [disabled]="
     submittingOrder ||
     hasOutOfStockProducts()
   "
-        >
+  (click)="handleCheckout()"
+>
+  {{
+    language === 'ta'
+      ? 'செக் அவுட் செய்ய'
+      : language === 'hi'
+        ? 'चेकआउट करें'
+        : 'Proceed to Checkout'
+  }}
 
-          {{
-            language === 'ta'
-              ? 'செக் அவுட் செய்ய'
-              : language === 'hi'
-                ? 'चेकआउट करें'
-                : 'Proceed to Checkout'
-          }}
-
-          <span>→</span>
-
-        </button>
+  <span>→</span>
+</button>
 
 
 
@@ -690,7 +687,49 @@
     </div>
 
 
+<!-- LOGIN SNACKBAR -->
+<div
+  class="login-snackbar"
+  *ngIf="loginSnackbarVisible"
+>
+  Please login first
+</div>
 
+
+<!-- LOGIN MODAL -->
+<div
+  class="login-modal-overlay"
+  *ngIf="showLoginModal"
+  (click)="closeLoginModal()"
+>
+
+  <div
+    class="login-modal"
+    (click)="$event.stopPropagation()"
+  >
+
+    <button
+      type="button"
+      class="login-modal-close"
+      (click)="closeLoginModal()"
+    >
+      ×
+    </button>
+
+    <h2>
+      Login to Continue
+    </h2>
+
+    <p>
+      Please login before continuing to checkout.
+    </p>
+<div
+  id="google-signin-button"
+  class="google-signin-container"
+></div>
+  </div>
+
+</div>
     <!-- =====================================================
          CHECKOUT FORM
     ====================================================== -->

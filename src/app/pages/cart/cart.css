@@ -993,3 +993,106 @@ button:disabled {
     box-sizing: border-box !important;
   }
 }
+.login-snackbar {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+
+  background: #222;
+  color: #fff;
+
+  padding: 14px 22px;
+  border-radius: 10px;
+
+  z-index: 99999;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+}
+
+
+.login-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, .55);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 99998;
+}
+
+
+.login-modal {
+  width: 100%;
+  max-width: 420px;
+
+  background: #fff;
+
+  border-radius: 20px;
+
+  padding: 35px;
+
+  position: relative;
+
+  text-align: center;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.25);
+}
+
+
+.login-modal h2 {
+  margin: 0 0 10px;
+}
+
+
+.login-modal p {
+  color: #777;
+
+  margin-bottom: 25px;
+}
+
+
+.login-modal-close {
+  position: absolute;
+
+  top: 12px;
+  right: 16px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 28px;
+
+  cursor: pointer;
+}
+
+
+.google-login-button {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  background: #fff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.google-login-button:hover {
+  background: #f8f8f8;
+}
