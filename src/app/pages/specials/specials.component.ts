@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { RouterLink } from '@angular/router';
 import {
   Language,
   LanguageService
@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'app-specials',
   standalone: true,
+    imports: [ RouterLink],
   templateUrl: './specials.component.html'
 })
 export class SpecialsComponent {

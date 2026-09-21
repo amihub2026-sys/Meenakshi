@@ -6,7 +6,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { ProductsComponent } from './pages/products/products.component';
 import { SpecialsComponent } from './pages/specials/specials.component';
 import { ContactComponent } from './pages/contact/contact.component';
-
+import { LoginComponent } from './pages/login/login';
 import { AdminLoginComponent } from './pages/admin/login/login';
 import { AdminLayoutComponent } from './pages/admin/layout/layout';
 import { AdminDashboardComponent } from './pages/admin/dashboard/dashboard';
@@ -53,7 +53,11 @@ export const routes: Routes = [
     path: 'cart',
     component: CartComponent
   },
-
+{
+  path: 'login',
+  component: LoginComponent,
+  title: 'Login | Madurai Meenakshi Santhana Kadai'
+},
   {
     path: 'admin/login',
     component: AdminLoginComponent,
@@ -84,7 +88,14 @@ export const routes: Routes = [
         component: AdminProductsComponent,
         title: 'Product Management | Admin'
       },
-
+{
+  path: 'products',
+  component: ProductsComponent
+},
+{
+  path: 'contact',
+  component: ContactComponent
+},
       {
         path: 'user-details',
         component: AdminUserDetailsComponent,

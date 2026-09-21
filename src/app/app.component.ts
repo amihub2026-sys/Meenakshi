@@ -14,7 +14,7 @@ import {
   RouterOutlet,
   NavigationEnd
 } from '@angular/router';
-
+import { UserAuthService } from './services/user-auth.service';
 import { filter } from 'rxjs/operators';
 
 import { CartService } from './services/cart';
@@ -43,7 +43,16 @@ import {
 export class AppComponent {
   languageMenuOpen = false;
   menuOpen = false;
+private readonly userAuthService = inject(UserAuthService);
 
+currentUser: {
+  id: string;
+  name: string;
+  email: string;
+  picture: string;
+} | null = null;
+
+accountMenuOpen = false;
   language: Language = 'ta';
 
   private readonly cartService = inject(CartService);
@@ -51,14 +60,29 @@ export class AppComponent {
   readonly cartCount$ = this.cartService.cartCount$;
 
   constructor(
-    private languageService: LanguageService,
-    private router: Router
-  ) {
-    this.languageService.language$.subscribe(
-      (lang: Language) => {
-        this.language = lang;
-      }
-    );
+  private languageService: LanguageService,
+  private router: Router
+) {
+  this.languageService.language$.subscribe(
+    (lang: Language) => {
+      this.language = lang;
+    }
+  );
+
+  this.loadCurrentUser();
+
+  this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+    .subscribe(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    });
+
 
     // Move every newly opened page to the top
     this.router.events
@@ -88,6 +112,32 @@ changeLanguage(lang: Language): void {
   this.languageService.setLanguage(lang);
 
   this.languageMenuOpen = false;
+}
+loadCurrentUser(): void {
+  this.userAuthService
+    .getCurrentUser()
+    .subscribe({
+      next: response => {
+        this.currentUser = response.user;
+      },
+
+      error: () => {
+        this.currentUser = null;
+      }
+    });
+}
+
+toggleAccountMenu(): void {
+  this.accountMenuOpen =
+    !this.accountMenuOpen;
+}
+
+closeAccountMenu(): void {
+  this.accountMenuOpen = false;
+}
+@HostListener('window:user-login-success')
+onUserLoginSuccess(): void {
+  this.loadCurrentUser();
 }
  @HostListener('document:click', ['$event'])
 onDocumentClick(event: MouseEvent): void {

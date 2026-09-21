@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Observable, map } from 'rxjs';
-
+import { UserAuthService } from '../../services/user-auth.service';
+import { environment } from '../../../environments/environment';
 import { Product, ProductService } from '../../services/product';
 import { CartItem, CartService } from '../../services/cart';
 import { Language, LanguageService } from '../../services/language.service';
@@ -22,7 +23,7 @@ export class CartComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   private readonly orderService = inject(OrderService);
   private readonly productService = inject(ProductService);
-
+   private readonly userAuthService = inject(UserAuthService);
   readonly cartItems$: Observable<CartItem[]> = this.cartService.cartItems$;
 
   readonly cartCount$: Observable<number> = this.cartItems$.pipe(
@@ -53,7 +54,8 @@ export class CartComponent implements OnInit {
   showCheckoutForm = false;
   submittingOrder = false;
   orderPlaced = false;
-
+showLoginModal = false;
+loginSnackbarVisible = false;
   placedOrderId = '';
   checkoutMessage = '';
   checkoutError = '';
@@ -267,7 +269,109 @@ export class CartComponent implements OnInit {
         }
       });
   }
+private renderGoogleButton(): void {
+  const google = (window as any).google;
 
+  if (!google?.accounts?.id) {
+    console.error('Google Identity Services not loaded');
+    return;
+  }
+
+  const buttonContainer =
+    document.getElementById('google-signin-button');
+
+  if (!buttonContainer) {
+    return;
+  }
+
+  buttonContainer.innerHTML = '';
+
+  google.accounts.id.initialize({
+    client_id: environment.googleClientId,
+
+    callback: (response: any) => {
+      const credential = response?.credential;
+
+      if (!credential) {
+        console.error('Google credential not received');
+        return;
+      }
+
+      this.userAuthService
+        .googleLogin(credential)
+        .subscribe({
+          next: result => {
+            
+
+            window.localStorage.setItem(
+              'user',
+              JSON.stringify(result.user)
+            );
+  window.dispatchEvent(
+  new CustomEvent('user-login-success')
+);
+            this.showLoginModal = false;
+
+            this.customerForm.name =
+              result.user.name || '';
+
+            this.customerForm.email =
+              result.user.email || '';
+
+            this.openCheckoutForm();
+          },
+
+          error: error => {
+            console.error(
+              'Google login failed:',
+              error
+            );
+          }
+        });
+    }
+  });
+
+  google.accounts.id.renderButton(
+    buttonContainer,
+    {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      text: 'continue_with',
+      shape: 'rectangular',
+      width: 280
+    }
+  );
+}
+handleCheckout(): void {
+  this.userAuthService
+    .getCurrentUser()
+    .subscribe({
+      next: () => {
+        this.openCheckoutForm();
+      },
+
+      error: () => {
+        this.showLoginSnackbar();
+        this.showLoginModal = true;
+
+        setTimeout(() => {
+          this.renderGoogleButton();
+        });
+      }
+    });
+}
+showLoginSnackbar(): void {
+
+  this.loginSnackbarVisible = true;
+
+  setTimeout(() => {
+    this.loginSnackbarVisible = false;
+  }, 3000);
+}
+closeLoginModal(): void {
+  this.showLoginModal = false;
+}
   increaseQuantity(productId: string): void {
     const item = this.cartService
       .getCartItems()
@@ -406,4 +510,5 @@ changeVariant(
 
     return english;
   }
+ 
 }
