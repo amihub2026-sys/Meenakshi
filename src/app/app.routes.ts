@@ -12,7 +12,7 @@ import { AdminLayoutComponent } from './pages/admin/layout/layout';
 import { AdminDashboardComponent } from './pages/admin/dashboard/dashboard';
 import { AdminProductsComponent } from './pages/admin/products/products';
 import { AdminUserDetailsComponent } from './pages/admin/user-details/user-details';
-
+import { AccountComponent } from './pages/account/account';
 import { adminAuthGuard } from './guards/admin-auth.guard';
 import { CartComponent } from './pages/cart/cart';
 
@@ -110,6 +110,11 @@ export const routes: Routes = [
 
     ]
   },
+  {
+  path: 'account',
+  component: AccountComponent,
+  title: 'My Account | Madurai Meenakshi'
+},
 
   {
     path: '**',
