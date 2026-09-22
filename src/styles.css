@@ -13155,3 +13155,27 @@ object-fit: contain !important;
 .account-dropdown a:hover {
   background: #f4f7f5;
 }
+.account-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+  color: #b42318;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.account-logout:hover {
+  background: #fff1f0;
+}

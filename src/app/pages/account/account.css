@@ -1,0 +1,233 @@
+.account-page {
+  min-height: 100vh;
+  padding: 70px 20px;
+  background: #f8f3e7;
+}
+
+.account-container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.account-heading {
+  margin-bottom: 35px;
+}
+
+.account-heading span {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #c49416;
+}
+
+.account-heading h1 {
+  margin: 8px 0;
+  color: #0f4a32;
+  font-size: clamp(32px, 5vw, 54px);
+}
+
+.account-heading p {
+  color: #6f6a60;
+}
+
+.account-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.profile-card,
+.account-section {
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid rgba(15, 74, 50, 0.1);
+  box-shadow: 0 18px 45px rgba(20, 53, 39, 0.08);
+}
+
+.profile-card {
+  padding: 28px;
+  text-align: center;
+  position: sticky;
+  top: 110px;
+}
+
+.profile-image {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 16px;
+}
+
+.profile-image img,
+.profile-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.profile-image img {
+  object-fit: cover;
+}
+
+.profile-placeholder {
+  display: grid;
+  place-items: center;
+  background: #0f4a32;
+  color: #fff;
+  font-size: 30px;
+}
+
+.profile-card h2 {
+  margin: 0 0 6px;
+  color: #0f4a32;
+}
+
+.profile-card > p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.profile-info {
+  margin-top: 25px;
+  border-top: 1px solid #eee;
+  text-align: left;
+}
+
+.profile-info > div {
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-info span,
+.detail-card small {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.profile-info strong {
+  color: #1f392f;
+  font-size: 14px;
+}
+
+.account-content {
+  display: grid;
+  gap: 25px;
+}
+
+.account-section {
+  padding: 28px;
+}
+
+.section-heading {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-heading > span {
+  color: #c49416;
+  font-weight: 700;
+}
+
+.section-heading small {
+  color: #c49416;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.section-heading h2 {
+  margin: 3px 0 0;
+  color: #0f4a32;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.detail-card {
+  padding: 18px;
+  border-radius: 14px;
+  background: #faf8f2;
+  border: 1px solid #eee7d8;
+}
+
+.detail-card strong {
+  color: #133e2c;
+  word-break: break-word;
+}
+
+.orders-empty {
+  padding: 50px 20px;
+  text-align: center;
+  background: #faf8f2;
+  border-radius: 16px;
+}
+
+.orders-empty i {
+  font-size: 36px;
+  color: #c49416;
+  margin-bottom: 12px;
+}
+
+.orders-empty h3 {
+  color: #0f4a32;
+  margin: 0 0 8px;
+}
+
+.orders-empty p {
+  max-width: 500px;
+  margin: 0 auto 20px;
+  color: #777;
+}
+
+.orders-empty a {
+  display: inline-flex;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: #0f4a32;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.account-loading,
+.account-error {
+  padding: 30px;
+  border-radius: 16px;
+  background: #fff;
+  text-align: center;
+}
+
+.account-error {
+  color: #b42318;
+}
+
+@media (max-width: 800px) {
+
+  .account-page {
+    padding: 35px 14px;
+  }
+
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    position: static;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

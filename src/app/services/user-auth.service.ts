@@ -31,6 +31,15 @@ export class UserAuthService {
     }
   );
 }
+ logout(): Observable<{ success: boolean }> {
+  return this.http.post<{ success: boolean }>(
+    `${environment.apiUrl}/user-auth/logout`,
+    {},
+    {
+      withCredentials: true
+    }
+  );
+}
  googleLogin(
   credential: string
 ): Observable<GoogleLoginResponse> {
@@ -46,6 +55,7 @@ export class UserAuthService {
 }
   
 }
+
 export interface CurrentUserResponse {
   success: boolean;
 
@@ -57,4 +67,5 @@ export interface CurrentUserResponse {
     provider: string;
     lastLoginAt: string | null;
   };
+ 
 }

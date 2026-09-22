@@ -1,0 +1,192 @@
+<section class="account-page">
+
+  <div class="account-container">
+
+    <div
+      class="account-loading"
+      *ngIf="loading"
+    >
+      Loading your account...
+    </div>
+
+
+     <div
+      class="account-error"
+      *ngIf="!loading && errorMessage"
+    >
+      {{ errorMessage }}
+    </div>
+
+
+    <ng-container
+      *ngIf="!loading && user"
+    >
+
+      <div class="account-heading">
+        <span>MY ACCOUNT</span>
+
+        <h1>
+          Welcome,
+          {{ user.name }}
+        </h1>
+
+        <p>
+          Manage your profile, orders and payment details.
+        </p>
+      </div>
+
+
+      <div class="account-layout">
+
+        <!-- PROFILE -->
+        <aside class="profile-card">
+
+          <div class="profile-image">
+
+            <img
+              *ngIf="user.picture"
+              [src]="user.picture"
+              [alt]="user.name"
+            >
+
+            <div
+              class="profile-placeholder"
+              *ngIf="!user.picture"
+            >
+              <i class="fa-solid fa-user"></i>
+            </div>
+
+          </div>
+
+
+          <h2>
+            {{ user.name }}
+          </h2>
+
+          <p>
+            {{ user.email }}
+          </p>
+
+
+          <div class="profile-info">
+
+            <div>
+              <span>Login Provider</span>
+              <strong>
+                {{ user.provider }}
+              </strong>
+            </div>
+
+            <div>
+              <span>Last Login</span>
+              <strong>
+                {{
+                  user.lastLoginAt
+                    ? (user.lastLoginAt | date:'medium')
+                    : '—'
+                }}
+              </strong>
+            </div>
+
+          </div>
+
+        </aside>
+
+
+        <!-- ACCOUNT CONTENT -->
+        <div class="account-content">
+
+          <section class="account-section">
+
+            <div class="section-heading">
+              <span>01</span>
+
+              <div>
+                <small>
+                  PERSONAL INFORMATION
+                </small>
+
+                <h2>
+                  Profile Details
+                </h2>
+              </div>
+            </div>
+
+
+            <div class="details-grid">
+
+              <div class="detail-card">
+                <small>Name</small>
+                <strong>
+                  {{ user.name }}
+                </strong>
+              </div>
+
+              <div class="detail-card">
+                <small>Email</small>
+                <strong>
+                  {{ user.email }}
+                </strong>
+              </div>
+
+              <div class="detail-card">
+                <small>Account Type</small>
+                <strong>
+                  Google Account
+                </strong>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- ORDERS PLACEHOLDER -->
+          <section class="account-section">
+
+            <div class="section-heading">
+              <span>02</span>
+
+              <div>
+                <small>
+                  ORDER HISTORY
+                </small>
+
+                <h2>
+                  My Orders
+                </h2>
+              </div>
+            </div>
+
+
+            <div class="orders-empty">
+
+              <i class="fa-solid fa-box-open"></i>
+
+              <h3>
+                Your orders will appear here
+              </h3>
+
+              <p>
+                Order ID, products, amount,
+                order status and payment status
+                will be shown here.
+              </p>
+
+              <a routerLink="/products">
+                Continue Shopping
+              </a>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</section>

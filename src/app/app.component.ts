@@ -171,4 +171,25 @@ onDocumentClick(event: MouseEvent): void {
   }
 
 }
+logout(): void {
+  this.userAuthService
+    .logout()
+    .subscribe({
+      next: () => {
+        this.currentUser = null;
+        this.accountMenuOpen = false;
+
+        window.localStorage.removeItem('user');
+
+        this.router.navigate(['/']);
+      },
+
+      error: error => {
+        console.error(
+          'Logout failed:',
+          error
+        );
+      }
+    });
+}
 }
