@@ -13695,3 +13695,309 @@ object-fit: contain !important;
   }
 
 }
+/* =========================================
+   ORDER SUCCESS SECTION
+========================================= */
+
+.order-success-card {
+  width: min(100%, 760px);
+
+  margin: 30px auto 70px;
+  padding: 44px 36px 38px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(8, 78, 55, 0.12);
+  border-radius: 22px;
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.06);
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* CHECK ICON */
+
+.order-success-icon {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 50%;
+
+  background: #064b34;
+  color: #ffffff;
+
+  font-size: 27px;
+}
+
+
+/* SMALL GOLD TEXT */
+
+.order-success-kicker {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #bd7c05;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+
+/* TITLE */
+
+.order-success-card h2 {
+  margin: 0;
+
+  color: #064b34;
+
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 700;
+
+  line-height: 1.15;
+}
+
+
+/* MESSAGE */
+
+.order-success-card > p {
+  max-width: 620px;
+
+  margin: 14px auto 0;
+
+  color: #68756f;
+
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+
+/* =========================================
+   ORDER REFERENCE
+========================================= */
+
+.order-reference {
+  width: min(100%, 430px);
+
+  margin: 28px auto 0;
+  padding: 16px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  background: #f7f0df;
+
+  border: 1px solid rgba(189, 124, 5, 0.12);
+  border-radius: 14px;
+}
+
+
+.order-reference small {
+  color: #7b7b74;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+.order-reference strong {
+  max-width: 100%;
+
+  color: #064b34;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  word-break: break-all;
+
+  letter-spacing: 0.2px;
+}
+
+
+/* =========================================
+   CONTINUE SHOPPING BUTTON
+========================================= */
+
+.shop-products-button {
+  min-width: 190px;
+
+  min-height: 48px;
+
+  margin-top: 20px;
+  padding: 0 24px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #064b34;
+  color: #ffffff;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.shop-products-button:hover {
+  background: #083f2e;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(6, 75, 52, 0.18);
+}
+
+
+/* =========================================
+   ORDER CONFIRMED HEADER
+========================================= */
+
+.cart-header {
+  align-items: flex-end;
+}
+
+
+.cart-header .continue-shopping {
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+  .order-success-card {
+    width: 100%;
+
+    margin:
+      24px
+      auto
+      50px;
+
+    padding:
+      36px
+      24px
+      30px;
+
+    border-radius: 18px;
+  }
+
+
+  .order-success-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 23px;
+  }
+
+
+  .order-success-card h2 {
+    font-size: 30px;
+  }
+
+
+  .order-success-card > p {
+    font-size: 14px;
+  }
+
+
+  .order-reference {
+    width: 100%;
+
+    max-width: 420px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+
+  .order-success-card {
+    margin-top: 18px;
+
+    padding:
+      30px
+      16px
+      24px;
+  }
+
+
+  .order-success-kicker {
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+  }
+
+
+  .order-success-card h2 {
+    font-size: 26px;
+  }
+
+
+  .order-success-card > p {
+    margin-top: 12px;
+
+    font-size: 13.5px;
+
+    line-height: 1.65;
+  }
+
+
+  .order-reference {
+    margin-top: 22px;
+
+    padding:
+      14px
+      12px;
+  }
+
+
+  .order-reference strong {
+    font-size: 13px;
+  }
+
+
+  .shop-products-button {
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-top: 16px;
+  }
+
+}

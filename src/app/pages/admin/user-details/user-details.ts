@@ -300,9 +300,10 @@ export class AdminUserDetailsComponent
   private clearMessage(): void {
     this.message = '';
   }
-  downloadOrdersExcel(): void {
+downloadOrdersExcel(): void {
 
   if (this.filteredOrders.length === 0) {
+
     this.showMessage(
       'No orders available to download.',
       'error'
@@ -311,92 +312,301 @@ export class AdminUserDetailsComponent
     return;
   }
 
+
   const rows: any[] = [];
+
 
   this.filteredOrders.forEach(
     (order, orderIndex) => {
 
+      const totalOrderQuantity =
+        this.getTotalQuantity(order);
+
+
       order.items.forEach(
         (item, itemIndex) => {
 
+          const isFirstProduct =
+            itemIndex === 0;
+
+
           rows.push({
+
+            /* =========================
+               ORDER DETAILS
+               ONLY FIRST PRODUCT ROW
+            ========================= */
+
             'S.No':
-              orderIndex + 1,
-
-            'Order ID':
-              order._id,
-
-            'Order Date':
-              order.createdAt
-                ? new Date(
-                    order.createdAt
-                  ).toLocaleString('en-IN')
+              isFirstProduct
+                ? orderIndex + 1
                 : '',
 
+
+            'Order ID':
+              isFirstProduct
+                ? order._id
+                : '',
+
+
+            'Order Date':
+              isFirstProduct
+                ? (
+                    order.createdAt
+                      ? new Date(
+                          order.createdAt
+                        ).toLocaleString(
+                          'en-IN'
+                        )
+                      : ''
+                  )
+                : '',
+
+
+            /* =========================
+               CUSTOMER
+               ONLY FIRST PRODUCT ROW
+            ========================= */
+
             'Customer Name':
-              order.customerName,
+              isFirstProduct
+                ? order.customerName
+                : '',
+
 
             'Phone':
-              order.phone,
+              isFirstProduct
+                ? order.phone
+                : '',
+
 
             'Email':
-              order.email || '',
+              isFirstProduct
+                ? order.email || ''
+                : '',
+
+
+            /* =========================
+               ADDRESS
+               ONLY FIRST PRODUCT ROW
+            ========================= */
 
             'Address':
-              order.address,
+              isFirstProduct
+                ? order.address
+                : '',
 
-            'Product':
+
+            'District':
+              isFirstProduct
+                ? order.district || ''
+                : '',
+
+
+            'State':
+              isFirstProduct
+                ? order.state || ''
+                : '',
+
+
+            'Pincode':
+              isFirstProduct
+                ? order.pincode || ''
+                : '',
+
+
+            /* =========================
+               PRODUCT
+               EVERY PRODUCT ROW
+            ========================= */
+
+            'Product Name':
               item.productName,
 
-            'Product Qty':
+
+            'Variant Quantity':
+              item.variantQuantity ?? '',
+
+
+            'Variant Unit':
+              item.variantUnit || '',
+
+
+            'Product Quantity':
               item.quantity,
 
-            'Price':
+
+            'Unit Price':
               item.price,
+
 
             'Line Total':
               item.lineTotal,
 
-            'Order Total':
-              itemIndex === 0
+
+            /* =========================
+               ORDER TOTALS
+               ONLY FIRST PRODUCT ROW
+            ========================= */
+
+            'Total Order Quantity':
+              isFirstProduct
+                ? totalOrderQuantity
+                : '',
+
+
+            'Subtotal':
+              isFirstProduct
+                ? order.subtotal
+                : '',
+
+
+            'Delivery Type':
+              isFirstProduct
+                ? order.deliveryType
+                : '',
+
+
+            'Shipping Weight (KG)':
+              isFirstProduct
+                ? order.shippingWeight
+                : '',
+
+
+            'Delivery Charge':
+              isFirstProduct
+                ? order.deliveryCharge
+                : '',
+
+
+            'Final Order Total':
+              isFirstProduct
                 ? order.total
                 : '',
 
-            'Status':
-              order.status
+
+            /* =========================
+               PAYMENT
+               ONLY FIRST PRODUCT ROW
+            ========================= */
+
+            'Payment Method':
+              isFirstProduct
+                ? order.paymentMethod
+                : '',
+
+
+            'Payment Status':
+              isFirstProduct
+                ? order.paymentStatus
+                : '',
+
+
+            'Payment ID':
+              isFirstProduct
+                ? order.paymentId || ''
+                : '',
+
+
+            /* =========================
+               STATUS
+               ONLY FIRST PRODUCT ROW
+            ========================= */
+
+            'Order Status':
+              isFirstProduct
+                ? order.status
+                : ''
+
           });
 
         }
+
       );
 
     }
+
   );
 
 
+  /* =========================
+     CREATE WORKSHEET
+  ========================= */
+
   const worksheet =
-    XLSX.utils.json_to_sheet(rows);
+    XLSX.utils.json_to_sheet(
+      rows
+    );
 
 
-  /* COLUMN WIDTHS */
+  /* =========================
+     COLUMN WIDTHS
+  ========================= */
+
   worksheet['!cols'] = [
-    { wch: 7 },
-    { wch: 28 },
-    { wch: 22 },
-    { wch: 22 },
-    { wch: 16 },
-    { wch: 28 },
-    { wch: 40 },
-    { wch: 32 },
-    { wch: 12 },
-    { wch: 12 },
-    { wch: 14 },
-    { wch: 14 },
-    { wch: 14 }
+
+    { wch: 7 },   // S.No
+
+    { wch: 28 },  // Order ID
+
+    { wch: 23 },  // Order Date
+
+    { wch: 22 },  // Customer
+
+    { wch: 16 },  // Phone
+
+    { wch: 30 },  // Email
+
+    { wch: 40 },  // Address
+
+    { wch: 20 },  // District
+
+    { wch: 20 },  // State
+
+    { wch: 12 },  // Pincode
+
+    { wch: 30 },  // Product Name
+
+    { wch: 16 },  // Variant Quantity
+
+    { wch: 14 },  // Variant Unit
+
+    { wch: 16 },  // Product Quantity
+
+    { wch: 14 },  // Unit Price
+
+    { wch: 14 },  // Line Total
+
+    { wch: 20 },  // Total Order Quantity
+
+    { wch: 14 },  // Subtotal
+
+    { wch: 16 },  // Delivery Type
+
+    { wch: 20 },  // Shipping Weight
+
+    { wch: 18 },  // Delivery Charge
+
+    { wch: 18 },  // Final Order Total
+
+    { wch: 18 },  // Payment Method
+
+    { wch: 18 },  // Payment Status
+
+    { wch: 25 },  // Payment ID
+
+    { wch: 16 }   // Order Status
+
   ];
 
 
+  /* =========================
+     CREATE WORKBOOK
+  ========================= */
+
   const workbook =
     XLSX.utils.book_new();
+
 
   XLSX.utils.book_append_sheet(
     workbook,
@@ -404,6 +614,10 @@ export class AdminUserDetailsComponent
     'Orders'
   );
 
+
+  /* =========================
+     FILE NAME
+  ========================= */
 
   const today =
     new Date()
@@ -421,5 +635,6 @@ export class AdminUserDetailsComponent
     'Order Excel downloaded successfully.',
     'success'
   );
+
 }
 }

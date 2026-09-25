@@ -42,61 +42,61 @@ private typingIndex = 0;
 
 galleryProducts = [
   {
-    image: '/assets/categories/mom-baby.jpg',
+    image: '/assets/g1.jpg',
     ta: 'அம்மா & குழந்தை பராமரிப்பு',
     hi: 'माँ और शिशु देखभाल',
     en: 'Mom & Baby Care'
   },
   {
-    image: '/assets/categories/beauty.jpg',
+    image: '/assets/g2.jpg',
     ta: 'அழகு பொருட்கள்',
     hi: 'सौंदर्य उत्पाद',
     en: 'Beauty Products'
   },
   {
-    image: '/assets/categories/herbal-products.jpg',
+    image: '/assets/g3.jpg',
     ta: 'மூலிகை பொருட்கள்',
     hi: 'हर्बल उत्पाद',
     en: 'Herbal Products'
   },
   {
-    image: '/assets/categories/herbal-powders.jpg',
+    image: '/assets/g4.jpg',
     ta: 'மூலிகை பொடிகள்',
     hi: 'हर्बल पाउडर',
     en: 'Herbal Powders'
   },
   {
-    image: '/assets/categories/herbs.jpg',
+    image:  '/assets/g5.jpg',
     ta: 'மூலிகைகள்',
     hi: 'जड़ी-बूटियाँ',
     en: 'Herbs'
   },
   {
-    image: '/assets/categories/combo-packs.jpg',
+    image: '/assets/g6.jpg',
     ta: 'காம்போ பேக்குகள்',
     hi: 'कॉम्बो पैक',
     en: 'Combo Packs'
   },
   {
-    image: '/assets/categories/fragrance.jpg',
+    image:  '/assets/g7.jpg',
     ta: 'வாசனை & பர்ஃப்யூம்கள்',
     hi: 'सुगंध और परफ्यूम',
     en: 'Fragrance & Perfumes'
   },
   {
-    image: '/assets/categories/dhoop.jpg',
+    image: '/assets/g8.jpg',
     ta: 'தூபம் & சாம்பிராணி',
     hi: 'धूप और साम्ब्राणी',
     en: 'Dhoop & Sambirani'
   },
   {
-    image: '/assets/categories/incense.jpg',
+    image:'/assets/g9.jpg',
     ta: 'ஊதுபத்திகள்',
     hi: 'अगरबत्ती',
     en: 'Incense Sticks'
   },
   {
-    image: '/assets/categories/pooja.jpg',
+    image: '/assets/g10.jpg',
     ta: 'பூஜை பொருட்கள்',
     hi: 'पूजा सामग्री',
     en: 'Pooja Products'
