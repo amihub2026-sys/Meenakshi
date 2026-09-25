@@ -190,46 +190,85 @@
 
 
           <!-- PRODUCTS -->
-          <td>
+       <!-- PRODUCTS -->
+<td>
 
-            <div
-              class="product-cell"
-              *ngIf="
-                order.items[0] as firstItem
-              "
-            >
+  <div class="table-products-list">
 
-              <img
-                *ngIf="firstItem.productImage"
-                [src]="firstItem.productImage"
-                [alt]="firstItem.productName"
-              >
+    <div
+      class="table-product-item"
+      *ngFor="
+        let item of order.items;
+        trackBy: trackOrderItem
+      "
+    >
 
-              <div>
-                <strong>
-                  {{ firstItem.productName }}
-                </strong>
+      <!-- PRODUCT IMAGE -->
+      <img
+        *ngIf="item.productImage"
+        [src]="item.productImage"
+        [alt]="item.productName"
+      >
 
-                <small>
-                  {{
-                    firstItem.price
-                      | currency:'INR':'symbol':'1.0-0'
-                  }}
-                  × {{ firstItem.quantity }}
-                </small>
 
-                <small
-                  *ngIf="order.items.length > 1"
-                  class="more-products"
-                >
-                  +{{ order.items.length - 1 }}
-                  more product(s)
-                </small>
-              </div>
+      <!-- PRODUCT DETAILS -->
+      <div class="table-product-info">
 
-            </div>
+        <strong>
+          {{ item.productName }}
+        </strong>
 
-          </td>
+
+        <!-- VARIANT -->
+        <small
+          *ngIf="
+            item.variantQuantity &&
+            item.variantUnit
+          "
+        >
+          {{ item.variantQuantity }}
+          {{ item.variantUnit }}
+        </small>
+
+
+        <!-- PRICE -->
+        <small>
+          {{
+            item.price
+              | currency:'INR':'symbol':'1.0-0'
+          }}
+          each
+        </small>
+
+
+        <!-- IMPORTANT: QUANTITY -->
+        <span class="product-qty">
+
+          Qty:
+          <strong>
+            {{ item.quantity }}
+          </strong>
+
+        </span>
+
+      </div>
+
+
+      <!-- LINE TOTAL -->
+      <div class="table-product-line-total">
+
+        {{
+          item.lineTotal
+            | currency:'INR':'symbol':'1.0-0'
+        }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</td>
 
 
           <!-- TOTAL QUANTITY -->
