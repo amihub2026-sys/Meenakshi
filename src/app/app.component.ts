@@ -5,7 +5,9 @@ import {
 } from '@angular/core';
 
 import { AsyncPipe } from '@angular/common';
-
+import {
+  environment
+} from '../environments/environment';
 import {
   Router,
   RouterLink,
@@ -44,7 +46,8 @@ export class AppComponent {
   languageMenuOpen = false;
   menuOpen = false;
 private readonly userAuthService = inject(UserAuthService);
-
+showLoginModal = false;
+loginError = '';
 currentUser: {
   id: string;
   name: string;
@@ -56,7 +59,157 @@ accountMenuOpen = false;
   language: Language = 'ta';
 
   private readonly cartService = inject(CartService);
+private renderGoogleLoginButton(): void {
 
+  const google =
+    (window as any).google;
+
+  if (!google?.accounts?.id) {
+
+    console.error(
+      'Google Identity Services not loaded'
+    );
+
+    return;
+  }
+
+
+  const buttonContainer =
+    document.getElementById(
+      'navbar-google-signin-button'
+    );
+
+
+  if (!buttonContainer) {
+    return;
+  }
+
+
+  buttonContainer.innerHTML = '';
+
+
+  google.accounts.id.initialize({
+
+    client_id:
+      environment.googleClientId,
+
+
+    callback: (response: any) => {
+
+      const credential =
+        response?.credential;
+
+
+      if (!credential) {
+
+        this.loginError =
+          'Google login failed. Please try again.';
+
+        return;
+      }
+
+
+      this.userAuthService
+        .googleLogin(credential)
+        .subscribe({
+
+          next: result => {
+
+            this.currentUser =
+              result.user;
+
+
+            window.localStorage.setItem(
+
+              'user',
+
+              JSON.stringify(
+                result.user
+              )
+
+            );
+
+
+            this.showLoginModal = false;
+
+
+            /* =====================
+               CART LOGIN FLOW
+            ===================== */
+
+            const localItems =
+              this.cartService
+                .getCartItems();
+
+
+            if (
+              localItems.length > 0
+            ) {
+
+              this.cartService
+                .mergeGuestCart();
+
+            } else {
+
+              this.cartService
+                .loadUserCart();
+
+            }
+
+
+            window.dispatchEvent(
+
+              new CustomEvent(
+                'user-login-success'
+              )
+
+            );
+
+          },
+
+
+          error: error => {
+
+            console.error(
+              'Google login failed:',
+              error
+            );
+
+            this.loginError =
+              'Unable to login with Google.';
+
+          }
+
+        });
+
+    }
+
+  });
+
+
+  google.accounts.id.renderButton(
+
+    buttonContainer,
+
+    {
+
+      type: 'standard',
+
+      theme: 'outline',
+
+      size: 'large',
+
+      text: 'continue_with',
+
+      shape: 'rectangular',
+
+      width: 280
+
+    }
+
+  );
+
+}
   readonly cartCount$ = this.cartService.cartCount$;
 
   constructor(
@@ -97,7 +250,15 @@ accountMenuOpen = false;
         });
       });
   }
+ openLoginModal(): void {
 
+  this.showLoginModal = true;
+  this.loginError = '';
+
+  setTimeout(() => {
+    this.renderGoogleLoginButton();
+  });
+}
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
@@ -135,9 +296,43 @@ toggleAccountMenu(): void {
 closeAccountMenu(): void {
   this.accountMenuOpen = false;
 }
-@HostListener('window:user-login-success')
+@HostListener(
+  'window:user-login-success'
+)
 onUserLoginSuccess(): void {
+
   this.loadCurrentUser();
+
+
+  const localItems =
+    this.cartService
+      .getCartItems();
+
+
+  /* =========================
+     Guest already has products
+     → merge with MongoDB cart
+  ========================= */
+
+  if (
+    localItems.length > 0
+  ) {
+
+    this.cartService
+      .mergeGuestCart();
+
+    return;
+  }
+
+
+  /* =========================
+     Guest cart empty
+     → restore MongoDB cart
+  ========================= */
+
+  this.cartService
+    .loadUserCart();
+
 }
  @HostListener('document:click', ['$event'])
 onDocumentClick(event: MouseEvent): void {
@@ -171,25 +366,70 @@ onDocumentClick(event: MouseEvent): void {
   }
 
 }
+closeLoginModal(): void {
+  this.showLoginModal = false;
+}
 logout(): void {
+
   this.userAuthService
     .logout()
     .subscribe({
+
       next: () => {
+
         this.currentUser = null;
+
         this.accountMenuOpen = false;
 
-        window.localStorage.removeItem('user');
+
+        /* =========================
+           CLEAR ONLY BROWSER CART
+           MongoDB cart stays saved
+        ========================= */
+
+        this.cartService
+          .clearLocalCart();
+
+
+        /* =========================
+           CLEAR LOCAL USER CACHE
+        ========================= */
+
+        window.localStorage.removeItem(
+          'user'
+        );
+
+
+        /* =========================
+           NOTIFY UI
+        ========================= */
+
+        window.dispatchEvent(
+          new CustomEvent(
+            'user-logout-success'
+          )
+        );
+
+
+        /* =========================
+           GO HOME
+        ========================= */
 
         this.router.navigate(['/']);
+
       },
 
+
       error: error => {
+
         console.error(
           'Logout failed:',
           error
         );
+
       }
+
     });
+
 }
 }

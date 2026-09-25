@@ -556,31 +556,7 @@
 
 
 
-        <!-- DELIVERY -->
-        <div class="summary-row">
-
-          <span>
-            {{
-              language === 'ta'
-                ? 'டெலிவரி கட்டணம்'
-                : language === 'hi'
-                  ? 'डिलीवरी शुल्क'
-                  : 'Delivery charge'
-            }}
-          </span>
-
-
-          <strong class="free-delivery">
-            {{
-              language === 'ta'
-                ? 'இலவசம்'
-                : language === 'hi'
-                  ? 'मुफ़्त'
-                  : 'FREE'
-            }}
-          </strong>
-
-        </div>
+    
 
 
         <div class="summary-divider"></div>
@@ -834,7 +810,6 @@
       id="customerName"
       name="customerName"
       type="text"
-
       [placeholder]="
         language === 'ta'
           ? 'உங்கள் முழுப் பெயரை உள்ளிடவும்'
@@ -842,22 +817,16 @@
             ? 'अपना पूरा नाम दर्ज करें'
             : 'Enter your full name'
       "
-
       [(ngModel)]="customerForm.name"
       #customerName="ngModel"
-
       [disabled]="submittingOrder"
-
       required
       minlength="3"
     >
 
     <small
       class="field-error"
-      *ngIf="
-        customerName.invalid &&
-        customerName.touched
-      "
+      *ngIf="customerName.invalid && customerName.touched"
     >
       {{
         language === 'ta'
@@ -891,10 +860,8 @@
       id="phone"
       name="phone"
       type="tel"
-
       inputmode="numeric"
       maxlength="10"
-
       [placeholder]="
         language === 'ta'
           ? '10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்'
@@ -902,22 +869,16 @@
             ? '10 अंकों का फ़ोन नंबर दर्ज करें'
             : 'Enter 10-digit phone number'
       "
-
       [(ngModel)]="customerForm.phone"
       #phone="ngModel"
-
       [disabled]="submittingOrder"
-
       required
       pattern="[6-9][0-9]{9}"
     >
 
     <small
       class="field-error"
-      *ngIf="
-        phone.invalid &&
-        phone.touched
-      "
+      *ngIf="phone.invalid && phone.touched"
     >
       {{
         language === 'ta'
@@ -932,7 +893,7 @@
 
 
   <!-- =========================
-       ADDRESS
+       DELIVERY ADDRESS
   ========================== -->
   <div class="checkout-field checkout-field-full">
 
@@ -951,7 +912,6 @@
       id="address"
       name="address"
       rows="4"
-
       [placeholder]="
         language === 'ta'
           ? 'உங்கள் முழு டெலிவரி முகவரியை உள்ளிடவும்'
@@ -959,22 +919,16 @@
             ? 'अपना पूरा डिलीवरी पता दर्ज करें'
             : 'Enter your complete delivery address'
       "
-
       [(ngModel)]="customerForm.address"
       #address="ngModel"
-
       [disabled]="submittingOrder"
-
       required
       minlength="10"
     ></textarea>
 
     <small
       class="field-error"
-      *ngIf="
-        address.invalid &&
-        address.touched
-      "
+      *ngIf="address.invalid && address.touched"
     >
       {{
         language === 'ta'
@@ -989,27 +943,177 @@
 
 
   <!-- =========================
-       SUBMIT BUTTON
+       DISTRICT
+  ========================== -->
+  <div class="checkout-field">
+
+    <label for="district">
+      {{
+        language === 'ta'
+          ? 'மாவட்டம்'
+          : language === 'hi'
+            ? 'जिला'
+            : 'District'
+      }}
+      <span>*</span>
+    </label>
+
+    <input
+      id="district"
+      name="district"
+      type="text"
+      [placeholder]="
+        language === 'ta'
+          ? 'உங்கள் மாவட்டத்தை உள்ளிடவும்'
+          : language === 'hi'
+            ? 'अपना जिला दर्ज करें'
+            : 'Enter your district'
+      "
+      [(ngModel)]="customerForm.district"
+      #district="ngModel"
+      [disabled]="submittingOrder"
+      required
+      minlength="2"
+    >
+
+    <small
+      class="field-error"
+      *ngIf="district.invalid && district.touched"
+    >
+      {{
+        language === 'ta'
+          ? 'மாவட்டத்தை உள்ளிடவும்.'
+          : language === 'hi'
+            ? 'कृपया जिला दर्ज करें।'
+            : 'Please enter your district.'
+      }}
+    </small>
+
+  </div>
+
+
+  <!-- =========================
+       STATE
+  ========================== -->
+  <div class="checkout-field">
+
+    <label for="state">
+      {{
+        language === 'ta'
+          ? 'மாநிலம்'
+          : language === 'hi'
+            ? 'राज्य'
+            : 'State'
+      }}
+      <span>*</span>
+    </label>
+
+    <input
+      id="state"
+      name="state"
+      type="text"
+      [placeholder]="
+        language === 'ta'
+          ? 'உங்கள் மாநிலத்தை உள்ளிடவும்'
+          : language === 'hi'
+            ? 'अपना राज्य दर्ज करें'
+            : 'Enter your state'
+      "
+      [(ngModel)]="customerForm.state"
+      #state="ngModel"
+      [disabled]="submittingOrder"
+      required
+      minlength="2"
+    >
+
+    <small
+      class="field-error"
+      *ngIf="state.invalid && state.touched"
+    >
+      {{
+        language === 'ta'
+          ? 'மாநிலத்தை உள்ளிடவும்.'
+          : language === 'hi'
+            ? 'कृपया राज्य दर्ज करें।'
+            : 'Please enter your state.'
+      }}
+    </small>
+
+  </div>
+
+
+  <!-- =========================
+       PINCODE
+  ========================== -->
+  <div class="checkout-field">
+
+    <label for="pincode">
+      {{
+        language === 'ta'
+          ? 'அஞ்சல் குறியீடு'
+          : language === 'hi'
+            ? 'पिन कोड'
+            : 'Pincode'
+      }}
+      <span>*</span>
+    </label>
+
+    <input
+      id="pincode"
+      name="pincode"
+      type="text"
+      inputmode="numeric"
+      maxlength="6"
+      [placeholder]="
+        language === 'ta'
+          ? '6 இலக்க அஞ்சல் குறியீட்டை உள்ளிடவும்'
+          : language === 'hi'
+            ? '6 अंकों का पिन कोड दर्ज करें'
+            : 'Enter 6-digit pincode'
+      "
+      [(ngModel)]="customerForm.pincode"
+      #pincode="ngModel"
+      [disabled]="submittingOrder"
+      required
+      pattern="[1-9][0-9]{5}"
+    >
+
+    <small
+      class="field-error"
+      *ngIf="pincode.invalid && pincode.touched"
+    >
+      {{
+        language === 'ta'
+          ? 'சரியான 6 இலக்க அஞ்சல் குறியீட்டை உள்ளிடவும்.'
+          : language === 'hi'
+            ? 'कृपया सही 6 अंकों का पिन कोड दर्ज करें।'
+            : 'Please enter a valid 6-digit pincode.'
+      }}
+    </small>
+
+  </div>
+
+
+  <!-- =========================
+       CONTINUE BUTTON
   ========================== -->
   <div class="checkout-submit-row">
 
     <button
       type="submit"
       class="checkout-submit-btn"
-      [disabled]="
-        checkoutForm.invalid ||
-        submittingOrder
-      "
+      [disabled]="checkoutForm.invalid || submittingOrder"
     >
 
       <span *ngIf="!submittingOrder">
         {{
           language === 'ta'
-            ? 'பணம் செலுத்த தொடரவும்'
+            ? 'டெலிவரி கட்டணத்தை பார்க்க தொடரவும்'
             : language === 'hi'
-              ? 'भुगतान के लिए आगे बढ़ें'
-              : 'Proceed to Payment'
+              ? 'डिलीवरी शुल्क देखने के लिए जारी रखें'
+              : 'Continue'
         }}
+        →
       </span>
 
       <span *ngIf="submittingOrder">
@@ -1027,4 +1131,232 @@
   </div>
 
 </form>
-            
+
+
+<!-- =====================================================
+     STEP 2 - DELIVERY CHARGE POPUP
+====================================================== -->
+<div
+  class="payment-overlay"
+  *ngIf="showDeliverySummary"
+>
+  <div class="payment-modal">
+
+    <button
+      type="button"
+      class="payment-close"
+      [disabled]="paymentProcessing"
+      (click)="closeDeliverySummary()"
+    >
+      ×
+    </button>
+
+    <div class="payment-icon">
+      <i class="fa-solid fa-truck"></i>
+    </div>
+
+    <span class="payment-kicker">
+      DELIVERY SUMMARY
+    </span>
+
+    <h2>
+      Delivery Charge
+    </h2>
+
+    <p class="payment-description">
+      Please review the delivery details before continuing to payment.
+    </p>
+
+    <div class="payment-amount">
+      <span>Product Total</span>
+      <strong>
+        {{ productTotal | currency:'INR':'symbol':'1.0-0' }}
+      </strong>
+    </div>
+
+    <div class="payment-amount">
+      <span>Delivery Area</span>
+      <strong>{{ deliveryTypeLabel }}</strong>
+    </div>
+
+    <div class="payment-amount">
+      <span>Shipping Weight</span>
+      <strong>{{ totalShippingWeightKg }} kg</strong>
+    </div>
+
+    <ng-container *ngIf="!requiresWhatsapp">
+
+      <div class="payment-amount">
+        <span>Delivery Charge</span>
+
+        <strong *ngIf="deliveryCharge > 0">
+          {{ deliveryCharge | currency:'INR':'symbol':'1.0-0' }}
+        </strong>
+
+        <strong *ngIf="deliveryCharge === 0">
+          FREE
+        </strong>
+      </div>
+
+      <div class="payment-test-amount">
+        <span>Final Amount</span>
+        <strong>
+          {{ finalAmount | currency:'INR':'symbol':'1.0-0' }}
+        </strong>
+      </div>
+
+      <button
+        type="button"
+        class="test-pay-button"
+        (click)="continueToPayment()"
+      >
+        Proceed to Payment →
+      </button>
+
+      <button
+        type="button"
+        class="checkout-submit-btn"
+        style="margin-top: 10px; width: 100%;"
+        (click)="closeDeliverySummary()"
+      >
+        Back
+      </button>
+
+    </ng-container>
+
+
+    <!-- WHATSAPP DELIVERY FLOW -->
+    <ng-container *ngIf="requiresWhatsapp">
+
+      <div class="test-payment-note">
+        <i class="fa-solid fa-circle-info"></i>
+        <span *ngIf="deliveryType === 'DISTRICT'">
+          Orders above 3 kg require delivery confirmation from the store.
+        </span>
+        <span *ngIf="deliveryType === 'STATE'">
+          Orders above 2 kg require delivery confirmation from the store.
+        </span>
+        <span *ngIf="shippingWeightNeedsConfirmation">
+          This product's shipping weight needs confirmation from the store.
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="test-pay-button"
+        (click)="contactStoreWhatsApp()"
+      >
+        <i class="fa-brands fa-whatsapp"></i>
+        Contact Store on WhatsApp
+      </button>
+
+      <button
+        type="button"
+        class="checkout-submit-btn"
+        style="margin-top: 10px; width: 100%;"
+        (click)="closeDeliverySummary()"
+      >
+        Back
+      </button>
+
+    </ng-container>
+
+  </div>
+</div>
+
+
+<!-- =====================================================
+     STEP 3 - TEST PAYMENT MODAL
+====================================================== -->
+<div
+  class="payment-overlay"
+  *ngIf="showPaymentModal"
+>
+  <div class="payment-modal">
+
+    <button
+      type="button"
+      class="payment-close"
+      [disabled]="paymentProcessing"
+      (click)="showPaymentModal = false"
+    >
+      ×
+    </button>
+
+    <div class="payment-icon">
+      <i class="fa-solid fa-credit-card"></i>
+    </div>
+
+    <span class="payment-kicker">
+      TEST PAYMENT
+    </span>
+
+    <h2>
+      Payment Testing
+    </h2>
+
+    <p class="payment-description">
+      This is a test payment only.
+      No real money will be charged.
+    </p>
+
+    <div class="payment-amount">
+      <span>Product Total</span>
+      <strong>
+        {{ productTotal | currency:'INR':'symbol':'1.0-0' }}
+      </strong>
+    </div>
+
+    <div class="payment-amount">
+      <span>Delivery Charge</span>
+      <strong *ngIf="deliveryCharge > 0">
+        {{ deliveryCharge | currency:'INR':'symbol':'1.0-0' }}
+      </strong>
+      <strong *ngIf="deliveryCharge === 0">
+        FREE
+      </strong>
+    </div>
+
+    <div class="payment-amount">
+      <span>Actual Order Amount</span>
+      <strong>
+        {{ finalAmount | currency:'INR':'symbol':'1.0-0' }}
+      </strong>
+    </div>
+
+    <div class="payment-test-amount">
+      <span>Test Payment</span>
+      <strong>₹0</strong>
+    </div>
+
+    <div class="test-payment-note">
+      <i class="fa-solid fa-circle-info"></i>
+      Development testing mode.
+      No payment gateway is connected.
+    </div>
+
+    <button
+      type="button"
+      class="test-pay-button"
+      [disabled]="paymentProcessing"
+      (click)="simulatePayment()"
+    >
+
+      <span *ngIf="!paymentProcessing">
+        Pay ₹0 & Place Order
+      </span>
+
+      <span *ngIf="paymentProcessing">
+        Processing...
+      </span>
+
+    </button>
+
+  </div>
+</div>
+
+    </section>
+
+  </div>
+
+</section>

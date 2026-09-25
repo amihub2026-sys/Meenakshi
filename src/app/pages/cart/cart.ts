@@ -8,7 +8,10 @@ import { environment } from '../../../environments/environment';
 import { Product, ProductService } from '../../services/product';
 import { CartItem, CartService } from '../../services/cart';
 import { Language, LanguageService } from '../../services/language.service';
-import { CreateOrderData, OrderService } from '../../services/order';
+import { CreateOrderData } from '../../services/order';
+import { OrderService } from '../../services/order.service';
+
+type DeliveryType = 'LOCAL' | 'DISTRICT' | 'STATE';
 
 @Component({
   selector: 'app-cart',
@@ -23,7 +26,8 @@ export class CartComponent implements OnInit {
   private readonly languageService = inject(LanguageService);
   private readonly orderService = inject(OrderService);
   private readonly productService = inject(ProductService);
-   private readonly userAuthService = inject(UserAuthService);
+  private readonly userAuthService = inject(UserAuthService);
+
   readonly cartItems$: Observable<CartItem[]> = this.cartService.cartItems$;
 
   readonly cartCount$: Observable<number> = this.cartItems$.pipe(
@@ -43,7 +47,7 @@ export class CartComponent implements OnInit {
         .filter((item: CartItem) => item.product.isActive)
         .reduce(
           (total: number, item: CartItem) =>
-          total + item.selectedVariant.price * item.quantity,
+            total + item.selectedVariant.price * item.quantity,
           0
         )
     )
@@ -51,20 +55,50 @@ export class CartComponent implements OnInit {
 
   language: Language = 'ta';
 
+  showPaymentModal = false;
+  showDeliverySummary = false;
+  paymentProcessing = false;
+
+  private pendingOrderData: CreateOrderData | null = null;
+  private pendingCheckoutForm: NgForm | null = null;
+
   showCheckoutForm = false;
   submittingOrder = false;
   orderPlaced = false;
-showLoginModal = false;
-loginSnackbarVisible = false;
+  showLoginModal = false;
+  loginSnackbarVisible = false;
+
   placedOrderId = '';
   checkoutMessage = '';
   checkoutError = '';
+
+  // Delivery calculation state
+  deliveryType: DeliveryType = 'LOCAL';
+  productTotal = 0;
+  deliveryCharge = 0;
+  finalAmount = 0;
+  totalShippingWeightKg = 0;
+  requiresWhatsapp = false;
+  shippingWeightNeedsConfirmation = false;
+
+  // CURRENT LOCAL RULE:
+  // Madurai district + Tamil Nadu = Local Area = FREE delivery.
+  // If your local area is based on specific pincodes later,
+  // change only getDeliveryType().
+  private readonly LOCAL_DISTRICT = 'madurai';
+
+  // Replace this with the shop WhatsApp number in international format.
+  // Example: 919876543210
+  private readonly STORE_WHATSAPP = '91XXXXXXXXXX';
 
   customerForm = {
     name: '',
     phone: '',
     email: '',
-    address: ''
+    address: '',
+    district: '',
+    state: '',
+    pincode: ''
   };
 
   constructor() {
@@ -143,15 +177,23 @@ loginSnackbarVisible = false;
   }
 
   closeCheckoutForm(): void {
-    if (this.submittingOrder) {
+    if (this.submittingOrder || this.paymentProcessing) {
       return;
     }
 
     this.showCheckoutForm = false;
+    this.showDeliverySummary = false;
+    this.showPaymentModal = false;
     this.checkoutMessage = '';
     this.checkoutError = '';
   }
 
+  /**
+   * STEP 1
+   * Delivery form submit.
+   * This DOES NOT create the order and DOES NOT open payment directly.
+   * It calculates the delivery charge and opens the delivery summary popup.
+   */
   submitCheckout(form: NgForm): void {
     this.checkoutMessage = '';
     this.checkoutError = '';
@@ -161,7 +203,7 @@ loginSnackbarVisible = false;
       return;
     }
 
-    if (this.submittingOrder) {
+    if (this.submittingOrder || this.paymentProcessing) {
       return;
     }
 
@@ -173,7 +215,6 @@ loginSnackbarVisible = false;
         'உங்கள் கார்ட் காலியாக உள்ளது. ஒரு பொருளைச் சேர்க்கவும்.',
         'आपका कार्ट खाली है। कृपया एक उत्पाद जोड़ें।'
       );
-
       return;
     }
 
@@ -185,22 +226,57 @@ loginSnackbarVisible = false;
         'ஆர்டர் செய்ய கையிருப்பில் உள்ள பொருட்கள் இல்லை.',
         'ऑर्डर करने के लिए कोई उत्पाद स्टॉक में नहीं है।'
       );
-
       return;
     }
 
-    const orderData: CreateOrderData = {
-      customerName: this.customerForm.name.trim(),
-      phone: this.customerForm.phone.trim(),
-      address: this.customerForm.address.trim(),
+    // Save the complete delivery address into the existing backend address field.
+    // This avoids breaking the current CreateOrderData interface/backend today.
+    const fullAddress = [
+      this.customerForm.address.trim(),
+      this.customerForm.district.trim(),
+      this.customerForm.state.trim(),
+      this.customerForm.pincode.trim()
+    ]
+      .filter(Boolean)
+      .join(', ');
+const orderData: CreateOrderData = {
 
-      items: availableCartItems.map(
-        (item: CartItem) => ({
-          productId: item.product._id,
-          quantity: item.quantity
-        })
-      )
-    };
+  customerName:
+    this.customerForm.name.trim(),
+
+  phone:
+    this.customerForm.phone.trim(),
+
+  address:
+    this.customerForm.address.trim(),
+
+  district:
+    this.customerForm.district.trim(),
+
+  state:
+    this.customerForm.state.trim(),
+
+  pincode:
+    this.customerForm.pincode.trim(),
+
+  items: availableCartItems.map(
+    (item: CartItem) => ({
+
+      productId:
+        item.product._id,
+
+      quantity:
+        item.quantity,
+
+      variantQuantity:
+        item.selectedVariant.quantity,
+
+      variantUnit:
+        item.selectedVariant.unit
+
+    })
+  )
+};
 
     const email = this.customerForm.email.trim();
 
@@ -208,170 +284,633 @@ loginSnackbarVisible = false;
       orderData.email = email;
     }
 
-    this.submittingOrder = true;
+    // Keep order data temporarily.
+    // The order is created only after the payment step succeeds.
+    this.pendingOrderData = orderData;
+    this.pendingCheckoutForm = form;
 
-    this.orderService
-      .createOrder(orderData)
-      .subscribe({
-        next: response => {
-          this.submittingOrder = false;
-          this.orderPlaced = true;
+    // Product subtotal from the active items in the cart.
+    this.productTotal = availableCartItems.reduce(
+      (total: number, item: CartItem) =>
+        total + item.selectedVariant.price * item.quantity,
+      0
+    );
 
-          this.placedOrderId = response.order?._id || '';
+    // Calculate total shipping weight from selected variants.
+    this.totalShippingWeightKg =
+      this.calculateTotalShippingWeight(availableCartItems);
 
-          if (this.language === 'en') {
-            this.checkoutMessage =
-              response.message ||
-              'Order placed successfully.';
-          } else {
-            this.checkoutMessage = this.translate(
-              'Order placed successfully.',
-              'உங்கள் ஆர்டர் வெற்றிகரமாக பதிவு செய்யப்பட்டது.',
-              'आपका ऑर्डर सफलतापूर्वक किया गया।'
-            );
-          }
+    // Decide Local / Other District / Other State.
+    this.deliveryType = this.getDeliveryType(
+      this.customerForm.district,
+      this.customerForm.state
+    );
 
-          this.showCheckoutForm = false;
-          this.cartService.clearCart();
+    // Apply your delivery price rules.
+    this.calculateDeliveryCharge();
 
-          this.customerForm = {
-            name: '',
-            phone: '',
-            email: '',
-            address: ''
-          };
+    this.finalAmount =
+      this.productTotal + this.deliveryCharge;
 
-          form.resetForm();
+    // STEP 2: show delivery-charge popup.
+    this.showDeliverySummary = true;
+    this.showPaymentModal = false;
+  }
 
-          setTimeout(() => {
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
+  /**
+   * Convert selected variant quantities into a shipping-weight total.
+   * Current conversion used for delivery slabs:
+   * 1000 g = 1 kg
+   * 1000 ml = 1 kg shipping equivalent
+   * 1 litre = 1 kg shipping equivalent
+   */
+  private calculateTotalShippingWeight(
+    items: CartItem[]
+  ): number {
+    this.shippingWeightNeedsConfirmation = false;
+
+    let totalKg = 0;
+
+    for (const item of items) {
+      const variantQuantity = Number(
+        item.selectedVariant.quantity
+      );
+
+      const variantUnit = String(
+        item.selectedVariant.unit
+      )
+        .trim()
+        .toLowerCase();
+
+      if (
+        !Number.isFinite(variantQuantity) ||
+        variantQuantity <= 0
+      ) {
+        this.shippingWeightNeedsConfirmation = true;
+        continue;
+      }
+
+      let singleItemWeightKg = 0;
+
+      if (
+        variantUnit === 'kg' ||
+        variantUnit === 'kilogram' ||
+        variantUnit === 'kilograms'
+      ) {
+        singleItemWeightKg = variantQuantity;
+      } else if (
+        variantUnit === 'g' ||
+        variantUnit === 'gm' ||
+        variantUnit === 'gram' ||
+        variantUnit === 'grams'
+      ) {
+        singleItemWeightKg = variantQuantity / 1000;
+      } else if (
+        variantUnit === 'ml' ||
+        variantUnit === 'millilitre' ||
+        variantUnit === 'milliliter'
+      ) {
+        singleItemWeightKg = variantQuantity / 1000;
+      } else if (
+        variantUnit === 'l' ||
+        variantUnit === 'ltr' ||
+        variantUnit === 'litre' ||
+        variantUnit === 'liter'
+      ) {
+        singleItemWeightKg = variantQuantity;
+      } else {
+        // Unknown unit such as pcs/box/etc.
+        // Do not guess a delivery charge automatically.
+        this.shippingWeightNeedsConfirmation = true;
+        continue;
+      }
+
+      totalKg +=
+        singleItemWeightKg * Number(item.quantity);
+    }
+
+    return Number(totalKg.toFixed(3));
+  }
+
+  /**
+   * CURRENT LOCATION RULE:
+   * Madurai district + Tamil Nadu => Local Area
+   * Another Tamil Nadu district => Other District
+   * Outside Tamil Nadu => Other State
+   */
+  private getDeliveryType(
+    district: string,
+    state: string
+  ): DeliveryType {
+    const normalizedDistrict = district
+      .trim()
+      .toLowerCase();
+
+    const normalizedState = state
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, ' ');
+
+    const isTamilNadu = [
+      'tamil nadu',
+      'tamilnadu',
+      'tn'
+    ].includes(normalizedState);
+
+    if (
+      isTamilNadu &&
+      normalizedDistrict === this.LOCAL_DISTRICT
+    ) {
+      return 'LOCAL';
+    }
+
+    if (isTamilNadu) {
+      return 'DISTRICT';
+    }
+
+    return 'STATE';
+  }
+
+  /**
+   * DELIVERY RULES
+   * LOCAL AREA: FREE
+   * OTHER DISTRICT:
+   *   <= 1kg : 80
+   *   <= 2kg : 150
+   *   <= 3kg : 230
+   *   > 3kg  : WhatsApp
+   * OTHER STATE:
+   *   <= 1kg : 110
+   *   <= 2kg : 200
+   *   > 2kg  : WhatsApp
+   */
+  private calculateDeliveryCharge(): void {
+    const weight = this.totalShippingWeightKg;
+
+    this.deliveryCharge = 0;
+    this.requiresWhatsapp = false;
+
+    // If the product unit cannot be converted safely,
+    // ask the customer to contact the shop instead of guessing.
+    if (this.shippingWeightNeedsConfirmation) {
+      this.requiresWhatsapp = true;
+      return;
+    }
+
+    // LOCAL AREA = FREE DELIVERY, no weight restriction.
+    if (this.deliveryType === 'LOCAL') {
+      this.deliveryCharge = 0;
+      return;
+    }
+
+    // OTHER DISTRICT
+    if (this.deliveryType === 'DISTRICT') {
+      if (weight <= 1) {
+        this.deliveryCharge = 80;
+      } else if (weight <= 2) {
+        this.deliveryCharge = 150;
+      } else if (weight <= 3) {
+        this.deliveryCharge = 230;
+      } else {
+        this.requiresWhatsapp = true;
+      }
+
+      return;
+    }
+
+    // OTHER STATE
+    if (weight <= 1) {
+      this.deliveryCharge = 110;
+    } else if (weight <= 2) {
+      this.deliveryCharge = 200;
+    } else {
+      this.requiresWhatsapp = true;
+    }
+  }
+
+  /**
+   * STEP 2 -> STEP 3
+   * Only normal delivery orders can continue to payment.
+   */
+  continueToPayment(): void {
+    if (
+      this.requiresWhatsapp ||
+      !this.pendingOrderData
+    ) {
+      return;
+    }
+
+    this.showDeliverySummary = false;
+    this.showPaymentModal = true;
+  }
+
+  closeDeliverySummary(): void {
+    if (this.paymentProcessing) {
+      return;
+    }
+
+    this.showDeliverySummary = false;
+  }
+
+  get deliveryTypeLabel(): string {
+    if (this.deliveryType === 'LOCAL') {
+      return 'Local Area';
+    }
+
+    if (this.deliveryType === 'DISTRICT') {
+      return 'Other District';
+    }
+
+    return 'Other State';
+  }
+
+  contactStoreWhatsApp(): void {
+    if (this.STORE_WHATSAPP.includes('X')) {
+      this.checkoutError =
+        'Please add the store WhatsApp number in cart.ts before using WhatsApp checkout.';
+      return;
+    }
+
+    const cartItemsText = this.getAvailableCartItems()
+      .map(
+        (item: CartItem) =>
+          `${item.product.name.en} - ${item.selectedVariant.quantity}${item.selectedVariant.unit} x ${item.quantity}`
+      )
+      .join('\n');
+
+    const message = [
+      'Hello, I want to place an order.',
+      '',
+      `Name: ${this.customerForm.name}`,
+      `Phone: ${this.customerForm.phone}`,
+      `Address: ${this.customerForm.address}`,
+      `District: ${this.customerForm.district}`,
+      `State: ${this.customerForm.state}`,
+      `Pincode: ${this.customerForm.pincode}`,
+      '',
+      'Products:',
+      cartItemsText,
+      '',
+      `Product Total: ₹${this.productTotal}`,
+      `Shipping Weight: ${this.totalShippingWeightKg} kg`,
+      '',
+      'Please confirm the delivery charge.'
+    ].join('\n');
+
+    const whatsappUrl =
+      `https://wa.me/${this.STORE_WHATSAPP}` +
+      `?text=${encodeURIComponent(message)}`;
+
+    window.open(
+      whatsappUrl,
+      '_blank',
+      'noopener,noreferrer'
+    );
+  }
+
+  /**
+   * STEP 3
+   * Existing test-payment flow.
+   * The backend order is created only after this succeeds.
+   */
+simulatePayment(): void {
+
+  if (
+    !this.pendingOrderData ||
+    this.paymentProcessing
+  ) {
+    return;
+  }
+
+
+  this.paymentProcessing = true;
+  this.submittingOrder = true;
+
+
+  this.orderService
+    .createOrder(
+      this.pendingOrderData
+    )
+    .subscribe({
+
+      next: response => {
+
+        /* =========================
+           PAYMENT / ORDER SUCCESS
+        ========================= */
+
+        this.paymentProcessing = false;
+        this.submittingOrder = false;
+
+        this.showPaymentModal = false;
+        this.showDeliverySummary = false;
+        this.showCheckoutForm = false;
+
+        this.orderPlaced = true;
+
+
+        this.placedOrderId =
+          response.order?._id || '';
+
+
+        this.checkoutMessage =
+          this.translate(
+
+            'Test payment successful. Order placed successfully.',
+
+            'டெஸ்ட் பேமெண்ட் வெற்றிகரமாக முடிந்தது. உங்கள் ஆர்டர் பதிவு செய்யப்பட்டது.',
+
+            'टेस्ट पेमेंट सफल रहा। आपका ऑर्डर दर्ज हो गया।'
+
+          );
+
+
+        /* =========================
+           CLEAR SAVED MONGODB CART
+           + LOCAL BROWSER CART
+        ========================= */
+
+        this.cartService
+          .clearUserCart()
+          .subscribe({
+
+            next: () => {
+
+              // MongoDB cart cleared
+              // Now clear browser/localStorage cart
+              this.cartService
+                .clearLocalCart();
+
+            },
+
+
+            error: error => {
+
+              console.error(
+                'Order placed successfully, but saved cart could not be cleared:',
+                error
+              );
+
+
+              /*
+                Order already exists successfully.
+
+                Even if backend cart clearing fails,
+                clear the browser cart so the customer
+                does not see purchased items again.
+              */
+
+              this.cartService
+                .clearLocalCart();
+
+            }
+
           });
+
+
+        /* =========================
+           CLEAR CUSTOMER FORM
+        ========================= */
+
+        this.customerForm = {
+
+          name: '',
+
+          phone: '',
+
+          email: '',
+
+          address: '',
+
+          district: '',
+
+          state: '',
+
+          pincode: ''
+
+        };
+
+
+        /* =========================
+           RESET ANGULAR FORM
+        ========================= */
+
+        this.pendingCheckoutForm
+          ?.resetForm();
+
+
+        /* =========================
+           CLEAR TEMPORARY ORDER DATA
+        ========================= */
+
+        this.pendingOrderData = null;
+
+        this.pendingCheckoutForm = null;
+
+
+        /* =========================
+           RESET DELIVERY DATA
+        ========================= */
+
+        this.resetDeliveryState();
+
+
+        /* =========================
+           SCROLL TOP
+        ========================= */
+
+        setTimeout(() => {
+
+          window.scrollTo({
+
+            top: 0,
+
+            behavior: 'smooth'
+
+          });
+
+        });
+
+      },
+
+
+      error: error => {
+
+        /* =========================
+           PAYMENT / ORDER FAILED
+        ========================= */
+
+        this.paymentProcessing = false;
+
+        this.submittingOrder = false;
+
+
+        console.error(
+
+          'Test payment / order error:',
+
+          error
+
+        );
+
+
+        /* =========================
+           SHOW BACKEND ERROR IN ENGLISH
+        ========================= */
+
+        if (
+
+          this.language === 'en' &&
+
+          error?.error?.message
+
+        ) {
+
+          this.checkoutError =
+            error.error.message;
+
+        }
+
+        else {
+
+          this.checkoutError =
+            this.translate(
+
+              'Unable to complete the test payment. Please try again.',
+
+              'டெஸ்ட் பேமெண்ட்டை முடிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+
+              'टेस्ट पेमेंट पूरा नहीं हो सका। कृपया फिर से प्रयास करें।'
+
+            );
+
+        }
+
+
+        this.showPaymentModal = false;
+
+      }
+
+    });
+
+}
+
+  private resetDeliveryState(): void {
+    this.deliveryType = 'LOCAL';
+    this.productTotal = 0;
+    this.deliveryCharge = 0;
+    this.finalAmount = 0;
+    this.totalShippingWeightKg = 0;
+    this.requiresWhatsapp = false;
+    this.shippingWeightNeedsConfirmation = false;
+  }
+
+  private renderGoogleButton(): void {
+    const google = (window as any).google;
+
+    if (!google?.accounts?.id) {
+      console.error('Google Identity Services not loaded');
+      return;
+    }
+
+    const buttonContainer =
+      document.getElementById('google-signin-button');
+
+    if (!buttonContainer) {
+      return;
+    }
+
+    buttonContainer.innerHTML = '';
+
+    google.accounts.id.initialize({
+      client_id: environment.googleClientId,
+
+      callback: (response: any) => {
+        const credential = response?.credential;
+
+        if (!credential) {
+          console.error('Google credential not received');
+          return;
+        }
+
+        this.userAuthService
+          .googleLogin(credential)
+          .subscribe({
+            next: result => {
+              window.localStorage.setItem(
+                'user',
+                JSON.stringify(result.user)
+              );
+
+              window.dispatchEvent(
+                new CustomEvent('user-login-success')
+              );
+              this.cartService.mergeGuestCart();
+              this.showLoginModal = false;
+
+              this.customerForm.name =
+                result.user.name || '';
+
+              this.customerForm.email =
+                result.user.email || '';
+
+              this.openCheckoutForm();
+            },
+
+            error: error => {
+              console.error(
+                'Google login failed:',
+                error
+              );
+            }
+          });
+      }
+    });
+
+    google.accounts.id.renderButton(
+      buttonContainer,
+      {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'rectangular',
+        width: 280
+      }
+    );
+  }
+
+  handleCheckout(): void {
+    this.userAuthService
+      .getCurrentUser()
+      .subscribe({
+        next: () => {
+          this.openCheckoutForm();
         },
 
-        error: error => {
-          this.submittingOrder = false;
+        error: () => {
+          this.showLoginSnackbar();
+          this.showLoginModal = true;
 
-          if (
-            this.language === 'en' &&
-            error?.error?.message
-          ) {
-            this.checkoutError = error.error.message;
-          } else {
-            this.checkoutError = this.translate(
-              'Unable to place your order. Please try again.',
-              'உங்கள் ஆர்டரை பதிவு செய்ய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
-              'आपका ऑर्डर नहीं किया जा सका। कृपया फिर से प्रयास करें।'
-            );
-          }
+          setTimeout(() => {
+            this.renderGoogleButton();
+          });
         }
       });
   }
-private renderGoogleButton(): void {
-  const google = (window as any).google;
 
-  if (!google?.accounts?.id) {
-    console.error('Google Identity Services not loaded');
-    return;
+  showLoginSnackbar(): void {
+    this.loginSnackbarVisible = true;
+
+    setTimeout(() => {
+      this.loginSnackbarVisible = false;
+    }, 3000);
   }
 
-  const buttonContainer =
-    document.getElementById('google-signin-button');
-
-  if (!buttonContainer) {
-    return;
+  closeLoginModal(): void {
+    this.showLoginModal = false;
   }
 
-  buttonContainer.innerHTML = '';
-
-  google.accounts.id.initialize({
-    client_id: environment.googleClientId,
-
-    callback: (response: any) => {
-      const credential = response?.credential;
-
-      if (!credential) {
-        console.error('Google credential not received');
-        return;
-      }
-
-      this.userAuthService
-        .googleLogin(credential)
-        .subscribe({
-          next: result => {
-            
-
-            window.localStorage.setItem(
-              'user',
-              JSON.stringify(result.user)
-            );
-  window.dispatchEvent(
-  new CustomEvent('user-login-success')
-);
-            this.showLoginModal = false;
-
-            this.customerForm.name =
-              result.user.name || '';
-
-            this.customerForm.email =
-              result.user.email || '';
-
-            this.openCheckoutForm();
-          },
-
-          error: error => {
-            console.error(
-              'Google login failed:',
-              error
-            );
-          }
-        });
-    }
-  });
-
-  google.accounts.id.renderButton(
-    buttonContainer,
-    {
-      type: 'standard',
-      theme: 'outline',
-      size: 'large',
-      text: 'continue_with',
-      shape: 'rectangular',
-      width: 280
-    }
-  );
-}
-handleCheckout(): void {
-  this.userAuthService
-    .getCurrentUser()
-    .subscribe({
-      next: () => {
-        this.openCheckoutForm();
-      },
-
-      error: () => {
-        this.showLoginSnackbar();
-        this.showLoginModal = true;
-
-        setTimeout(() => {
-          this.renderGoogleButton();
-        });
-      }
-    });
-}
-showLoginSnackbar(): void {
-
-  this.loginSnackbarVisible = true;
-
-  setTimeout(() => {
-    this.loginSnackbarVisible = false;
-  }, 3000);
-}
-closeLoginModal(): void {
-  this.showLoginModal = false;
-}
   increaseQuantity(productId: string): void {
     const item = this.cartService
       .getCartItems()
@@ -401,28 +940,33 @@ closeLoginModal(): void {
 
     this.cartService.decreaseQuantity(productId);
   }
-changeVariant(
-  item: CartItem,
-  variant: CartItem['selectedVariant']
-): void {
 
-  if (!item.product.isActive) {
-    return;
+  changeVariant(
+    item: CartItem,
+    variant: CartItem['selectedVariant']
+  ): void {
+    if (!item.product.isActive) {
+      return;
+    }
+
+    this.cartService.changeVariant(
+      item.product._id,
+      variant
+    );
   }
-
-  this.cartService.changeVariant(
-    item.product._id,
-    variant
-  );
-}
 
   removeProduct(productId: string): void {
     this.cartService.removeProduct(productId);
 
     if (this.cartService.getCartItems().length === 0) {
       this.showCheckoutForm = false;
+      this.showDeliverySummary = false;
+      this.showPaymentModal = false;
       this.checkoutMessage = '';
       this.checkoutError = '';
+      this.pendingOrderData = null;
+      this.pendingCheckoutForm = null;
+      this.resetDeliveryState();
     }
   }
 
@@ -441,10 +985,15 @@ changeVariant(
 
     this.cartService.clearCart();
     this.showCheckoutForm = false;
+    this.showDeliverySummary = false;
+    this.showPaymentModal = false;
     this.checkoutMessage = '';
     this.checkoutError = '';
     this.orderPlaced = false;
     this.placedOrderId = '';
+    this.pendingOrderData = null;
+    this.pendingCheckoutForm = null;
+    this.resetDeliveryState();
   }
 
   getProductName(item: CartItem): string {
@@ -486,7 +1035,8 @@ changeVariant(
       return 0;
     }
 
-  return item.selectedVariant.price * item.quantity;  }
+    return item.selectedVariant.price * item.quantity;
+  }
 
   trackCartItem(
     _index: number,
@@ -510,5 +1060,4 @@ changeVariant(
 
     return english;
   }
- 
 }
