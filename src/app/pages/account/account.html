@@ -23,7 +23,15 @@
     >
 
       <div class="account-heading">
-        <span>MY ACCOUNT</span>
+<span>
+  {{
+    t(
+      'MY ACCOUNT',
+      'என் கணக்கு',
+      'मेरा खाता'
+    )
+  }}
+</span>
 
         <h1>
           Welcome,
@@ -148,36 +156,551 @@
               <span>02</span>
 
               <div>
-                <small>
-                  ORDER HISTORY
-                </small>
-
-                <h2>
-                  My Orders
-                </h2>
+              <small>
+  {{
+    t(
+      'ORDER HISTORY',
+      'ஆர்டர் வரலாறு',
+      'ऑर्डर इतिहास'
+    )
+  }}
+</small>
+<h2>
+  {{
+    t(
+      'My Orders',
+      'என் ஆர்டர்கள்',
+      'मेरे ऑर्डर'
+    )
+  }}
+</h2>
               </div>
             </div>
 
 
-            <div class="orders-empty">
+<!-- ======================================
+     MY ORDERS
+======================================= -->
 
-              <i class="fa-solid fa-box-open"></i>
+<div
+  class="orders-loading"
+  *ngIf="ordersLoading"
+>
+  Loading your orders...
+</div>
 
-              <h3>
-                Your orders will appear here
-              </h3>
 
-              <p>
-                Order ID, products, amount,
-                order status and payment status
-                will be shown here.
-              </p>
+<div
+  class="orders-error"
+  *ngIf="
+    !ordersLoading &&
+    ordersError
+  "
+>
+  {{ ordersError }}
+</div>
 
-              <a routerLink="/products">
-                Continue Shopping
-              </a>
+
+<!-- EMPTY ORDERS -->
+
+<div
+  class="orders-empty"
+  *ngIf="
+    !ordersLoading &&
+    !ordersError &&
+    orders.length === 0
+  "
+>
+
+  <i class="fa-solid fa-box-open"></i>
+
+  <h3>
+    No orders yet
+  </h3>
+
+  <p>
+    Your orders and delivery tracking
+    will appear here.
+  </p>
+
+  <a routerLink="/products">
+    Continue Shopping
+  </a>
+
+</div>
+
+
+
+<!-- ======================================
+     ORDER LIST
+======================================= -->
+
+<div
+  class="customer-orders"
+  *ngIf="
+    !ordersLoading &&
+    orders.length > 0
+  "
+>
+
+  <article
+    class="customer-order-card"
+    *ngFor="let order of orders"
+  >
+
+    <!-- HEADER -->
+
+    <div class="order-card-header">
+
+      <div>
+
+        <small>
+          ORDER ID
+        </small>
+
+        <h3>
+          #{{ order._id | slice:-10 }}
+        </h3>
+
+        <p>
+          {{
+            order.createdAt
+              | date:'dd MMM yyyy, h:mm a'
+          }}
+        </p>
+
+      </div>
+
+
+      <span
+        class="order-status-badge"
+        [class.cancelled]="
+          order.status === 'cancelled'
+        "
+        [class.delivered]="
+          order.status === 'delivered'
+        "
+      >
+        {{
+          getStatusLabel(
+            order.status
+          )
+        }}
+      </span>
+
+    </div>
+
+
+
+    <!-- ======================================
+         ORDER BODY
+    ======================================= -->
+
+    <div class="order-card-body">
+
+
+      <!-- PRODUCTS -->
+
+      <div class="order-products">
+
+        <div
+          class="account-order-product"
+          *ngFor="
+            let item of order.items
+          "
+        >
+
+          <img
+            [src]="item.productImage"
+            [alt]="item.productName"
+          >
+
+
+          <div>
+
+            <h4>
+              {{ item.productName }}
+            </h4>
+
+
+            <p>
+
+              {{ item.variantQuantity }}
+
+              {{ item.variantUnit }}
+
+              ×
+
+              {{ item.quantity }}
+
+            </p>
+
+
+            <strong>
+
+              {{
+                item.lineTotal
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- PRICE DETAILS -->
+
+        <div class="account-order-price">
+
+          <div>
+
+     <span>
+  {{
+    t(
+      'Product Total',
+      'பொருட்களின் மொத்தம்',
+      'उत्पाद कुल'
+    )
+  }}
+</span>
+
+            <strong>
+              {{
+                order.subtotal
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+    <span>
+  {{
+    t(
+      'Delivery Charge',
+      'டெலிவரி கட்டணம்',
+      'डिलीवरी शुल्क'
+    )
+  }}
+</span>
+
+            <strong
+              *ngIf="
+                order.deliveryCharge > 0
+              "
+            >
+              {{
+                order.deliveryCharge
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+            </strong>
+
+
+            <strong
+              class="free-delivery"
+              *ngIf="
+                order.deliveryCharge === 0
+              "
+            >
+              FREE
+            </strong>
+
+          </div>
+
+
+          <div class="account-final-total">
+<span>
+  {{
+    t(
+      'Total Amount',
+      'மொத்த தொகை',
+      'कुल राशि'
+    )
+  }}
+</span>
+
+            <strong>
+              {{
+                order.total
+                  | currency:'INR':'symbol':'1.0-0'
+              }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ======================================
+           TRACKING
+      ======================================= -->
+
+      <div class="order-tracking">
+
+      <h4>
+  {{
+    t(
+      'Track Order',
+      'ஆர்டர் நிலை',
+      'ऑर्डर ट्रैक करें'
+    )
+  }}
+</h4>
+
+
+        <!-- CANCELLED -->
+
+        <div
+          class="order-cancelled-box"
+          *ngIf="
+            order.status === 'cancelled'
+          "
+        >
+
+          <i
+            class="fa-solid
+                   fa-circle-xmark"
+          ></i>
+
+          <div>
+
+            <strong>
+              Order Cancelled
+            </strong>
+
+            <p>
+              This order has been cancelled.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- NORMAL TRACKING -->
+
+        <div
+          class="tracking-timeline"
+          *ngIf="
+            order.status !== 'cancelled'
+          "
+        >
+
+          <div
+            class="tracking-step"
+            *ngFor="
+              let step of orderSteps;
+              let last = last
+            "
+            [class.completed]="
+              isStepCompleted(
+                order.status,
+                step
+              )
+            "
+            [class.current]="
+              isCurrentStep(
+                order.status,
+                step
+              )
+            "
+          >
+
+            <div class="tracking-left">
+
+              <div
+                class="tracking-circle"
+              >
+
+                <i
+                  class="fa-solid fa-check"
+                  *ngIf="
+                    isStepCompleted(
+                      order.status,
+                      step
+                    )
+                  "
+                ></i>
+
+              </div>
+
+
+              <div
+                class="tracking-line"
+                *ngIf="!last"
+              ></div>
 
             </div>
+
+
+            <div class="tracking-text">
+
+              <strong>
+         {{ getStatusLabel(step) }}
+              </strong>
+
+
+              <small
+                *ngIf="
+                  isCurrentStep(
+                    order.status,
+                    step
+                  )
+                "
+              >
+{{
+  t(
+    'Current Status',
+    'தற்போதைய நிலை',
+    'वर्तमान स्थिति'
+  )
+}}       
+              </small>
+
+
+              <small
+                *ngIf="
+                  !isStepCompleted(
+                    order.status,
+                    step
+                  )
+                "
+              >
+          {{
+  t(
+    'Pending',
+    'நிலுவையில்',
+    'लंबित'
+  )
+}}      
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ======================================
+           PAYMENT / ADDRESS
+      ======================================= -->
+
+      <div class="order-side-details">
+
+        <div class="account-order-detail">
+
+          <i
+            class="fa-solid
+                   fa-credit-card"
+          ></i>
+
+          <div>
+<span>
+  {{
+    t(
+      'Payment Status',
+      'பணம் செலுத்திய நிலை',
+      'भुगतान स्थिति'
+    )
+  }}
+</span>
+
+            <strong>
+              {{
+                order.paymentStatus
+                  | titlecase
+              }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="account-order-detail">
+
+          <i
+            class="fa-solid
+                   fa-wallet"
+          ></i>
+
+          <div>
+
+          <span>
+  {{
+    t(
+      'Payment Method',
+      'பணம் செலுத்தும் முறை',
+      'भुगतान विधि'
+    )
+  }}
+</span>
+
+            <strong>
+              {{ order.paymentMethod }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="account-order-detail">
+
+          <i
+            class="fa-solid
+                   fa-location-dot"
+          ></i>
+
+          <div>
+<span>
+  {{
+    t(
+      'Delivery Address',
+      'டெலிவரி முகவரி',
+      'डिलीवरी पता'
+    )
+  }}
+</span>
+
+            <strong>
+
+              {{ order.address }}
+
+              <br>
+
+              {{ order.district }},
+              {{ order.state }}
+
+              <br>
+
+              {{ order.pincode }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+</div>
 
           </section>
 

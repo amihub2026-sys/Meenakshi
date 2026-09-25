@@ -1,339 +1,573 @@
 <header class="site-header">
-<div class="container nav-wrap">
 
-  <!-- MOBILE HAMBURGER -->
-  <button
-    type="button"
-    class="nav-hamburger"
-    [class.open]="menuOpen"
-    (click)="toggleMenu()"
-    aria-label="Toggle navigation"
-  >
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div class="container nav-wrap">
 
- <!-- ADD THIS -->
-  <div
-    class="mobile-menu-overlay"
-    *ngIf="menuOpen"
-    (click)="closeMenu()"
-  ></div>
-  <!-- SINGLE BRAND -->
-  <a
-    class="brand"
-    routerLink="/"
-    (click)="closeMenu()"
-  >
-    <span class="brand-mark">
-      ॐ
-    </span>
-
-    <span class="brand-text">
-
-      <strong>
-        {{
-          language === 'ta'
-            ? 'மதுரை மீனாட்சி'
-            : language === 'hi'
-            ? 'मदुरै मीनाक्षी'
-            : 'Madurai Meenakshi'
-        }}
-      </strong>
-
-      <small>
-  {{
-    language === 'ta'
-      ? 'நாட்டு மருந்து கடை'
-      : language === 'hi'
-      ? 'देसी औषधि दुकान'
-      : 'Traditional Herbal Store'
-  }}
-</small>
-
-    </span>
-  </a>
-
-
-  <!-- DESKTOP NAVIGATION -->
-  <nav
-    class="main-nav"
-    [class.open]="menuOpen"
-  >
-
-    <a
-      routerLink="/"
-      routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="closeMenu()"
-    >     
-      {{
-        language === 'ta'
-          ? 'முகப்பு'
-          : language === 'hi'
-          ? 'होम'
-          : 'Home'
-      }}
-    </a>
-
-
-    <a
-      routerLink="/about"
-      routerLinkActive="active-link"
-      (click)="closeMenu()"
-    >
-      {{
-        language === 'ta'
-          ? 'எங்களைப் பற்றி'
-          : language === 'hi'
-          ? 'हमारे बारे में'
-          : 'About'
-      }}
-    </a>
-
-
-    <a
-      routerLink="/products"
-      routerLinkActive="active-link"
-      (click)="closeMenu()"
-    >
-      {{
-        language === 'ta'
-          ? 'பொருட்கள்'
-          : language === 'hi'
-          ? 'उत्पाद'
-          : 'Products'
-      }}
-    </a>
-
-
-    <a
-      routerLink="/specials"
-      routerLinkActive="active-link"
-      (click)="closeMenu()"
-    >
-      {{
-        language === 'ta'
-          ? 'பாரம்பரியம்'
-          : language === 'hi'
-          ? 'परंपरा'
-          : 'Specials'
-      }}
-    </a>
-
-
-    <a
-      routerLink="/contact"
-      routerLinkActive="active-link"
-      (click)="closeMenu()"
-    >
-      {{
-        language === 'ta'
-          ? 'தொடர்பு'
-          : language === 'hi'
-          ? 'संपर्क'
-          : 'Contact'
-      }}
-    </a>
-
-
-    <!-- DESKTOP CART -->
-    <a
-      routerLink="/cart"
-      class="cart-button"
-      aria-label="Open shopping cart"
-      (click)="closeMenu()"
-    >
-      <i class="fa-solid fa-cart-shopping"></i>
-
-      <span class="cart-count">
-        {{ (cartCount$ | async) || 0 }}
-      </span>
-    </a>
-<div
-  class="account-nav"
-  *ngIf="currentUser"
->
-  <button
-    type="button"
-    class="account-button"
-    (click)="toggleAccountMenu()"
-  >
-    <img
-      *ngIf="currentUser.picture"
-      [src]="currentUser.picture"
-      [alt]="currentUser.name"
-    >
-
-    <i
-      *ngIf="!currentUser.picture"
-      class="fa-solid fa-user"
-    ></i>
-
-    <span>
-      {{ currentUser.name }}
-    </span>
-
-    <i class="fa-solid fa-chevron-down"></i>
-  </button>
-
-  <div
-    class="account-dropdown"
-    *ngIf="accountMenuOpen"
-  >
-    <div class="account-user-info">
-      <strong>
-        {{ currentUser.name }}
-      </strong>
-
-      <small>
-        {{ currentUser.email }}
-      </small>
-    </div>
-
-    <a
-      routerLink="/account"
-      (click)="closeAccountMenu()"
-    >
-      My Account
-    </a>
-
-    <a
-      routerLink="/account/orders"
-      (click)="closeAccountMenu()"
-    >
-      My Orders
-    </a>
-     <button
-    type="button"
-    class="account-logout"
-    (click)="logout()"
-  >
-    <i class="fa-solid fa-right-from-bracket"></i>
-    Logout
-  </button>
-  </div>
-</div>
-  </nav>
-
-
-  <!-- DESKTOP LANGUAGE SWITCH -->
-  <div class="language-switch">
-
+    <!-- =====================================================
+         MOBILE HAMBURGER
+    ====================================================== -->
     <button
       type="button"
-      [class.active]="language === 'ta'"
-      (click)="changeLanguage('ta')"
+      class="nav-hamburger"
+      [class.open]="menuOpen"
+      (click)="toggleMenu()"
+      aria-label="Toggle navigation"
     >
-      தமிழ்
-    </button>
-
-    <button
-      type="button"
-      [class.active]="language === 'en'"
-      (click)="changeLanguage('en')"
-    >
-      EN
-    </button>
-
-    <button
-      type="button"
-      [class.active]="language === 'hi'"
-      (click)="changeLanguage('hi')"
-    >
-      हिंदी
-    </button>
-
-  </div>
-
-
-  <!-- MOBILE LANGUAGE -->
-  <div class="mobile-language">
-
-   <button 
-  type="button" 
-  class="mobile-language-btn" 
-  (click)="toggleLanguageMenu()"
->
-      <i class="fa-solid fa-language"></i>
-
-      <span>
-        {{
-          language === 'ta'
-            ? 'தமிழ்'
-            : language === 'hi'
-            ? 'हिंदी'
-            : 'EN'
-        }}
-      </span>
-
-      <i
-        class="fa-solid fa-chevron-down"
-        [class.rotate]="languageMenuOpen"
-      ></i>
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
 
 
+    <!-- MOBILE MENU OVERLAY -->
     <div
-      class="mobile-language-dropdown"
-      *ngIf="languageMenuOpen"
+      class="mobile-menu-overlay"
+      *ngIf="menuOpen"
+      (click)="closeMenu()"
+    ></div>
+
+
+    <!-- =====================================================
+         BRAND
+    ====================================================== -->
+    <a
+      class="brand"
+      routerLink="/"
+      (click)="closeMenu()"
     >
+
+      <span class="brand-mark">
+        ॐ
+      </span>
+
+
+      <span class="brand-text">
+
+        <strong>
+          {{
+            language === 'ta'
+              ? 'மதுரை மீனாட்சி'
+              : language === 'hi'
+              ? 'मदुरै मीनाक्षी'
+              : 'Madurai Meenakshi'
+          }}
+        </strong>
+
+
+        <small>
+          {{
+            language === 'ta'
+              ? 'நாட்டு மருந்து கடை'
+              : language === 'hi'
+              ? 'देसी औषधि दुकान'
+              : 'Traditional Herbal Store'
+          }}
+        </small>
+
+      </span>
+
+    </a>
+
+
+    <!-- =====================================================
+         DESKTOP / MOBILE NAVIGATION
+    ====================================================== -->
+    <nav
+      class="main-nav"
+      [class.open]="menuOpen"
+    >
+
+      <!-- HOME -->
+      <a
+        routerLink="/"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        {{
+          language === 'ta'
+            ? 'முகப்பு'
+            : language === 'hi'
+            ? 'होम'
+            : 'Home'
+        }}
+      </a>
+
+
+      <!-- ABOUT -->
+      <a
+        routerLink="/about"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        {{
+          language === 'ta'
+            ? 'எங்களைப் பற்றி'
+            : language === 'hi'
+            ? 'हमारे बारे में'
+            : 'About'
+        }}
+      </a>
+
+
+      <!-- PRODUCTS -->
+      <a
+        routerLink="/products"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        {{
+          language === 'ta'
+            ? 'பொருட்கள்'
+            : language === 'hi'
+            ? 'उत्पाद'
+            : 'Products'
+        }}
+      </a>
+
+
+      <!-- SPECIALS -->
+      <a
+        routerLink="/specials"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        {{
+          language === 'ta'
+            ? 'பாரம்பரியம்'
+            : language === 'hi'
+            ? 'परंपरा'
+            : 'Specials'
+        }}
+      </a>
+
+
+      <!-- CONTACT -->
+      <a
+        routerLink="/contact"
+        routerLinkActive="active-link"
+        (click)="closeMenu()"
+      >
+        {{
+          language === 'ta'
+            ? 'தொடர்பு'
+            : language === 'hi'
+            ? 'संपर्क'
+            : 'Contact'
+        }}
+      </a>
+
+
+      <!-- =====================================================
+           DESKTOP CART
+      ====================================================== -->
+      <a
+        routerLink="/cart"
+        class="cart-button"
+        aria-label="Open shopping cart"
+        (click)="closeMenu()"
+      >
+
+        <i class="fa-solid fa-cart-shopping"></i>
+
+        <span class="cart-count">
+          {{ (cartCount$ | async) || 0 }}
+        </span>
+
+      </a>
+
+
+      <!-- =====================================================
+           LOGIN BUTTON
+           ONLY WHEN USER IS NOT LOGGED IN
+      ====================================================== -->
+      <button
+        *ngIf="!currentUser"
+        type="button"
+        class="nav-login-btn"
+        (click)="openLoginModal(); closeMenu()"
+      >
+
+        <i class="fa-regular fa-user"></i>
+
+        <span>
+          {{
+            language === 'ta'
+              ? 'உள்நுழைய'
+              : language === 'hi'
+              ? 'लॉगिन'
+              : 'Login'
+          }}
+        </span>
+
+      </button>
+
+
+      <!-- =====================================================
+           ACCOUNT
+           ONLY WHEN USER IS LOGGED IN
+      ====================================================== -->
+      <div
+        class="account-wrapper"
+        *ngIf="currentUser"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- ACCOUNT BUTTON -->
+        <button
+          type="button"
+          class="account-button"
+          (click)="toggleAccountMenu()"
+        >
+
+          <!-- PROFILE IMAGE -->
+          <img
+            *ngIf="currentUser.picture"
+            [src]="currentUser.picture"
+            [alt]="currentUser.name"
+            class="account-avatar"
+          >
+
+
+          <!-- FALLBACK ICON -->
+          <div
+            *ngIf="!currentUser.picture"
+            class="account-avatar account-avatar-placeholder"
+          >
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+
+          <!-- USER NAME -->
+          <span class="account-name">
+            {{ currentUser.name }}
+          </span>
+
+
+          <!-- DROPDOWN ARROW -->
+          <i
+            class="fa-solid fa-chevron-down account-arrow"
+            [class.rotate]="accountMenuOpen"
+          ></i>
+
+        </button>
+
+
+        <!-- =====================================================
+             ACCOUNT DROPDOWN
+        ====================================================== -->
+        <div
+          class="account-dropdown"
+          *ngIf="accountMenuOpen"
+        >
+
+          <!-- USER INFO -->
+          <div class="account-user-info">
+
+            <img
+              *ngIf="currentUser.picture"
+              [src]="currentUser.picture"
+              [alt]="currentUser.name"
+            >
+
+
+            <div
+              *ngIf="!currentUser.picture"
+              class="account-dropdown-placeholder"
+            >
+              <i class="fa-solid fa-user"></i>
+            </div>
+
+
+            <div class="account-user-text">
+
+              <strong>
+                {{ currentUser.name }}
+              </strong>
+
+
+              <small>
+                {{ currentUser.email }}
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div class="account-menu-divider"></div>
+
+
+          <!-- ACCOUNT ACTIONS -->
+          <div class="account-actions">
+
+            <!-- MY ACCOUNT -->
+            <a
+              routerLink="/account"
+              class="account-action account-link"
+              (click)="closeAccountMenu(); closeMenu()"
+            >
+
+              <i class="fa-regular fa-user"></i>
+
+              <span>
+                {{
+                  language === 'ta'
+                    ? 'என் கணக்கு'
+                    : language === 'hi'
+                    ? 'मेरा अकाउंट'
+                    : 'My Account'
+                }}
+              </span>
+
+            </a>
+
+
+            <!-- LOGOUT -->
+            <button
+              type="button"
+              class="account-action logout-action"
+              (click)="logout()"
+            >
+
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+              <span>
+                {{
+                  language === 'ta'
+                    ? 'வெளியேறு'
+                    : language === 'hi'
+                    ? 'लॉगआउट'
+                    : 'Logout'
+                }}
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         DESKTOP LANGUAGE SWITCH
+    ====================================================== -->
+    <div class="language-switch">
 
       <button
         type="button"
         [class.active]="language === 'ta'"
-        (click)="
-          changeLanguage('ta');
-          languageMenuOpen = false
-        "
+        (click)="changeLanguage('ta')"
       >
         தமிழ்
       </button>
 
+
       <button
         type="button"
         [class.active]="language === 'en'"
-        (click)="
-          changeLanguage('en');
-          languageMenuOpen = false
-        "
+        (click)="changeLanguage('en')"
       >
-        English
+        EN
       </button>
+
 
       <button
         type="button"
         [class.active]="language === 'hi'"
-        (click)="
-          changeLanguage('hi');
-          languageMenuOpen = false
-        "
+        (click)="changeLanguage('hi')"
       >
         हिंदी
       </button>
 
     </div>
 
+
+    <!-- =====================================================
+         MOBILE LANGUAGE
+    ====================================================== -->
+    <div class="mobile-language">
+
+      <button
+        type="button"
+        class="mobile-language-btn"
+        (click)="toggleLanguageMenu()"
+      >
+
+        <i class="fa-solid fa-language"></i>
+
+
+        <span>
+          {{
+            language === 'ta'
+              ? 'தமிழ்'
+              : language === 'hi'
+              ? 'हिंदी'
+              : 'EN'
+          }}
+        </span>
+
+
+        <i
+          class="fa-solid fa-chevron-down"
+          [class.rotate]="languageMenuOpen"
+        ></i>
+
+      </button>
+
+
+      <!-- MOBILE LANGUAGE DROPDOWN -->
+      <div
+        class="mobile-language-dropdown"
+        *ngIf="languageMenuOpen"
+      >
+
+        <button
+          type="button"
+          [class.active]="language === 'ta'"
+          (click)="
+            changeLanguage('ta');
+            languageMenuOpen = false
+          "
+        >
+          தமிழ்
+        </button>
+
+
+        <button
+          type="button"
+          [class.active]="language === 'en'"
+          (click)="
+            changeLanguage('en');
+            languageMenuOpen = false
+          "
+        >
+          English
+        </button>
+
+
+        <button
+          type="button"
+          [class.active]="language === 'hi'"
+          (click)="
+            changeLanguage('hi');
+            languageMenuOpen = false
+          "
+        >
+          हिंदी
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE CART
+    ====================================================== -->
+    <a
+      routerLink="/cart"
+      class="mobile-cart-button"
+      aria-label="Open shopping cart"
+      (click)="closeMenu()"
+    >
+
+      <i class="fa-solid fa-cart-shopping"></i>
+
+
+      <span class="cart-count">
+        {{ (cartCount$ | async) || 0 }}
+      </span>
+
+    </a>
+
   </div>
 
+</header>
 
-  <!-- MOBILE CART -->
-  <a
-    routerLink="/cart"
-    class="mobile-cart-button"
-    aria-label="Open shopping cart"
-    (click)="closeMenu()"
+
+<!-- =====================================================
+     GOOGLE LOGIN MODAL
+     IMPORTANT:
+     KEEP THIS OUTSIDE <header>
+===================================================== -->
+<div
+  class="navbar-login-overlay"
+  *ngIf="showLoginModal"
+  (click)="closeLoginModal()"
+>
+
+  <div
+    class="navbar-login-modal"
+    (click)="$event.stopPropagation()"
   >
-    <i class="fa-solid fa-cart-shopping"></i>
 
-    <span class="cart-count">
-      {{ (cartCount$ | async) || 0 }}
-    </span>
-  </a>
+    <!-- CLOSE -->
+    <button
+      type="button"
+      class="navbar-login-close"
+      (click)="closeLoginModal()"
+      aria-label="Close login"
+    >
+      ×
+    </button>
+
+
+    <!-- ICON -->
+    <div class="navbar-login-icon">
+
+      <i class="fa-solid fa-user"></i>
+
+    </div>
+
+
+    <!-- TITLE -->
+    <h2>
+      {{
+        language === 'ta'
+          ? 'உங்கள் கணக்கில் உள்நுழையுங்கள்'
+          : language === 'hi'
+          ? 'अपने अकाउंट में लॉगिन करें'
+          : 'Login to Your Account'
+      }}
+    </h2>
+
+
+    <!-- DESCRIPTION -->
+    <p>
+
+      {{
+        language === 'ta'
+          ? 'உங்கள் கார்ட், ஆர்டர்கள் மற்றும் கணக்கைப் பார்க்க Google மூலம் தொடரவும்.'
+          : language === 'hi'
+          ? 'अपने कार्ट, ऑर्डर और अकाउंट तक पहुंचने के लिए Google से जारी रखें।'
+          : 'Continue with Google to access your cart, orders and account.'
+      }}
+
+    </p>
+
+
+    <!-- GOOGLE BUTTON -->
+    <div
+      id="navbar-google-signin-button"
+      class="google-login-button-container"
+    ></div>
+
+
+    <!-- LOGIN ERROR -->
+    <p
+      class="navbar-login-error"
+      *ngIf="loginError"
+    >
+      {{ loginError }}
+    </p>
+
+  </div>
 
 </div>
-</header>
 
 
 <main>

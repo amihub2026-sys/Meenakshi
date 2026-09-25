@@ -1096,3 +1096,545 @@ button:disabled {
 .google-login-button:hover {
   background: #f8f8f8;
 }
+/* =========================================================
+   CHECKOUT / DELIVERY DETAILS
+========================================================= */
+
+.checkout-form-section {
+  width: 100%;
+  margin: 42px 0 20px;
+  padding: 34px 38px;
+  background: #fffdf8;
+  border: 1px solid rgba(6, 75, 52, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+}
+
+.checkout-form-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.checkout-form-heading > div > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #b67d14;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.checkout-form-heading h2 {
+  margin: 0;
+  color: #064b34;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.15;
+}
+
+.checkout-form-heading p {
+  max-width: 700px;
+  margin: 10px 0 0;
+  color: #66716b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.close-checkout-form {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d9dfdb;
+  border-radius: 50%;
+  background: #fff;
+  color: #064b34;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.close-checkout-form:hover {
+  background: #064b34;
+  color: #fff;
+}
+
+
+/* =========================
+   FORM GRID
+========================= */
+
+.checkout-customer-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 18px;
+}
+
+.checkout-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.checkout-field-full {
+  grid-column: 1 / -1;
+}
+
+.checkout-field label {
+  color: #063f2e;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.checkout-field label span {
+  color: #d84545;
+}
+
+.checkout-field input,
+.checkout-field textarea,
+.checkout-field select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d8ddd9;
+  border-radius: 12px;
+  background: #fff;
+  color: #173a2f;
+  font: inherit;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.checkout-field input,
+.checkout-field select {
+  min-height: 52px;
+  padding: 0 15px;
+}
+
+.checkout-field textarea {
+  min-height: 125px;
+  padding: 14px 15px;
+  resize: vertical;
+}
+
+.checkout-field input::placeholder,
+.checkout-field textarea::placeholder {
+  color: #9a9f9c;
+}
+
+.checkout-field input:focus,
+.checkout-field textarea:focus,
+.checkout-field select:focus {
+  border-color: #b88a20;
+  background: #fffefa;
+  box-shadow: 0 0 0 3px rgba(184, 138, 32, 0.12);
+}
+
+.field-error {
+  color: #c83d3d;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+
+/* =========================
+   CONTINUE BUTTON
+========================= */
+
+.checkout-submit-row {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.checkout-submit-btn {
+  appearance: none;
+  min-width: 210px;
+  min-height: 50px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 11px;
+  background: #dfad2f;
+  color: #063f2e;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.checkout-submit-btn:hover:not(:disabled) {
+  background: #e7b83d;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(181, 130, 14, 0.22);
+}
+
+.checkout-submit-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* =========================================================
+   DELIVERY / PAYMENT POPUP OVERLAY
+========================================================= */
+
+.payment-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(4, 30, 22, 0.68);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+
+/* =========================
+   POPUP CARD
+========================= */
+
+.payment-modal {
+  position: relative;
+  width: min(100%, 520px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+
+  padding: 34px;
+
+  background: #fffdf7;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.28);
+
+  animation: deliveryPopupIn 0.25s ease;
+}
+
+@keyframes deliveryPopupIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================
+   CLOSE
+========================= */
+
+.payment-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #dae0dc;
+  border-radius: 50%;
+
+  background: #fff;
+  color: #064b34;
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.payment-close:hover {
+  background: #064b34;
+  color: white;
+}
+
+
+/* =========================
+   DELIVERY ICON
+========================= */
+
+.payment-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 18px;
+
+  background: rgba(223, 173, 47, 0.15);
+  color: #a8750d;
+
+  font-size: 24px;
+}
+
+
+/* =========================
+   POPUP HEADINGS
+========================= */
+
+.payment-kicker {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #a8750d;
+
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 1.8px;
+}
+
+.payment-modal h2 {
+  margin: 0 0 8px;
+
+  color: #064b34;
+
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.payment-description {
+  margin: 0 0 24px;
+
+  color: #6f7773;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* =========================
+   SUMMARY ROWS
+========================= */
+
+.payment-amount,
+.payment-test-amount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  min-height: 54px;
+  padding: 14px 16px;
+
+  border-bottom: 1px solid #e9ece9;
+
+  background: #fff;
+}
+
+.payment-amount:first-of-type {
+  border-radius: 14px 14px 0 0;
+}
+
+.payment-amount span,
+.payment-test-amount span {
+  color: #657069;
+  font-size: 14px;
+}
+
+.payment-amount strong,
+.payment-test-amount strong {
+  color: #064b34;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+
+/* FINAL AMOUNT */
+
+.payment-test-amount {
+  margin-top: 6px;
+
+  border: none;
+  border-radius: 13px;
+
+  background: #f3ead2;
+}
+
+.payment-test-amount span {
+  color: #064b34;
+  font-weight: 700;
+}
+
+.payment-test-amount strong {
+  font-size: 21px;
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+.test-payment-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin: 18px 0;
+  padding: 13px 14px;
+
+  border-radius: 12px;
+
+  background: #f8f2df;
+  color: #6c581e;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.test-payment-note i {
+  margin-top: 2px;
+}
+
+
+/* =========================
+   PRIMARY POPUP BUTTON
+========================= */
+
+.test-pay-button {
+  width: 100%;
+  min-height: 52px;
+
+  margin-top: 20px;
+  padding: 0 20px;
+
+  border: none;
+  border-radius: 11px;
+
+  background: #064b34;
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.test-pay-button:hover:not(:disabled) {
+  background: #083d2e;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(6, 75, 52, 0.2);
+}
+
+.test-pay-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+/* BACK BUTTON INSIDE POPUP */
+
+.payment-modal .checkout-submit-btn {
+  width: 100% !important;
+  min-width: 0;
+  margin-top: 10px !important;
+
+  background: transparent;
+  border: 1px solid #ccd5d0;
+
+  color: #064b34;
+}
+
+.payment-modal .checkout-submit-btn:hover {
+  background: #f3f6f4;
+  box-shadow: none;
+}
+
+
+/* WHATSAPP ICON */
+
+.test-pay-button .fa-whatsapp {
+  margin-right: 7px;
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .checkout-form-section {
+    margin-top: 25px;
+    padding: 25px 18px;
+    border-radius: 18px;
+  }
+
+  .checkout-form-heading {
+    margin-bottom: 24px;
+  }
+
+  .checkout-form-heading h2 {
+    font-size: 27px;
+  }
+
+  .checkout-customer-form {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .checkout-field-full {
+    grid-column: auto;
+  }
+
+  .checkout-submit-row {
+    grid-column: auto;
+  }
+
+  .checkout-submit-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .payment-overlay {
+    padding: 14px;
+    align-items: center;
+  }
+
+  .payment-modal {
+    width: 100%;
+    padding: 28px 20px 22px;
+    border-radius: 20px;
+  }
+
+  .payment-modal h2 {
+    font-size: 26px;
+  }
+
+  .payment-amount,
+  .payment-test-amount {
+    padding: 13px 14px;
+  }
+}

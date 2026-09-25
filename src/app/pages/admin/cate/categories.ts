@@ -68,46 +68,65 @@ export class CategoriesComponent implements OnInit {
       });
   }
 
-  onImageSelected(event: Event): void {
+onImageSelected(event: Event): void {
 
-    const input =
-      event.target as HTMLInputElement;
+  const input =
+    event.target as HTMLInputElement;
 
-    if (
-      !input.files ||
-      input.files.length === 0
-    ) {
-      return;
-    }
-
-    const file = input.files[0];
-
-    if (!file.type.startsWith('image/')) {
-      alert('Please select a valid image file');
-      input.value = '';
-      return;
-    }
-
-    const maxSize =
-      5 * 1024 * 1024;
-
-    if (file.size > maxSize) {
-      alert('Image size must be below 5 MB');
-      input.value = '';
-      return;
-    }
-
-    this.selectedFile = file;
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      this.imagePreview =
-        reader.result as string;
-    };
-
-    reader.readAsDataURL(file);
+  if (
+    !input.files ||
+    input.files.length === 0
+  ) {
+    return;
   }
+
+  const file = input.files[0];
+
+  const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp'
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    alert(
+      'Only JPG, JPEG, PNG and WEBP images are allowed'
+    );
+
+    input.value = '';
+    this.selectedFile = null;
+    this.imagePreview = '';
+
+    return;
+  }
+
+  const maxSize =
+    5 * 1024 * 1024;
+
+  if (file.size > maxSize) {
+    alert(
+      'Image size must be below 5 MB'
+    );
+
+    input.value = '';
+    this.selectedFile = null;
+    this.imagePreview = '';
+
+    return;
+  }
+
+  this.selectedFile = file;
+
+  const reader =
+    new FileReader();
+
+  reader.onload = () => {
+    this.imagePreview =
+      String(reader.result);
+  };
+
+  reader.readAsDataURL(file);
+}
 
   saveCategory(): void {
 
