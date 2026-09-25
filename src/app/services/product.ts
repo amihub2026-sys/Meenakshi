@@ -46,7 +46,7 @@ export interface Product {
   price: number;
 
   quantity?: number;
-
+benefits?: string;
   unit?:
     | 'g'
     | 'kg'

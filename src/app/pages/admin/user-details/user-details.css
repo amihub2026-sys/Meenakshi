@@ -1260,3 +1260,7 @@ td a:hover {
   font-size: 12px;
   font-weight: 800;
 }
+.status-out_for_delivery {
+  background: #dff1ff;
+  color: #17689b;
+}

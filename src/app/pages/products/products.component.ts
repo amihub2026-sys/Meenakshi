@@ -106,16 +106,27 @@ openProductDetails(product: any): void {
 selectVariant(variant: any): void {
   this.selectedVariant = variant;
 }
- addToCart(product: Product): void {
-    if (!this.isProductAdded(product)) {
-this.cartService.addProduct(
-  product,
-  this.selectedVariant
-);
-    }
+addToCart(product: Product): void {
 
-    this.router.navigate(['/cart']);
+  if (
+    !product.isActive ||
+    !this.selectedVariant
+  ) {
+    return;
   }
+
+  if (
+    !this.isProductAdded(product)
+  ) {
+
+    this.cartService.addProduct(
+      product,
+      this.selectedVariant
+    );
+
+  }
+
+}
 
 closeProductDetails(): void {
 
@@ -715,19 +726,25 @@ getCardPrice(product: any): number {
 }
 addCardProductToCart(product: any): void {
 
-  if (!product || !product.isActive) {
+  if (
+    !product ||
+    !product.isActive
+  ) {
     return;
   }
 
   const variant =
     this.getCardSelectedVariant(product);
 
+  if (!variant) {
+    return;
+  }
+
   this.cartService.addProduct(
     product,
     variant
   );
 
-  this.router.navigate(['/cart']);
 }
 
 
