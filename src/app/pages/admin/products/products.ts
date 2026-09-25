@@ -45,6 +45,7 @@ export class AdminProductsComponent
     nameTa: '',
     nameHi: '',
     description: '',
+    benefits: '',
     price: '',
     quantity: '',
     unit: '',
@@ -532,6 +533,10 @@ formData.append(
   'description',
   this.productForm.description.trim()
 );
+formData.append(
+  'benefits',
+  this.productForm.benefits.trim()
+);
 
     // PRICE
 
@@ -726,6 +731,7 @@ formData.append(
       nameHi:
         product.name.hi,
            description: product.description || '',
+        benefits: product.benefits || '',
       price:
         String(
           product.price
@@ -939,6 +945,7 @@ getProductCategoryName(product: Product): string {
 
       nameHi: '',
       description: '',
+      benefits: '',
       price: '',
 
       quantity: '',
