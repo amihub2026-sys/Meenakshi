@@ -1638,3 +1638,55 @@ button:disabled {
     padding: 13px 14px;
   }
 }
+.order-success-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.download-bill-button {
+  border: none;
+  background: #0f5132;
+  color: #ffffff;
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.download-bill-button:hover {
+  background: #0a3d26;
+}
+
+.download-bill-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.order-success-actions .shop-products-button {
+  margin-top: 0;
+}
+
+@media (max-width: 600px) {
+
+  .order-success-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .download-bill-button,
+  .order-success-actions .shop-products-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+}

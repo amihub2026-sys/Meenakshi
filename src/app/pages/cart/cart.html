@@ -77,83 +77,102 @@
     <!-- =========================
          ORDER SUCCESS
     ========================== -->
-    <section
-      class="order-success-card"
-      *ngIf="orderPlaced"
+<section
+  class="order-success-card"
+  *ngIf="orderPlaced"
+>
+
+  <div class="order-success-icon">
+    <i class="fa-solid fa-check"></i>
+  </div>
+
+  <span class="order-success-kicker">
+    {{
+      language === 'ta'
+        ? 'ஆர்டர் வெற்றிகரமாக பதிவு செய்யப்பட்டது'
+        : language === 'hi'
+          ? 'ऑर्डर सफलतापूर्वक किया गया'
+          : 'ORDER PLACED SUCCESSFULLY'
+    }}
+  </span>
+
+  <h2>
+    {{
+      language === 'ta'
+        ? 'உங்கள் ஆர்டருக்கு நன்றி'
+        : language === 'hi'
+          ? 'आपके ऑर्डर के लिए धन्यवाद'
+          : 'Thank You for Your Order'
+    }}
+  </h2>
+
+  <p>
+    {{ checkoutMessage }}
+
+    {{
+      language === 'ta'
+        ? 'உங்கள் ஆர்டர் விவரங்கள் எங்கள் நிர்வாகக் குழுவிற்கு அனுப்பப்பட்டுள்ளன.'
+        : language === 'hi'
+          ? 'आपके ऑर्डर का विवरण हमारी प्रशासन टीम को भेज दिया गया है।'
+          : 'Your order details have been sent to our administration team.'
+    }}
+  </p>
+
+  <div class="order-reference">
+
+    <small>
+      {{
+        language === 'ta'
+          ? 'ஆர்டர் குறிப்பு எண்'
+          : language === 'hi'
+            ? 'ऑर्डर संदर्भ'
+            : 'Order reference'
+      }}
+    </small>
+
+    <strong>
+      {{ placedOrderId }}
+    </strong>
+
+  </div>
+
+
+  <div class="order-success-actions">
+
+    <button
+      type="button"
+      class="download-bill-button"
+      [disabled]="!placedOrderId"
+      (click)="downloadBill()"
     >
+      <i class="fa-solid fa-download"></i>
 
-      <div class="order-success-icon">
-        <i class="fa-solid fa-check"></i>
-      </div>
-
-      <span class="order-success-kicker">
-        {{
-          language === 'ta'
-            ? 'ஆர்டர் வெற்றிகரமாக பதிவு செய்யப்பட்டது'
-            : language === 'hi'
-              ? 'ऑर्डर सफलतापूर्वक किया गया'
-              : 'ORDER PLACED SUCCESSFULLY'
-        }}
-      </span>
+      {{
+        language === 'ta'
+          ? 'பில் பதிவிறக்கவும்'
+          : language === 'hi'
+            ? 'बिल डाउनलोड करें'
+            : 'Download Bill'
+      }}
+    </button>
 
 
-      <h2>
-        {{
-          language === 'ta'
-            ? 'உங்கள் ஆர்டருக்கு நன்றி'
-            : language === 'hi'
-              ? 'आपके ऑर्डर के लिए धन्यवाद'
-              : 'Thank You for Your Order'
-        }}
-      </h2>
+    <a
+      routerLink="/products"
+      class="shop-products-button"
+    >
+      {{
+        language === 'ta'
+          ? 'தொடர்ந்து வாங்குங்கள்'
+          : language === 'hi'
+            ? 'खरीदारी जारी रखें'
+            : 'Continue Shopping'
+      }}
+    </a>
 
+  </div>
 
-      <p>
-        {{ checkoutMessage }}
-
-        {{
-          language === 'ta'
-            ? 'உங்கள் ஆர்டர் விவரங்கள் எங்கள் நிர்வாகக் குழுவிற்கு அனுப்பப்பட்டுள்ளன.'
-            : language === 'hi'
-              ? 'आपके ऑर्डर का विवरण हमारी प्रशासन टीम को भेज दिया गया है।'
-              : 'Your order details have been sent to our administration team.'
-        }}
-      </p>
-
-
-      <div class="order-reference">
-
-        <small>
-          {{
-            language === 'ta'
-              ? 'ஆர்டர் குறிப்பு எண்'
-              : language === 'hi'
-                ? 'ऑर्डर संदर्भ'
-                : 'Order reference'
-          }}
-        </small>
-
-        <strong>
-          {{ placedOrderId }}
-        </strong>
-
-      </div>
-
-
-      <a
-        routerLink="/products"
-        class="shop-products-button"
-      >
-        {{
-          language === 'ta'
-            ? 'தொடர்ந்து வாங்குங்கள்'
-            : language === 'hi'
-              ? 'खरीदारी जारी रखें'
-              : 'Continue Shopping'
-        }}
-      </a>
-
-    </section>
+</section>
 
 
 

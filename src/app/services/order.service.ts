@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class OrderService {
 
   private readonly http = inject(HttpClient);
-  
+
   createOrder(payload: any): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}/orders`,
@@ -17,9 +17,7 @@ export class OrderService {
       {
         withCredentials: true
       }
-      
     );
-    
   }
 
   getMyOrders(): Observable<any> {
@@ -30,4 +28,22 @@ export class OrderService {
       }
     );
   }
+
+  /* =====================================================
+     CUSTOMER DOWNLOAD BILL
+  ===================================================== */
+
+  downloadBill(
+    orderId: string
+  ): Observable<Blob> {
+
+    return this.http.get(
+      `${environment.apiUrl}/orders/my/${orderId}/bill`,
+      {
+        withCredentials: true,
+        responseType: 'blob'
+      }
+    );
+  }
+
 }

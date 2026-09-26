@@ -44,6 +44,7 @@ export interface CartItem {
       | 'box';
 
     price: number;
+        shippingWeightKg?: number;
   };
 
   quantity: number;
