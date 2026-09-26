@@ -316,12 +316,22 @@
 
 .variant-row {
   display: grid;
-  grid-template-columns: minmax(90px, 1fr) minmax(110px, 0.9fr) minmax(110px, 1fr) auto;
-  gap: 9px;
+
+  grid-template-columns:
+    minmax(90px, 1fr)
+    minmax(110px, 1fr)
+    minmax(110px, 1fr)
+    minmax(130px, 1fr)
+    auto;
+
+  gap: 10px;
   align-items: end;
+
   padding: 12px;
+
   border: 1px solid #e3e0d4;
   border-radius: 10px;
+
   background: #fbfaf6;
 }
 
@@ -1030,4 +1040,393 @@
   .modal-product-content {
     padding: 18px;
   }
+}
+.variant-row > div {
+  min-width: 0;
+}
+
+.variant-row input,
+.variant-row select {
+  width: 100%;
+  min-width: 0;
+}
+
+.variant-row input[name^="variantShippingWeight"] {
+  width: 100%;
+}
+.modal-variant-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modal-variant-row small {
+  color: #7a857e;
+  font-size: 11px;
+  font-weight: 600;
+}
+.admin-layout {
+  min-width: 0;
+}
+
+.product-form-section,
+.product-list-section {
+  min-width: 0;
+}
+
+.product-form {
+  width: 100%;
+  min-width: 0;
+}
+
+.form-group {
+  width: 100%;
+  min-width: 0;
+}
+
+.variant-row > div {
+  min-width: 0;
+  width: 100%;
+}
+
+.variant-row input,
+.variant-row select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+/* =========================================================
+   FINAL VARIANT LAYOUT FIX
+========================================================= */
+
+.product-form-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.product-form {
+  min-width: 0;
+  width: 100%;
+}
+
+.form-group {
+  min-width: 0;
+  width: 100%;
+}
+
+.variant-row {
+  width: 100%;
+  max-width: 100%;
+
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
+
+  gap: 12px;
+
+  padding: 12px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.variant-row > div {
+  width: 100%;
+  min-width: 0;
+}
+
+.variant-row input,
+.variant-row select,
+.variant-row .price-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+
+  box-sizing: border-box;
+}
+
+.price-input input {
+  width: 100%;
+}
+
+.remove-variant-button {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+/* =========================================================
+   ADMIN PRODUCT MODAL - CLEAN PREMIUM
+========================================================= */
+
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(10, 34, 22, 0.72);
+  backdrop-filter: blur(5px);
+}
+
+
+.product-modal {
+  position: relative;
+
+  width: min(900px, 96vw);
+  max-height: 88vh;
+
+  display: grid;
+  grid-template-columns: 44% 56%;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background: #fffdf8;
+
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.28);
+}
+
+
+/* CLOSE BUTTON */
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  background: #173f2b;
+  color: #fff;
+
+  font-size: 22px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   LEFT IMAGE
+========================================================= */
+
+.modal-product-image {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px;
+
+  background: #f6f1e5;
+}
+
+
+.modal-product-image img {
+  width: 100%;
+  height: 100%;
+
+  max-height: 78vh;
+
+  object-fit: contain;
+  object-position: center;
+
+  border-radius: 14px;
+
+  display: block;
+}
+
+
+/* =========================================================
+   RIGHT CONTENT
+========================================================= */
+
+.modal-product-content {
+  min-width: 0;
+
+  padding: 32px 30px;
+
+  overflow-y: auto;
+
+  max-height: 88vh;
+}
+
+
+.modal-product-content h2 {
+  margin: 0 0 18px;
+
+  padding-right: 42px;
+
+  color: #123d29;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+
+/* COMMON INFO ROWS */
+
+.modal-product-content > p {
+  margin: 0;
+
+  padding: 11px 0;
+
+  border-top: 1px solid #ebe5d9;
+
+  color: #667269;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+
+.modal-product-content > p:first-of-type {
+  border-top: none;
+}
+
+
+.modal-product-content strong {
+  color: #214b35;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.modal-product-content .product-benefits-admin {
+  margin-top: 14px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #e9dfc8;
+  border-radius: 12px;
+
+  background: #f8f3e8;
+}
+
+
+.modal-product-content .product-benefits-admin strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #173f2b;
+}
+
+
+.modal-product-content .product-benefits-admin p {
+  margin: 0;
+
+  color: #6a756d;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   VARIANTS
+========================================================= */
+
+.modal-variants-section {
+  margin-top: 18px;
+}
+
+
+.modal-variants-title {
+  margin-bottom: 10px;
+
+  color: #173f2b;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+
+.modal-variant-row {
+  display: grid;
+
+  grid-template-columns:
+    1fr auto;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-top: 8px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #ebe4d5;
+  border-radius: 10px;
+
+  background: #fbf8f1;
+}
+
+
+.modal-variant-main {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.modal-variant-main strong {
+  color: #234a36;
+
+  font-size: 15px;
+}
+
+
+.modal-variant-main small {
+  color: #8a938d;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+.modal-variant-price {
+  color: #a77708;
+
+  font-size: 16px;
+  font-weight: 900;
+}
+
+
+/* STATUS */
+
+.modal-status-row {
+  margin-top: 14px;
+
+  padding-top: 14px;
+
+  border-top: 1px solid #ebe5d9;
+
+  color: #667269;
+
+  font-size: 13px;
 }

@@ -21,6 +21,7 @@ export interface ProductVariant {
     | 'box';
 
   price: number;
+    shippingWeightKg?: number;
 }
 export interface ProductCategory {
   _id: string;
@@ -63,6 +64,7 @@ benefits?: string;
 
   createdAt?: string;
   updatedAt?: string;
+ 
 }
 
 @Injectable({

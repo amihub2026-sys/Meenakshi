@@ -356,7 +356,25 @@ export class OrderService {
     );
   }
 
+/* =====================================================
+   CUSTOMER DOWNLOAD BILL
+===================================================== */
 
+downloadBill(
+  orderId: string
+): Observable<Blob> {
+
+  return this.http.get(
+
+    `${this.apiUrl}/my/${orderId}/bill`,
+
+    {
+      withCredentials: true,
+      responseType: 'blob'
+    }
+
+  );
+}
 
   /* =====================================================
      ADMIN GET ALL ORDERS

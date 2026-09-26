@@ -11,6 +11,7 @@ import { Language, LanguageService } from '../../services/language.service';
 import { CreateOrderData } from '../../services/order';
 import { OrderService } from '../../services/order.service';
 
+
 type DeliveryType = 'LOCAL' | 'DISTRICT' | 'STATE';
 
 @Component({
@@ -324,73 +325,41 @@ const orderData: CreateOrderData = {
    * 1000 ml = 1 kg shipping equivalent
    * 1 litre = 1 kg shipping equivalent
    */
-  private calculateTotalShippingWeight(
-    items: CartItem[]
-  ): number {
-    this.shippingWeightNeedsConfirmation = false;
+ private calculateTotalShippingWeight(
+  items: CartItem[]
+): number {
 
-    let totalKg = 0;
+  this.shippingWeightNeedsConfirmation = false;
 
-    for (const item of items) {
-      const variantQuantity = Number(
-        item.selectedVariant.quantity
+  let totalKg = 0;
+
+  for (const item of items) {
+
+    const shippingWeightKg =
+      Number(
+        item.selectedVariant.shippingWeightKg
       );
 
-      const variantUnit = String(
-        item.selectedVariant.unit
-      )
-        .trim()
-        .toLowerCase();
+    if (
+      !Number.isFinite(shippingWeightKg) ||
+      shippingWeightKg <= 0
+    ) {
 
-      if (
-        !Number.isFinite(variantQuantity) ||
-        variantQuantity <= 0
-      ) {
-        this.shippingWeightNeedsConfirmation = true;
-        continue;
-      }
+      this.shippingWeightNeedsConfirmation = true;
 
-      let singleItemWeightKg = 0;
-
-      if (
-        variantUnit === 'kg' ||
-        variantUnit === 'kilogram' ||
-        variantUnit === 'kilograms'
-      ) {
-        singleItemWeightKg = variantQuantity;
-      } else if (
-        variantUnit === 'g' ||
-        variantUnit === 'gm' ||
-        variantUnit === 'gram' ||
-        variantUnit === 'grams'
-      ) {
-        singleItemWeightKg = variantQuantity / 1000;
-      } else if (
-        variantUnit === 'ml' ||
-        variantUnit === 'millilitre' ||
-        variantUnit === 'milliliter'
-      ) {
-        singleItemWeightKg = variantQuantity / 1000;
-      } else if (
-        variantUnit === 'l' ||
-        variantUnit === 'ltr' ||
-        variantUnit === 'litre' ||
-        variantUnit === 'liter'
-      ) {
-        singleItemWeightKg = variantQuantity;
-      } else {
-        // Unknown unit such as pcs/box/etc.
-        // Do not guess a delivery charge automatically.
-        this.shippingWeightNeedsConfirmation = true;
-        continue;
-      }
-
-      totalKg +=
-        singleItemWeightKg * Number(item.quantity);
+      continue;
     }
 
-    return Number(totalKg.toFixed(3));
+    totalKg +=
+      shippingWeightKg *
+      Number(item.quantity);
+
   }
+
+  return Number(
+    totalKg.toFixed(3)
+  );
+}
 
   /**
    * CURRENT LOCATION RULE:
@@ -793,6 +762,53 @@ simulatePayment(): void {
 
     });
 
+}/* =========================================================
+   CUSTOMER DOWNLOAD ORDER BILL
+========================================================= */
+
+downloadBill(): void {
+
+  if (!this.placedOrderId) {
+    return;
+  }
+
+  this.orderService
+    .downloadBill(this.placedOrderId)
+    .subscribe({
+
+      next: (pdfBlob: Blob) => {
+
+        const blobUrl =
+          window.URL.createObjectURL(pdfBlob);
+
+        const link =
+          document.createElement('a');
+
+        link.href = blobUrl;
+
+        link.download =
+          `meenakshi-bill-${this.placedOrderId}.pdf`;
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(blobUrl);
+      },
+
+      error: (error: unknown) => {
+
+        console.error(
+          'Unable to download bill:',
+          error
+        );
+
+      }
+
+    });
+
 }
 
   private resetDeliveryState(): void {
@@ -803,6 +819,7 @@ simulatePayment(): void {
     this.totalShippingWeightKg = 0;
     this.requiresWhatsapp = false;
     this.shippingWeightNeedsConfirmation = false;
+    
   }
 
   private renderGoogleButton(): void {

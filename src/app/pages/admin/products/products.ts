@@ -53,7 +53,8 @@ export class AdminProductsComponent
     {
       quantity: '',
       unit: '',
-      price: ''
+      price: '',
+          shippingWeightKg: ''
     }
   ]
   };
@@ -158,7 +159,8 @@ addVariant(): void {
   this.productForm.variants.push({
     quantity: '',
     unit: '',
-    price: ''
+    price: '',
+       shippingWeightKg: ''
   });
 }
 
@@ -413,7 +415,9 @@ const variants =
     variant => ({
       quantity: Number(variant.quantity),
       unit: variant.unit,
-      price: Number(variant.price)
+      price: Number(variant.price),
+            shippingWeightKg:
+        Number(variant.shippingWeightKg)
     })
   );
 
@@ -473,12 +477,14 @@ const invalidVariant =
       !variant.unit ||
       !allowedUnits.includes(variant.unit) ||
       !variant.price ||
-      variant.price <= 0
+      variant.price <= 0 ||
+      !variant.shippingWeightKg ||
+      variant.shippingWeightKg <= 0
   );
 
 if (invalidVariant) {
   this.errorMessage =
-    'Please enter a valid quantity, unit and price for every weight.';
+    'Please enter a valid quantity, unit, price and shipping weight for every variant.';
 
   return;
 }
@@ -747,22 +753,23 @@ formData.append(
 
       unit:
         product.unit || '',
-         variants:
-    product.variants && product.variants.length > 0
-      ? product.variants.map(variant => ({
-          quantity: String(variant.quantity),
-          unit: variant.unit,
-          price: String(variant.price)
-        }))
-      : [
-          {
-            quantity: '',
-            unit: '',
-            price: ''
-          }
-        ]
-
-  
+        variants:
+  product.variants && product.variants.length > 0
+    ? product.variants.map(variant => ({
+        quantity: String(variant.quantity),
+        unit: variant.unit,
+        price: String(variant.price),
+        shippingWeightKg:
+          String(variant.shippingWeightKg || '')
+      }))
+    : [
+        {
+          quantity: '',
+          unit: '',
+          price: '',
+          shippingWeightKg: ''
+        }
+      ]
     };
 
 
@@ -955,7 +962,8 @@ getProductCategoryName(product: Product): string {
     {
       quantity: '',
       unit: '',
-      price: ''
+      price: '',
+          shippingWeightKg: ''
     }
   ]
     };
