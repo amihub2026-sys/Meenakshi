@@ -113,90 +113,44 @@
   </a>
 
 </section>
-      <section class="about-glance">
+<section class="product-gallery-section">
 
-  <div class="about-glance-orb orb-one"></div>
-  <div class="about-glance-orb orb-two"></div>
-
-  <div class="container about-glance-wrap">
-
-    <!-- LEFT -->
-    <div class="about-glance-left">
-
-     <div class="about-glance-kicker">
-  <span></span>
-  {{ text.glanceKicker }}
-</div>
-
-<h2 [class.tamil-glance-title]="language === 'ta'">
-  {{ text.glanceTitle1 }}
-  <span>{{ text.glanceTitle2 }}</span>
-</h2>
-
-<p class="about-glance-lead">
-  {{ text.glanceLead }}
-</p>
-
-    </div>
-
-
-    <!-- RIGHT -->
-    <div class="about-glance-right">
-
-      <div class="glance-line">
-        <span></span>
-      </div>
-
-      <div class="glance-point">
-
-        <small>01</small>
-
-        <div>
-          <h3>{{ text.rooted }}</h3>
-<p>
-  {{ text.rootedDesc }}
-</p>
-        </div>
-
-      </div>
-
-
-      <div class="glance-point">
-
-        <small>02</small>
-
-        <div>
-          <h3>{{ text.pureChoice }}</h3>
-
-<p>
-  {{ text.pureChoiceDesc }}
-</p>
-        </div>
-
-      </div>
-
-
-      <div class="glance-point">
-
-        <small>03</small>
-
-        <div>
-          <h3>{{ text.trusted }}</h3>
-
-<p>
-  {{ text.trustedDesc }}
-</p>
-        </div>
-
-      </div>
-
-    </div>
-
+  <div class="gallery-heading">
+    <span>OUR COLLECTION</span>
+    <h2>Product Gallery</h2>
+    <p>Explore our traditional products</p>
   </div>
 
+  <div class="product-gallery-grid">
 
-  <div class="about-glance-word">
-      {{ text.tradition }}
+    <a
+      class="gallery-product"
+      *ngFor="let product of galleryProducts"
+      [routerLink]="['/products']"
+      [queryParams]="{ categoryName: product.en }"
+      [attr.aria-label]="'View ' + product.en"
+    >
+      <img
+        [src]="product.image"
+        [alt]="product.en"
+        loading="lazy"
+      >
+
+      <div class="gallery-overlay">
+        <span class="gallery-name-ta">
+          {{ product.ta }}
+        </span>
+
+        <span class="gallery-name-hi">
+          {{ product.hi }}
+        </span>
+
+        <span class="gallery-name-en">
+          {{ product.en }}
+        </span>
+      </div>
+    </a>
+
   </div>
 
 </section>
@@ -518,40 +472,90 @@
 
 <section class="marquee-strip" aria-label="Store highlights">
  <div>   {{ text.marquee }}  </div>   </section>
- <section class="product-gallery-section">
+     <section class="about-glance">
 
-  <div class="gallery-heading">
-    <span>OUR COLLECTION</span>
-    <h2>Product Gallery</h2>
-    <p>Explore our traditional products</p>
-  </div>
+  <div class="about-glance-orb orb-one"></div>
+  <div class="about-glance-orb orb-two"></div>
 
-  <div class="product-gallery-grid">
+  <div class="container about-glance-wrap">
 
-    <div
-      class="gallery-product"
-      *ngFor="let product of galleryProducts"
-    >
-      <img
-        [src]="product.image"
-        [alt]="product.en"
-      >
+    <!-- LEFT -->
+    <div class="about-glance-left">
 
-      <div class="gallery-overlay">
-        <span class="gallery-name-ta">
-          {{ product.ta }}
-        </span>
+     <div class="about-glance-kicker">
+  <span></span>
+  {{ text.glanceKicker }}
+</div>
 
-        <span class="gallery-name-hi">
-          {{ product.hi }}
-        </span>
+<h2 [class.tamil-glance-title]="language === 'ta'">
+  {{ text.glanceTitle1 }}
+  <span>{{ text.glanceTitle2 }}</span>
+</h2>
 
-        <span class="gallery-name-en">
-          {{ product.en }}
-        </span>
-      </div>
+<p class="about-glance-lead">
+  {{ text.glanceLead }}
+</p>
+
     </div>
 
+
+    <!-- RIGHT -->
+    <div class="about-glance-right">
+
+      <div class="glance-line">
+        <span></span>
+      </div>
+
+      <div class="glance-point">
+
+        <small>01</small>
+
+        <div>
+          <h3>{{ text.rooted }}</h3>
+<p>
+  {{ text.rootedDesc }}
+</p>
+        </div>
+
+      </div>
+
+
+      <div class="glance-point">
+
+        <small>02</small>
+
+        <div>
+          <h3>{{ text.pureChoice }}</h3>
+
+<p>
+  {{ text.pureChoiceDesc }}
+</p>
+        </div>
+
+      </div>
+
+
+      <div class="glance-point">
+
+        <small>03</small>
+
+        <div>
+          <h3>{{ text.trusted }}</h3>
+
+<p>
+  {{ text.trustedDesc }}
+</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="about-glance-word">
+      {{ text.tradition }}
   </div>
 
 </section>

@@ -1,14 +1,19 @@
+
+
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   ElementRef,
+  inject,
   OnInit,
   ViewChild
 } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { CommonModule } from '@angular/common';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 import {
   Language,
   LanguageService
@@ -62,13 +67,20 @@ export class ProductsComponent
    * These products appear only in the bottom shopping section.
    */
   products: Product[] = [];
+private readonly route = inject(ActivatedRoute);
+private readonly destroyRef = inject(DestroyRef);
 
+private categoriesReady = false;
+private productRequest?: Subscription;
   productsLoading = false;
   productsError = '';
   categories: Category[] = [];
 categoriesLoading = false;
 allProducts: Product[] = [];
 selectedCategoryId = '';
+snackbarMessage = '';
+showSnackbar = false;
+private snackbarTimer?: ReturnType<typeof setTimeout>;
 
   /*
    * Static cinematic section state
@@ -86,7 +98,16 @@ selectedVariant: any = null;
 cardSelectedVariants: {
   [productId: string]: any
 } = {};
+showCartSnackbar(): void {
+  clearTimeout(this.snackbarTimer);
 
+this.snackbarMessage = 'Product added to cart';
+  this.showSnackbar = true;
+
+  this.snackbarTimer = setTimeout(() => {
+    this.showSnackbar = false;
+  }, 3000);
+}
 openProductDetails(product: any): void {
 
   this.selectedProduct = product;
@@ -107,27 +128,21 @@ selectVariant(variant: any): void {
   this.selectedVariant = variant;
 }
 addToCart(product: Product): void {
-
   if (
     !product.isActive ||
-    !this.selectedVariant
+    !this.selectedVariant ||
+    this.isProductAdded(product)
   ) {
     return;
   }
 
-  if (
-    !this.isProductAdded(product)
-  ) {
+  this.cartService.addProduct(
+    product,
+    this.selectedVariant
+  );
 
-    this.cartService.addProduct(
-      product,
-      this.selectedVariant
-    );
-
-  }
-
+  this.showCartSnackbar();
 }
-
 closeProductDetails(): void {
 
   this.selectedProduct = null;
@@ -383,8 +398,19 @@ closeProductDetails(): void {
   }
 
 ngOnInit(): void {
+  this.route.queryParamMap
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(() => {
+      if (this.categoriesReady) {
+        this.applyCategoryFromUrl();
+      }
+    });
+
   this.loadCategories();
-  this.loadProducts();
+
+  this.destroyRef.onDestroy(() => {
+    this.productRequest?.unsubscribe();
+  });
 }
 
   ngAfterViewInit(): void {
@@ -400,6 +426,7 @@ loadCategories(): void {
 
   this.categoryService
     .getCategories()
+    .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (categories) => {
         this.categories = categories.filter(
@@ -407,32 +434,99 @@ loadCategories(): void {
         );
 
         this.categoriesLoading = false;
+        this.categoriesReady = true;
+
+        this.applyCategoryFromUrl();
       },
 
       error: (error) => {
-        console.error(
-          'Unable to load categories:',
-          error
-        );
+        console.error('Unable to load categories:', error);
 
         this.categories = [];
         this.categoriesLoading = false;
+        this.productsLoading = false;
+        this.productsError = this.text.error;
       }
     });
 }
 
-
-selectCategory(categoryId: string): void {
-  this.selectedCategoryId = categoryId;
-
-  this.loadProducts(categoryId);
+private normalizeCategoryName(value: string): string {
+  return value
+    .normalize('NFKC')
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/\s+/g, ' ');
 }
 
+private applyCategoryFromUrl(): void {
+  const params = this.route.snapshot.queryParamMap;
+
+  const categoryId = params.get('category') ?? '';
+  const categoryName = params.get('categoryName') ?? '';
+
+  // Products page opened without a category.
+  if (!categoryId && !categoryName) {
+    this.selectedCategoryId = '';
+    this.loadProducts();
+    return;
+  }
+
+  const normalizedName =
+    this.normalizeCategoryName(categoryName);
+
+  const category = categoryId
+    ? this.categories.find(item => item._id === categoryId)
+    : this.categories.find(
+        item =>
+          this.normalizeCategoryName(item.name.en) ===
+          normalizedName
+      );
+
+  if (!category?._id) {
+    this.productRequest?.unsubscribe();
+
+    this.selectedCategoryId = '';
+    this.products = [];
+    this.productsLoading = false;
+
+    this.productsError =
+      this.language === 'ta'
+        ? 'இந்த வகை தற்போது கிடைக்கவில்லை.'
+        : this.language === 'hi'
+          ? 'यह श्रेणी अभी उपलब्ध नहीं है।'
+          : 'This category is currently unavailable.';
+
+    return;
+  }
+
+  this.selectedCategoryId = category._id;
+  this.loadProducts(category._id);
+}
+selectCategory(categoryId: string): void {
+  if (!categoryId) {
+    return;
+  }
+
+  void this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams: {
+      category: categoryId,
+      categoryName: null
+    },
+    queryParamsHandling: 'merge'
+  });
+}
 
 showAllProducts(): void {
-  this.selectedCategoryId = '';
-
-  this.loadProducts();
+  void this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams: {
+      category: null,
+      categoryName: null
+    },
+    queryParamsHandling: 'merge'
+  });
 }
 
 
@@ -454,78 +548,53 @@ getCategoryName(
    * Backend products are loaded only into this.products.
    * Do not assign backend products to heroProducts.
    */
-loadProducts(
-  categoryId: string = ''
-): void {
+loadProducts(categoryId: string = ''): void {
+  this.productRequest?.unsubscribe();
 
   this.productsLoading = true;
   this.productsError = '';
+  this.products = [];
 
-  this.productService
+  this.productRequest = this.productService
     .getProducts(categoryId)
     .subscribe({
-
       next: (products: Product[]) => {
-
-        // Specific category selected:
-        // show ALL products in that category
         if (categoryId) {
+          // Selected category: show all its products.
           this.products = products;
-        }
+        } else {
+          // All Products: show up to two per category.
+          const categoryCount = new Map<string, number>();
 
-        // All Products selected:
-        // show maximum 2 products per category
-        else {
+          this.products = products.filter(product => {
+            const productCategoryId =
+              typeof product.category === 'string'
+                ? product.category
+                : product.category?._id;
 
-          const categoryCount =
-            new Map<string, number>();
-
-          this.products = products.filter(
-            (product) => {
-
-              let categoryId = '';
-
-              if (
-                typeof product.category === 'string'
-              ) {
-                categoryId = product.category;
-              }
-              else if (product.category?._id) {
-                categoryId =
-                  product.category._id;
-              }
-
-              // Products without category
-              if (!categoryId) {
-                return false;
-              }
-
-              const currentCount =
-                categoryCount.get(categoryId) || 0;
-
-              // Already showing 2 from this category
-              if (currentCount >= 2) {
-                return false;
-              }
-
-              categoryCount.set(
-                categoryId,
-                currentCount + 1
-              );
-
-              return true;
+            if (!productCategoryId) {
+              return false;
             }
-          );
+
+            const count =
+              categoryCount.get(productCategoryId) ?? 0;
+
+            if (count >= 2) {
+              return false;
+            }
+
+            categoryCount.set(productCategoryId, count + 1);
+
+            return true;
+          });
         }
 
         this.productsLoading = false;
-
-        setTimeout(() => {
-          this.activateRevealElements();
-        }, 100);
+        this.activateRevealElements();
       },
 
-      error: () => {
+      error: (error) => {
+        console.error('Unable to load products:', error);
 
         this.products = [];
         this.productsLoading = false;
@@ -724,28 +793,22 @@ getCardPrice(product: any): number {
 
   return Number(product.price || 0);
 }
-addCardProductToCart(product: any): void {
-
-  if (
-    !product ||
-    !product.isActive
-  ) {
+addCardProductToCart(product: Product): void {
+  if (!product || !product.isActive) {
     return;
   }
 
-  const variant =
-    this.getCardSelectedVariant(product);
+  const variant = this.getCardSelectedVariant(product);
 
   if (!variant) {
     return;
   }
 
-  this.cartService.addProduct(
-    product,
-    variant
-  );
+  this.cartService.addProduct(product, variant);
 
+  this.showCartSnackbar();
 }
+
 
 
   trackBackendProduct(

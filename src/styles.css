@@ -14541,3 +14541,81 @@ object-fit: contain !important;
   }
 
 }
+.cart-snackbar {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  padding: 14px 22px;
+
+  background: #166534;
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 20%);
+
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+  animation: snackbar-in 0.25s ease-out;
+}
+
+.snackbar-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 18%);
+}
+
+@keyframes snackbar-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.gallery-product {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.gallery-product:focus-visible {
+  outline: 3px solid #800020;
+  outline-offset: 4px;
+}
+@media (max-width: 600px) {
+  .cart-snackbar {
+    bottom: 16px;
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    padding: 10px 14px;
+    gap: 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .snackbar-check {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
+  }
+}
