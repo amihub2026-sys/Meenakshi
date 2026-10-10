@@ -612,3 +612,12 @@
 </div>
 
 </section>
+<div
+  *ngIf="showSnackbar"
+  class="cart-snackbar"
+  role="status"
+  aria-live="polite"
+>
+  <span class="snackbar-check" aria-hidden="true">✓</span>
+  <span>{{ snackbarMessage }}</span>
+</div>
