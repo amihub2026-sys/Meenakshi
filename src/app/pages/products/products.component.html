@@ -249,111 +249,50 @@
   class="premium-product-grid"
 >
 
-  <article
-    *ngFor="
-      let product of products;
-      let i = index;
-      trackBy: trackBackendProduct
-    "
-    class="premium-product-card"
+<article
+  *ngFor="let product of products; trackBy: trackBackendProduct"
+  class="reference-product-card"
+>
+  <button
+    type="button"
+    class="reference-product-image"
     (click)="openProductDetails(product)"
+    [attr.aria-label]="getBackendProductName(product)"
   >
+    <img
+      [src]="product.imageUrl"
+      [alt]="getBackendProductName(product)"
+      loading="lazy"
+    >
+  </button>
 
-    <!-- IMAGE AREA -->
-    <div class="product-card-image">
+  <h3>{{ getBackendProductName(product) }}</h3>
 
-      <img
-        [src]="product.imageUrl"
-        [alt]="getBackendProductName(product)"
-      >
+  <p class="reference-product-price">
+    {{ getCardPrice(product) | currency:'INR':'symbol':'1.2-2' }}
+  </p>
 
-      <span
-        *ngIf="!product.isActive"
-        class="product-stock-badge"
-      >
-        Sold Out
-      </span>
-
-      <button
-        *ngIf="product.isActive"
-        type="button"
-        class="hover-add-cart-btn"
-        (click)="
-          addCardProductToCart(product);
-          $event.stopPropagation()
-        "
-      >
-        Add to Cart
-      </button>
-
-    </div>
-
-
-    <!-- GREEN GLASS CONTENT -->
-   <!-- GREEN GLASS CONTENT -->
-<div class="product-card-content">
-
-  <h3>
-    {{ getBackendProductName(product) }}
-  </h3>
-
-  <!-- PRICE -->
-  <div
-    class="product-card-price"
-    *ngIf="
-      product.variants &&
-      product.variants.length > 0
-    "
-  >
-    {{
-      getCardPrice(product)
-        | currency:'INR':'symbol':'1.0-0'
-    }}
-  </div>
-
-  <div
-    class="product-card-price"
-    *ngIf="
-      !product.variants ||
-      product.variants.length === 0
-    "
-  >
-    {{
-      product.price
-        | currency:'INR':'symbol':'1.0-0'
-    }}
-  </div>
-
-  <!-- QUANTITY ONLY -->
-  <div
-    class="card-variant-options"
-    *ngIf="
-      product.variants &&
-      product.variants.length > 0
-    "
-    (click)="$event.stopPropagation()"
-  >
-
+  <div class="reference-product-variants">
     <button
-      type="button"
       *ngFor="let variant of product.variants"
-      class="card-variant-btn"
-      [class.active]="
-        getCardSelectedVariant(product) === variant
-      "
-      (click)="
-        selectCardVariant(product, variant);
-        $event.stopPropagation()
-      "
+      type="button"
+      [class.active]="getCardSelectedVariant(product) === variant"
+      [attr.aria-pressed]="getCardSelectedVariant(product) === variant"
+      (click)="selectCardVariant(product, variant)"
     >
       {{ variant.quantity }} {{ variant.unit }}
     </button>
-
   </div>
 
-</div>
-
-  </article>
+  <button
+    type="button"
+    class="reference-add-cart"
+    [disabled]="!product.isActive"
+    (click)="addCardProductToCart(product)"
+  >
+    {{ product.isActive ? text.addToCart : 'Out of Stock' }}
+  </button>
+</article>
 
 </div>
 
