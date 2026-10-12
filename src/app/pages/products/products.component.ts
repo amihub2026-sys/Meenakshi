@@ -513,11 +513,11 @@ selectCategory(categoryId: string): void {
 
   void this.router.navigate([], {
     relativeTo: this.route,
-   queryParams: {
-  categoryId: null,
-  category: null,
-  categoryName: null
-},
+    queryParams: {
+      categoryId: categoryId,
+      category: null,
+      categoryName: null
+    },
     queryParamsHandling: 'merge'
   });
 }
