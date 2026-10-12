@@ -51,8 +51,7 @@
   [class.tamil-title]="language === 'ta'"
   [class.hindi-title]="language === 'hi'"
 >
-  <span id="heroTypingText"></span>
-
+  {{ text.heroTitle }}
 </h1>
 
 <p>
@@ -121,7 +120,11 @@
     <p>Explore our traditional products</p>
   </div>
 
-  <div class="product-gallery-grid">
+ <div
+  #categoryScroller
+  class="product-gallery-grid"
+  (pointerdown)="pauseCategoryScroll()"
+>
 
     <a
       class="gallery-product"

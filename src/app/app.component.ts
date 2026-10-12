@@ -3,7 +3,10 @@ import {
   inject,
     HostListener
 } from '@angular/core';
-
+import {
+  Category,
+  CategoryService
+} from './services/category.service';
 import { AsyncPipe } from '@angular/common';
 import {
   environment
@@ -57,8 +60,108 @@ currentUser: {
 
 accountMenuOpen = false;
   language: Language = 'ta';
+private readonly categoryService = inject(CategoryService);
 
+categoryPanelOpen = false;
+mobileCategories: Category[] = [];
+categoriesLoading = false;
+categoryError = '';
+
+private pendingAccountNavigation = false;
   private readonly cartService = inject(CartService);
+
+
+  get mobileText() {
+  const labels = {
+    en: {
+      shop: 'Shop',
+      categories: 'Categories',
+      account: 'Account',
+      cart: 'Cart',
+      all: 'All Products',
+      loading: 'Loading...',
+      error: 'Unable to load categories.',
+      close: 'Close categories'
+    },
+    ta: {
+      shop: 'கடை',
+      categories: 'வகைகள்',
+      account: 'கணக்கு',
+      cart: 'கூடை',
+      all: 'அனைத்து பொருட்கள்',
+      loading: 'ஏற்றப்படுகிறது...',
+      error: 'வகைகளை ஏற்ற முடியவில்லை.',
+      close: 'வகைகளை மூடு'
+    },
+    hi: {
+      shop: 'दुकान',
+      categories: 'श्रेणियाँ',
+      account: 'अकाउंट',
+      cart: 'कार्ट',
+      all: 'सभी उत्पाद',
+      loading: 'लोड हो रहा है...',
+      error: 'श्रेणियाँ लोड नहीं हो सकीं।',
+      close: 'श्रेणियाँ बंद करें'
+    }
+  };
+
+  return labels[this.language];
+}
+
+openMobileCategories(): void {
+  this.closeMenu();
+  this.closeAccountMenu();
+  this.languageMenuOpen = false;
+  this.categoryPanelOpen = true;
+
+  if (this.mobileCategories.length || this.categoriesLoading) {
+    return;
+  }
+
+  this.categoriesLoading = true;
+  this.categoryError = '';
+
+  this.categoryService.getCategories().subscribe({
+    next: categories => {
+      this.mobileCategories = categories.filter(
+        category => category.isActive
+      );
+
+      this.categoriesLoading = false;
+    },
+    error: () => {
+      this.categoryError = this.mobileText.error;
+      this.categoriesLoading = false;
+    }
+  });
+}
+
+closeMobileCategories(): void {
+  this.categoryPanelOpen = false;
+}
+
+getMobileCategoryName(category: Category): string {
+  return category.name[this.language] || category.name.en;
+}
+
+openMobileAccount(): void {
+  this.closeMobileCategories();
+  this.closeMenu();
+  this.closeAccountMenu();
+
+  if (this.currentUser) {
+    void this.router.navigate(['/account']);
+    return;
+  }
+
+  this.pendingAccountNavigation = true;
+  this.openLoginModal();
+}
+
+@HostListener('document:keydown.escape')
+closeMobilePanelOnEscape(): void {
+  this.closeMobileCategories();
+}
 private renderGoogleLoginButton(): void {
 
   const google =
@@ -72,7 +175,7 @@ private renderGoogleLoginButton(): void {
 
     return;
   }
-
+ 
 
   const buttonContainer =
     document.getElementById(
@@ -131,7 +234,10 @@ private renderGoogleLoginButton(): void {
 
 
             this.showLoginModal = false;
-
+   if (this.pendingAccountNavigation) {
+  this.pendingAccountNavigation = false;
+  void this.router.navigate(['/account']);
+}
 
             /* =====================
                CART LOGIN FLOW
@@ -368,6 +474,7 @@ onDocumentClick(event: MouseEvent): void {
 }
 closeLoginModal(): void {
   this.showLoginModal = false;
+  this.pendingAccountNavigation = false;
 }
 logout(): void {
 
