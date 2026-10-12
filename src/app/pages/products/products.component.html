@@ -84,117 +84,112 @@
  <!-- =========================================
      CATEGORY + PRODUCTS LAYOUT
 ========================================== -->
-
-<div class="products-shop-layout">
+<div class="products-shop-layout category-top-layout">
 
   <!-- ================================
        LEFT CATEGORY SIDEBAR
   ================================= -->
 
-  <aside class="products-category-sidebar">
+ <section class="shop-category-section" aria-labelledby="shop-category-title">
+  <div class="shop-category-heading">
+    <h3 id="shop-category-title">
+      {{
+        language === 'ta'
+          ? 'வகைகள்'
+          : language === 'hi'
+            ? 'श्रेणियाँ'
+            : 'Shop by Category'
+      }}
+    </h3>
 
-    <div class="category-sidebar-title">
+    <div class="shop-category-controls">
+      <button
+        type="button"
+        aria-label="Previous categories"
+        (click)="categoryTrack.scrollBy({
+          left: -categoryTrack.clientWidth,
+          behavior: 'smooth'
+        })"
+      >
+        ‹
+      </button>
 
-      <span>
-        SHOP BY
-      </span>
-
-      <h3>
-        Categories
-      </h3>
-
+      <button
+        type="button"
+        aria-label="Next categories"
+        (click)="categoryTrack.scrollBy({
+          left: categoryTrack.clientWidth,
+          behavior: 'smooth'
+        })"
+      >
+        ›
+      </button>
     </div>
+  </div>
 
+  <p *ngIf="categoriesLoading" class="shop-category-loading" role="status">
+    {{
+      language === 'ta'
+        ? 'ஏற்றப்படுகிறது...'
+        : language === 'hi'
+          ? 'लोड हो रहा है...'
+          : 'Loading categories...'
+    }}
+  </p>
 
-    <!-- ALL PRODUCTS -->
-
+  <div #categoryTrack class="shop-category-track">
+    <!-- All products -->
     <button
       type="button"
-      class="category-sidebar-item"
+      class="shop-category-tile"
       [class.active]="selectedCategoryId === ''"
+      [attr.aria-pressed]="selectedCategoryId === ''"
       (click)="showAllProducts()"
     >
-
-      <div class="category-sidebar-icon all-category">
-        ✦
-      </div>
-
-      <div class="category-sidebar-name">
-        <strong>
-          {{
-            language === 'ta'
-              ? 'அனைத்து பொருட்கள்'
-              : language === 'hi'
-                ? 'सभी उत्पाद'
-                : 'All Products'
-          }}
-        </strong>
-      </div>
-
-      <span class="category-arrow">
-        ›
+      <span class="shop-category-picture shop-category-all">
+        <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
       </span>
 
+      <span class="shop-category-name">
+        {{
+          language === 'ta'
+            ? 'அனைத்து பொருட்கள்'
+            : language === 'hi'
+              ? 'सभी उत्पाद'
+              : 'All Products'
+        }}
+      </span>
     </button>
 
-
-    <!-- LOADING -->
-
-    <div
-      *ngIf="categoriesLoading"
-      class="category-sidebar-loading"
-    >
-      Loading...
-    </div>
-
-
-    <!-- DYNAMIC CATEGORIES -->
-
+    <!-- Your categories from the backend -->
     <button
       *ngFor="let category of categories"
       type="button"
-      class="category-sidebar-item"
-      [class.active]="
-        selectedCategoryId === category._id
-      "
+      class="shop-category-tile"
+      [class.active]="selectedCategoryId === category._id"
+      [attr.aria-pressed]="selectedCategoryId === category._id"
+      [disabled]="!category._id"
       (click)="selectCategory(category._id || '')"
     >
-
-      <!-- CATEGORY IMAGE -->
-
-      <div class="category-sidebar-icon">
-
+      <span class="shop-category-picture">
         <img
-          *ngIf="category.imageUrl"
+          *ngIf="category.imageUrl; else categoryPlaceholder"
           [src]="category.imageUrl"
-          [alt]="getCategoryName(category)"
+          alt=""
+          loading="lazy"
         >
 
-        <span *ngIf="!category.imageUrl">
-          ॐ
-        </span>
-
-      </div>
-
-
-      <!-- CATEGORY NAME -->
-
-      <div class="category-sidebar-name">
-
-        <strong>
-          {{ getCategoryName(category) }}
-        </strong>
-
-      </div>
-
-
-      <span class="category-arrow">
-        ›
+        <ng-template #categoryPlaceholder>
+          <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+        </ng-template>
       </span>
 
+      <span class="shop-category-name">
+        {{ getCategoryName(category) }}
+      </span>
     </button>
-
-  </aside>
+  </div>
+</section>
 
 
 
@@ -250,7 +245,7 @@
 >
 
 <article
-  *ngFor="let product of products; trackBy: trackBackendProduct"
+  *ngFor="let product of paginatedProducts; trackBy: trackBackendProduct"
   class="reference-product-card"
 >
   <button
@@ -298,6 +293,48 @@
 
   </div>
 
+<nav
+  *ngIf="!productsLoading && !productsError && totalPages > 1"
+  class="shop-pagination"
+  aria-label="Product pages"
+>
+  <button
+    type="button"
+    class="pagination-arrow"
+    aria-label="Previous page"
+    [disabled]="currentPage === 1"
+    (click)="goToPage(currentPage - 1)"
+  >
+    ‹
+  </button>
+
+  <ng-container *ngFor="let page of pageNumbers">
+    <button
+      *ngIf="page !== null"
+      type="button"
+      [class.active]="currentPage === page"
+      [attr.aria-current]="currentPage === page ? 'page' : null"
+      [attr.aria-label]="'Page ' + page"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+
+    <span *ngIf="page === null" class="pagination-dots">
+      …
+    </span>
+  </ng-container>
+
+  <button
+    type="button"
+    class="pagination-arrow"
+    aria-label="Next page"
+    [disabled]="currentPage === totalPages"
+    (click)="goToPage(currentPage + 1)"
+  >
+    ›
+  </button>
+</nav>
 </div>
   </div>
 

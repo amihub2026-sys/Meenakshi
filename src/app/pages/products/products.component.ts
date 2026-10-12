@@ -80,6 +80,8 @@ allProducts: Product[] = [];
 selectedCategoryId = '';
 snackbarMessage = '';
 showSnackbar = false;
+currentPage = 1;
+readonly pageSize = 12;
 private snackbarTimer?: ReturnType<typeof setTimeout>;
 
   /*
@@ -126,6 +128,71 @@ openProductDetails(product: any): void {
 }
 selectVariant(variant: any): void {
   this.selectedVariant = variant;
+}
+get totalPages(): number {
+  return Math.ceil(this.products.length / this.pageSize);
+}
+
+get paginatedProducts(): Product[] {
+  const start = (this.currentPage - 1) * this.pageSize;
+  return this.products.slice(start, start + this.pageSize);
+}
+
+get pageNumbers(): (number | null)[] {
+  const total = this.totalPages;
+
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, index) => index + 1);
+  }
+
+  const visible = new Set<number>([1, total]);
+
+  const start = Math.max(2, this.currentPage - 1);
+  const end = Math.min(total - 1, this.currentPage + 1);
+
+  for (let page = start; page <= end; page++) {
+    visible.add(page);
+  }
+
+  if (this.currentPage <= 3) {
+    visible.add(2);
+    visible.add(3);
+  }
+
+  if (this.currentPage >= total - 2) {
+    visible.add(total - 1);
+    visible.add(total - 2);
+  }
+
+  const pages = [...visible].sort((a, b) => a - b);
+  const result: (number | null)[] = [];
+
+  pages.forEach((page, index) => {
+    if (index > 0 && page - pages[index - 1] > 1) {
+      result.push(null);
+    }
+
+    result.push(page);
+  });
+
+  return result;
+}
+
+goToPage(page: number): void {
+  if (
+    page < 1 ||
+    page > this.totalPages ||
+    page === this.currentPage
+  ) {
+    return;
+  }
+
+  this.currentPage = page;
+
+  document.getElementById('product-results')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 }
 addToCart(product: Product): void {
   if (
@@ -556,6 +623,7 @@ getCategoryName(
 loadProducts(categoryId: string = ''): void {
   this.productRequest?.unsubscribe();
 
+  this.currentPage = 1;
   this.productsLoading = true;
   this.productsError = '';
   this.products = [];
@@ -564,41 +632,12 @@ loadProducts(categoryId: string = ''): void {
     .getProducts(categoryId)
     .subscribe({
       next: (products: Product[]) => {
-        if (categoryId) {
-          // Selected category: show all its products.
-          this.products = products;
-        } else {
-          // All Products: show up to two per category.
-          const categoryCount = new Map<string, number>();
-
-          this.products = products.filter(product => {
-            const productCategoryId =
-              typeof product.category === 'string'
-                ? product.category
-                : product.category?._id;
-
-            if (!productCategoryId) {
-              return false;
-            }
-
-            const count =
-              categoryCount.get(productCategoryId) ?? 0;
-
-            if (count >= 2) {
-              return false;
-            }
-
-            categoryCount.set(productCategoryId, count + 1);
-
-            return true;
-          });
-        }
-
+        this.products = products;
         this.productsLoading = false;
         this.activateRevealElements();
       },
 
-      error: (error) => {
+      error: error => {
         console.error('Unable to load products:', error);
 
         this.products = [];
