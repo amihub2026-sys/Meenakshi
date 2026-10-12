@@ -160,20 +160,21 @@
       <!-- =====================================================
            DESKTOP CART
       ====================================================== -->
-      <a
-        routerLink="/cart"
-        class="cart-button"
-        aria-label="Open shopping cart"
-        (click)="closeMenu()"
-      >
+   <a
+  routerLink="/cart"
+  class="cart-button clean-cart-button"
+  aria-label="Open shopping cart"
+  (click)="closeMenu()"
+>
+  <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
 
-        <i class="fa-solid fa-cart-shopping"></i>
-
-        <span class="cart-count">
-          {{ (cartCount$ | async) || 0 }}
-        </span>
-
-      </a>
+  <span
+    class="clean-cart-count"
+    *ngIf="(cartCount$ | async) as count"
+  >
+    {{ count > 99 ? '99+' : count }}
+  </span>
+</a>
 
 
       <!-- =====================================================
@@ -213,43 +214,40 @@
       >
 
         <!-- ACCOUNT BUTTON -->
-        <button
-          type="button"
-          class="account-button"
-          (click)="toggleAccountMenu()"
-        >
+   <button
+  type="button"
+  class="account-button clean-account-button"
+  (click)="toggleAccountMenu()"
+  [attr.aria-expanded]="accountMenuOpen"
+  [attr.aria-label]="'Account: ' + currentUser.name"
+>
+  <img
+    *ngIf="currentUser.picture; else accountInitial"
+    [src]="currentUser.picture"
+    alt=""
+    class="clean-account-avatar"
+    referrerpolicy="no-referrer"
+  >
 
-          <!-- PROFILE IMAGE -->
-          <img
-            *ngIf="currentUser.picture"
-            [src]="currentUser.picture"
-            [alt]="currentUser.name"
-            class="account-avatar"
-          >
+  <ng-template #accountInitial>
+    <span class="clean-account-avatar clean-account-initial">
+      {{
+        (currentUser.name || currentUser.email || 'U')
+          .charAt(0).toUpperCase()
+      }}
+    </span>
+  </ng-template>
 
+  <span class="clean-account-name">
+    {{ currentUser.name }}
+  </span>
 
-          <!-- FALLBACK ICON -->
-          <div
-            *ngIf="!currentUser.picture"
-            class="account-avatar account-avatar-placeholder"
-          >
-            <i class="fa-solid fa-user"></i>
-          </div>
-
-
-          <!-- USER NAME -->
-          <span class="account-name">
-            {{ currentUser.name }}
-          </span>
-
-
-          <!-- DROPDOWN ARROW -->
-          <i
-            class="fa-solid fa-chevron-down account-arrow"
-            [class.rotate]="accountMenuOpen"
-          ></i>
-
-        </button>
+  <i
+    class="fa-solid fa-chevron-down clean-account-arrow"
+    [class.rotate]="accountMenuOpen"
+    aria-hidden="true"
+  ></i>
+</button>        
 
 
         <!-- =====================================================
