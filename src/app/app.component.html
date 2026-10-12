@@ -485,6 +485,7 @@
     </a>
 
   </div>
+  
 
 </header>
 
@@ -572,6 +573,97 @@
 
 <main>
   <router-outlet></router-outlet>
+  <nav class="mobile-shop-bar" aria-label="Shopping navigation">
+
+  <a
+    routerLink="/products"
+    (click)="closeMobileCategories(); closeMenu()"
+  >
+    <i class="fa-solid fa-store" aria-hidden="true"></i>
+    <span>{{ mobileText.shop }}</span>
+  </a>
+
+  <button
+    type="button"
+    (click)="openMobileCategories()"
+    [attr.aria-expanded]="categoryPanelOpen"
+    aria-controls="mobile-category-panel"
+  >
+    <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+    <span>{{ mobileText.categories }}</span>
+  </button>
+
+  <button type="button" (click)="openMobileAccount()">
+    <i class="fa-regular fa-user" aria-hidden="true"></i>
+    <span>{{ mobileText.account }}</span>
+  </button>
+
+  <a
+    routerLink="/cart"
+    (click)="closeMobileCategories(); closeMenu()"
+  >
+    <span class="mobile-cart-icon">
+      <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+
+      <span
+        class="mobile-cart-badge"
+        *ngIf="(cartCount$ | async) || 0"
+      >
+        {{ (cartCount$ | async) || 0 }}
+      </span>
+    </span>
+
+    <span>{{ mobileText.cart }}</span>
+  </a>
+
+</nav>
+<!-- CATEGORY BACKDROP -->
+<div
+  *ngIf="categoryPanelOpen"
+  class="mobile-category-backdrop"
+  (click)="closeMobileCategories()"
+></div>
+
+<!-- CATEGORY SIDE PANEL -->
+<aside
+  *ngIf="categoryPanelOpen"
+  id="mobile-category-panel"
+  class="mobile-category-panel"
+  aria-labelledby="mobile-category-title"
+>
+  <div class="mobile-category-header">
+    <h2 id="mobile-category-title">
+      {{ mobileText.categories }}
+    </h2>
+
+    <button
+      type="button"
+      (click)="closeMobileCategories()"
+      [attr.aria-label]="mobileText.close"
+    >
+      ×
+    </button>
+  </div>
+
+  <div class="mobile-category-list">
+    <p *ngIf="categoriesLoading">
+      {{ mobileText.loading }}
+    </p>
+
+    <p *ngIf="categoryError" role="alert">
+      {{ categoryError }}
+    </p>
+
+    <a
+      *ngFor="let category of mobileCategories"
+      routerLink="/products"
+      [queryParams]="{ categoryId: category._id }"
+      (click)="closeMobileCategories()"
+    >
+      {{ getMobileCategoryName(category) }}
+    </a>
+  </div>
+</aside>
 </main>
 <footer class="premium-footer">
 

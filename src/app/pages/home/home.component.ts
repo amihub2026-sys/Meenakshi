@@ -1,15 +1,18 @@
 import {
   AfterViewInit,
   Component,
-  OnDestroy
+  ElementRef,
+  OnDestroy,
+  ViewChild
 } from '@angular/core';
-
+import { Subscription } from 'rxjs';
 import {
   LanguageService,
   Language
 } from '../../services/language.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 
 
 @Component({
@@ -30,8 +33,60 @@ private typingIndex = 0;
   private current = 0;
 
   private whyObserver?: IntersectionObserver;
-
+private languageSubscription: Subscription;
   private centerObserver?: IntersectionObserver;
+  @ViewChild('categoryScroller')
+categoryScroller?: ElementRef<HTMLDivElement>;
+
+private categoryScrollTimer?: ReturnType<typeof setInterval>;
+private categoryPauseUntil = 0;
+
+pauseCategoryScroll(): void {
+  // Give customers time to swipe or select a category.
+  this.categoryPauseUntil = Date.now() + 6000;
+}
+
+private startCategoryAutoScroll(): void {
+  clearInterval(this.categoryScrollTimer);
+
+  this.categoryScrollTimer = setInterval(() => {
+    const scroller = this.categoryScroller?.nativeElement;
+
+    if (
+      !scroller ||
+      !window.matchMedia('(max-width: 600px)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.hidden ||
+      Date.now() < this.categoryPauseUntil ||
+      scroller.contains(document.activeElement)
+    ) {
+      return;
+    }
+
+    const cards =
+      scroller.querySelectorAll<HTMLElement>('.gallery-product');
+
+    if (cards.length <= 3) {
+      return;
+    }
+
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+    const cardStep = cards[1].offsetLeft - cards[0].offsetLeft;
+
+    const nextScroll =
+      scroller.scrollLeft >= maxScroll - 2
+        ? 0
+        : Math.min(
+            scroller.scrollLeft + cardStep * 3,
+            maxScroll
+          );
+
+    scroller.scrollTo({
+      left: nextScroll,
+      behavior: 'smooth'
+    });
+  }, 3500);
+}
 
 
   /* ==========================================
@@ -102,24 +157,16 @@ galleryProducts = [
     en: 'Pooja Products'
   }
 ];
-  constructor(
-    private languageService: LanguageService
-  ) {
-
+constructor(
+  private languageService: LanguageService
+) {
+  this.languageSubscription =
     this.languageService.language$.subscribe(
-  (lang: Language) => {
-
-    this.language = lang;
-
-    setTimeout(() => {
-      this.startHeroTyping();
-    }, 100);
-
-  }
-);
-
-  }
-
+      (lang: Language) => {
+        this.language = lang;
+      }
+    );
+}
 
   /* ==========================================
      HOME TRANSLATIONS
@@ -945,48 +992,7 @@ galleryProducts = [
 
   }
 
-private startHeroTyping(): void {
 
-  if (this.typingTimer) {
-    clearTimeout(this.typingTimer);
-  }
-
-  const element =
-    document.getElementById('heroTypingText');
-
-  if (!element) {
-    return;
-  }
-
-  const fullText = this.text.heroTitle;
-
-  element.textContent = '';
-
-  this.typingIndex = 0;
-
-
-  const typeNextCharacter = () => {
-
-    if (this.typingIndex < fullText.length) {
-
-      element.textContent +=
-        fullText.charAt(this.typingIndex);
-
-      this.typingIndex++;
-
-      this.typingTimer = setTimeout(
-        typeNextCharacter,
-        70
-      );
-
-    }
-
-  };
-
-
-  typeNextCharacter();
-
-}
   /* ==========================================
      WHY CHOOSE US ANIMATION
   ========================================== */
@@ -1107,21 +1113,14 @@ private startHeroTyping(): void {
      CLEANUP
   ========================================== */
 
-  ngOnDestroy(): void {
+ngOnDestroy(): void {
+  this.languageSubscription.unsubscribe();
 
-    if (this.timer) {
-
-      window.clearInterval(
-        this.timer
-      );
-
-    }
-
-
-    this.whyObserver?.disconnect();
-
-    this.centerObserver?.disconnect();
-
+  if (this.timer !== undefined) {
+    window.clearInterval(this.timer);
   }
 
+  this.whyObserver?.disconnect();
+  this.centerObserver?.disconnect();
+}
 }

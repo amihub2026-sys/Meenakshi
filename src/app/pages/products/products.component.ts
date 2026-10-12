@@ -462,7 +462,10 @@ private normalizeCategoryName(value: string): string {
 private applyCategoryFromUrl(): void {
   const params = this.route.snapshot.queryParamMap;
 
-  const categoryId = params.get('category') ?? '';
+const categoryId =
+  params.get('categoryId') ||
+  params.get('category') ||
+  '';
   const categoryName = params.get('categoryName') ?? '';
 
   // Products page opened without a category.
@@ -510,10 +513,11 @@ selectCategory(categoryId: string): void {
 
   void this.router.navigate([], {
     relativeTo: this.route,
-    queryParams: {
-      category: categoryId,
-      categoryName: null
-    },
+   queryParams: {
+  categoryId: null,
+  category: null,
+  categoryName: null
+},
     queryParamsHandling: 'merge'
   });
 }
@@ -521,10 +525,11 @@ selectCategory(categoryId: string): void {
 showAllProducts(): void {
   void this.router.navigate([], {
     relativeTo: this.route,
-    queryParams: {
-      category: null,
-      categoryName: null
-    },
+   queryParams: {
+  categoryId: null,
+  category: null,
+  categoryName: null
+},
     queryParamsHandling: 'merge'
   });
 }
