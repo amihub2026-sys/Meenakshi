@@ -3,7 +3,13 @@ import {
   Injectable,
   PLATFORM_ID
 } from '@angular/core';
-
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  of,
+  tap
+} from 'rxjs';
 import {
   isPlatformBrowser
 } from '@angular/common';
@@ -12,11 +18,7 @@ import {
   HttpClient
 } from '@angular/common/http';
 
-import {
-  BehaviorSubject,
-  map,
-  Observable
-} from 'rxjs';
+
 
 import {
   environment
@@ -717,7 +719,80 @@ export class CartService {
 
   }
 
+setVariantQuantity(
+  product: Product,
+  variant: CartItem['selectedVariant'],
+  quantity: number
+): Observable<CartItem[]> {
+  const nextQuantity = Math.min(
+    100,
+    Math.max(0, Math.trunc(quantity))
+  );
 
+  const matches = (item: CartItem): boolean =>
+    item.product._id === product._id &&
+    item.selectedVariant.quantity === variant.quantity &&
+    item.selectedVariant.unit === variant.unit;
+
+  const currentItems = this.cartItemsSubject.value;
+  const existingItem = currentItems.find(matches);
+
+  let items: CartItem[];
+
+  if (nextQuantity === 0) {
+    items = currentItems.filter(item => !matches(item));
+  } else if (existingItem) {
+    items = currentItems.map(item =>
+      matches(item)
+        ? { ...item, quantity: nextQuantity }
+        : item
+    );
+  } else {
+    items = [
+      ...currentItems,
+      {
+        product,
+        selectedVariant: { ...variant },
+        quantity: nextQuantity
+      }
+    ];
+  }
+
+  const hasCachedUser =
+    isPlatformBrowser(this.platformId) &&
+    Boolean(localStorage.getItem('user'));
+
+  // Preserve your existing guest-cart behavior.
+  if (!hasCachedUser) {
+    this.updateLocalCart(items);
+    return of(items);
+  }
+
+  const payload = {
+    items: items.map(item => ({
+      productId: item.product._id,
+      quantity: item.quantity,
+      variantQuantity: item.selectedVariant.quantity,
+      variantUnit: item.selectedVariant.unit
+    }))
+  };
+
+  // Update the displayed cart only after the server saves it.
+  return this.http.put<BackendCartResponse>(
+    this.apiUrl,
+    payload,
+    { withCredentials: true }
+  ).pipe(
+    map(response => {
+      if (!response.success || !Array.isArray(response.items)) {
+        throw new Error('Unable to save cart');
+      }
+
+      return response.items;
+    }),
+    tap(savedItems => this.updateLocalCart(savedItems))
+  );
+}
   /* =====================================================
      LOAD LOCAL CART
   ===================================================== */

@@ -10,7 +10,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-
+import { CartService, CartItem } from '../../services/cart';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription } from 'rxjs';
@@ -19,10 +19,7 @@ import {
   LanguageService
 } from '../../services/language.service';
 
-import {
-  CartService
-} from '../../services/cart';
-
+import { finalize } from 'rxjs';
 import {
   Product,
   ProductService
@@ -109,6 +106,81 @@ this.snackbarMessage = 'Product added to cart';
   this.snackbarTimer = setTimeout(() => {
     this.showSnackbar = false;
   }, 3000);
+}
+get cardCartItems$() {
+  return this.cartService.cartItems$;
+}
+
+cardCartBusy = false;
+cardCartError = '';
+
+getCardQuantity(
+  product: Product,
+  items: CartItem[]
+): number {
+  const variant = this.getCardSelectedVariant(product);
+
+  if (!variant) {
+    return 0;
+  }
+
+  return items.find(item =>
+    item.product._id === product._id &&
+    item.selectedVariant.quantity === variant.quantity &&
+    item.selectedVariant.unit === variant.unit
+  )?.quantity || 0;
+}
+
+changeCardQuantity(product: Product, change: number): void {
+  const quantity = this.getCardQuantity(
+    product,
+    this.cartService.getCartItems()
+  );
+
+  this.saveCardQuantity(product, quantity + change);
+}
+
+private saveCardQuantity(
+  product: Product,
+  quantity: number,
+  showAddedMessage = false
+): void {
+  if (
+    this.cardCartBusy ||
+    quantity < 0 ||
+    quantity > 100 ||
+    (!product.isActive && quantity > 0)
+  ) {
+    return;
+  }
+
+  const variant = this.getCardSelectedVariant(product);
+
+  if (!variant) {
+    return;
+  }
+
+  this.cardCartBusy = true;
+  this.cardCartError = '';
+
+  this.cartService
+    .setVariantQuantity(product, variant, quantity)
+    .pipe(
+      finalize(() => {
+        this.cardCartBusy = false;
+      })
+    )
+    .subscribe({
+      next: () => {
+        if (showAddedMessage) {
+          this.showCartSnackbar();
+        }
+      },
+      error: () => {
+        this.cardCartError =
+          'Unable to save your cart. Please try again.';
+      }
+    });
 }
 openProductDetails(product: any): void {
 
@@ -838,19 +910,20 @@ getCardPrice(product: any): number {
   return Number(product.price || 0);
 }
 addCardProductToCart(product: Product): void {
-  if (!product || !product.isActive) {
+  if (!product || !product.isActive || this.cardCartBusy) {
     return;
   }
 
-  const variant = this.getCardSelectedVariant(product);
+  const currentQuantity = this.getCardQuantity(
+    product,
+    this.cartService.getCartItems()
+  );
 
-  if (!variant) {
-    return;
-  }
-
-  this.cartService.addProduct(product, variant);
-
-  this.showCartSnackbar();
+  this.saveCardQuantity(
+    product,
+    currentQuantity + 1,
+    true
+  );
 }
 
 

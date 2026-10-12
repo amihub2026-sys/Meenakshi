@@ -279,14 +279,50 @@
     </button>
   </div>
 
-  <button
-    type="button"
-    class="reference-add-cart"
-    [disabled]="!product.isActive"
-    (click)="addCardProductToCart(product)"
+ <ng-container *ngIf="cardCartItems$ | async as cartItems">
+  <ng-container
+    *ngIf="getCardQuantity(product, cartItems) as quantity; else addButton"
   >
-    {{ product.isActive ? text.addToCart : 'Out of Stock' }}
-  </button>
+    <div
+      class="card-quantity-control"
+      [attr.aria-busy]="cardCartBusy"
+      role="group"
+      aria-label="Cart quantity"
+    >
+      <button
+        type="button"
+        aria-label="Decrease quantity"
+        [disabled]="cardCartBusy"
+        (click)="changeCardQuantity(product, -1)"
+      >
+        −
+      </button>
+
+      <span aria-live="polite">{{ quantity }}</span>
+
+      <button
+        type="button"
+        aria-label="Increase quantity"
+        [disabled]="cardCartBusy || !product.isActive || quantity >= 100"
+        (click)="changeCardQuantity(product, 1)"
+      >
+        +
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #addButton>
+    <button
+      type="button"
+      class="reference-add-cart"
+      [disabled]="!product.isActive || cardCartBusy"
+      (click)="addCardProductToCart(product)"
+    >
+      {{ product.isActive ? text.addToCart : 'Out of Stock' }}
+    </button>
+  </ng-template>
+</ng-container>
+
 </article>
 
 </div>
