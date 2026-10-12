@@ -16234,3 +16234,89 @@ object-fit: contain !important;
     font-size: 18px !important;
   }
 }
+.reference-product-card .card-quantity-control {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  overflow: hidden;
+
+  border: 1px solid #123e2b;
+  border-radius: 8px;
+  background: #edf4e8;
+}
+
+.reference-product-card .card-quantity-control button {
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+  color: #123e2b;
+  font: inherit;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reference-product-card .card-quantity-control button:first-child {
+  border-right: 1px solid rgba(18, 62, 43, 0.15);
+}
+
+.reference-product-card .card-quantity-control button:last-child {
+  border-left: 1px solid rgba(18, 62, 43, 0.15);
+}
+
+.reference-product-card .card-quantity-control span {
+  color: #123e2b;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.reference-product-card .card-quantity-control button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.reference-product-card .card-quantity-control button:focus-visible {
+  outline: 2px solid #a98225;
+  outline-offset: -3px;
+}
+
+/* Match the Add to Cart button height */
+.reference-product-card .reference-add-cart {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  border-radius: 8px;
+}
+
+.card-cart-error {
+  margin: 10px 0;
+  color: #b42318;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (hover: hover) {
+  .reference-product-card .card-quantity-control button:not(:disabled):hover {
+    background: #dcebd5;
+  }
+}
+
+@media (max-width: 600px) {
+  .reference-product-card .card-quantity-control span {
+    font-size: 16px;
+  }
+}
