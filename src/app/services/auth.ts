@@ -22,7 +22,6 @@ export interface AdminLoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-
 private readonly apiUrl =
   `${environment.apiUrl}/auth`;
 
